@@ -1,0 +1,325 @@
+# sync-rules.yaml — PowerSync + Supabase (matches the “new DB” schema I generated)
+#
+# Buckets:
+#  - my_groups: everything needed for group play (group, members, characters, session logs, playing campaign link)
+#  - my_campaigns: everything campaign-scoped (outline + scopes + maps + entities + encounters)
+#
+# Notes:
+# - All id columns are output as TEXT via ::text.
+# - No JOINs / subqueries are used (PowerSync sync rules restriction).
+
+bucket_definitions:
+  my_groups:
+    priority: 1
+    parameters:
+      # Groups where the user is a member (DM or player)
+      - |
+        SELECT group_id AS group_id
+        FROM group_members
+        WHERE user_id::text = request.user_id()
+
+      # Optional safety-net: groups where user is DM (should already be in group_members via trigger)
+      - |
+        SELECT id AS group_id
+        FROM groups
+        WHERE dungeon_master_user_id::text = request.user_id()
+
+    data:
+      - |
+        SELECT
+          id::text AS id,
+          name,
+          description,
+          dungeon_master_user_id::text AS dungeon_master_user_id,
+          created_at,
+          updated_at
+        FROM groups
+        WHERE id::text = bucket.group_id
+
+      - |
+        SELECT
+          id::text AS id,
+          group_id::text AS group_id,
+          user_id::text AS user_id,
+          role,
+          created_at,
+          updated_at
+        FROM group_members
+        WHERE group_id::text = bucket.group_id
+
+      - |
+        SELECT
+          group_id::text AS id,
+          group_id::text AS group_id,
+          campaign_id::text AS campaign_id,
+          created_at,
+          updated_at
+        FROM playing_campaigns
+        WHERE group_id::text = bucket.group_id
+
+      - |
+        SELECT
+          id::text AS id,
+          group_id::text AS group_id,
+          user_id::text AS user_id,
+          dndbeyond_character_id,
+          name,
+          avatar_url,
+          level,
+          armor_class,
+          hit_points,
+          race,
+          background,
+          classes,
+          abilities,
+          data,
+          content,
+          dndbeyond_raw,
+          created_at,
+          updated_at
+        FROM characters
+        WHERE group_id::text = bucket.group_id
+
+      - |
+        SELECT
+          id::text AS id,
+          group_id::text AS group_id,
+          session_number,
+          session_date,
+          title,
+          content,
+          created_at,
+          updated_at
+        FROM session_logs
+        WHERE group_id::text = bucket.group_id
+
+  my_campaigns:
+    priority: 2
+    parameters:
+      # Campaigns owned by the user
+      - |
+        SELECT id AS campaign_id
+        FROM campaigns
+        WHERE created_by::text = request.user_id()
+
+      # Campaigns shared with the user (including via group play)
+      - |
+        SELECT campaign_id AS campaign_id
+        FROM campaign_access
+        WHERE user_id::text = request.user_id()
+
+    data:
+      # Campaign root
+      - |
+        SELECT
+          id::text AS id,
+          created_by::text AS created_by,
+          title,
+          description,
+          content,
+          created_at,
+          updated_at
+        FROM campaigns
+        WHERE id::text = bucket.campaign_id
+
+      # Outline
+      - |
+        SELECT
+          id::text AS id,
+          campaign_id::text AS campaign_id,
+          title,
+          description,
+          content,
+          order_number,
+          created_at,
+          updated_at
+        FROM chapters
+        WHERE campaign_id::text = bucket.campaign_id
+
+      - |
+        SELECT
+          id::text AS id,
+          chapter_id::text AS chapter_id,
+          campaign_id::text AS campaign_id,
+          title,
+          description,
+          content,
+          order_number,
+          created_at,
+          updated_at
+        FROM adventures
+        WHERE campaign_id::text = bucket.campaign_id
+
+      - |
+        SELECT
+          id::text AS id,
+          adventure_id::text AS adventure_id,
+          campaign_id::text AS campaign_id,
+          title,
+          description,
+          content,
+          order_number,
+          created_at,
+          updated_at
+        FROM scenes
+        WHERE campaign_id::text = bucket.campaign_id
+
+      # Scopes (for attaching entities to any campaign/chapter/adventure/scene)
+      - |
+        SELECT
+          id::text AS id,
+          scope_type,
+          campaign_id::text AS campaign_id,
+          chapter_id::text AS chapter_id,
+          adventure_id::text AS adventure_id,
+          scene_id::text AS scene_id,
+          created_at,
+          updated_at
+        FROM content_scopes
+        WHERE campaign_id::text = bucket.campaign_id
+
+      # Maps
+      - |
+        SELECT
+          id::text AS id,
+          campaign_id::text AS campaign_id,
+          title,
+          description,
+          data,
+          created_at,
+          updated_at
+        FROM maps
+        WHERE campaign_id::text = bucket.campaign_id
+
+      # Organisations
+      - |
+        SELECT
+          id::text AS id,
+          scope_id::text AS scope_id,
+          campaign_id::text AS campaign_id,
+          name,
+          type,
+          description,
+          content,
+          hq_location_id::text AS hq_location_id,
+          created_at,
+          updated_at
+        FROM organisations
+        WHERE campaign_id::text = bucket.campaign_id
+
+      # Locations
+      - |
+        SELECT
+          id::text AS id,
+          scope_id::text AS scope_id,
+          campaign_id::text AS campaign_id,
+          name,
+          description,
+          content,
+          data,
+          created_at,
+          updated_at
+        FROM locations
+        WHERE campaign_id::text = bucket.campaign_id
+
+      # Items
+      - |
+        SELECT
+          id::text AS id,
+          scope_id::text AS scope_id,
+          campaign_id::text AS campaign_id,
+          name,
+          type,
+          rarity,
+          attunement,
+          description,
+          content,
+          data,
+          created_at,
+          updated_at
+        FROM items
+        WHERE campaign_id::text = bucket.campaign_id
+
+      # Creatures / NPCs
+      - |
+        SELECT
+          id::text AS id,
+          scope_id::text AS scope_id,
+          campaign_id::text AS campaign_id,
+          organisation_id::text AS organisation_id,
+          name,
+          kind,
+          source,
+          size,
+          creature_type,
+          subtype,
+          alignment,
+          challenge_rating_decimal,
+          challenge_rating_text,
+          experience_points,
+          armor_class,
+          hit_points,
+          hit_dice,
+          speed,
+          ability_scores,
+          saving_throws,
+          skills,
+          senses,
+          languages,
+          damage_resistances,
+          damage_immunities,
+          condition_immunities,
+          traits,
+          actions,
+          reactions,
+          legendary_actions,
+          spellcasting,
+          description,
+          content,
+          raw,
+          created_at,
+          updated_at
+        FROM creatures
+        WHERE campaign_id::text = bucket.campaign_id
+
+      # Encounters
+      - |
+        SELECT
+          id::text AS id,
+          scope_id::text AS scope_id,
+          campaign_id::text AS campaign_id,
+          title,
+          description,
+          content,
+          data,
+          created_at,
+          updated_at
+        FROM encounters
+        WHERE campaign_id::text = bucket.campaign_id
+
+      - |
+        SELECT
+          id::text AS id,
+          encounter_id::text AS encounter_id,
+          creature_id::text AS creature_id,
+          campaign_id::text AS campaign_id,
+          quantity,
+          initiative,
+          notes,
+          created_at,
+          updated_at
+        FROM encounter_creatures
+        WHERE campaign_id::text = bucket.campaign_id
+
+      # Sharing / permissions (useful for UI + offline awareness)
+      - |
+        SELECT
+          id::text AS id,
+          campaign_id::text AS campaign_id,
+          user_id::text AS user_id,
+          role,
+          source_group_id::text AS source_group_id,
+          created_at,
+          updated_at
+        FROM campaign_access
+        WHERE campaign_id::text = bucket.campaign_id

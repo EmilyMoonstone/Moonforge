@@ -1,0 +1,1 @@
+double kAppBarHeight = 52.0;

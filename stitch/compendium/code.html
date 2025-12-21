@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MoonForge - Compendium</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;900&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3211d4",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131022",
+                        "surface-dark": "#1c192b",
+                        "surface-hover": "#262338",
+                    },
+                    fontFamily: {
+                        "display": ["Be Vietnam Pro", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased selection:bg-primary selection:text-white overflow-hidden h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="flex-none border-b border-white/10 bg-[#121118] px-6 py-3">
+<div class="mx-auto flex w-full max-w-[1600px] items-center justify-between">
+<div class="flex items-center gap-4 text-white">
+<div class="flex size-8 items-center justify-center rounded bg-primary text-white">
+<span class="material-symbols-outlined text-[20px]">handyman</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight">MoonForge</h2>
+</div>
+<nav class="hidden md:flex flex-1 justify-center gap-1">
+<a class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">Dashboard</a>
+<a class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">Campaign</a>
+<a class="px-4 py-2 text-sm font-bold text-white bg-white/10 rounded-lg" href="#">Compendium</a>
+<a class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">Groups</a>
+<a class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex size-10 items-center justify-center rounded-lg bg-surface-hover text-white hover:bg-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex size-10 items-center justify-center rounded-lg bg-surface-hover text-white hover:bg-primary transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex flex-1 overflow-hidden">
+<div class="mx-auto flex w-full max-w-[1600px] gap-6 p-6 h-full flex-col lg:flex-row">
+<!-- LEFT COLUMN: Filters & Results List -->
+<div class="flex flex-col w-full lg:w-[400px] shrink-0 h-full gap-4">
+<!-- Header & Search -->
+<div class="flex flex-col gap-4 pb-2">
+<div class="flex flex-col gap-1">
+<h1 class="text-3xl font-black tracking-tight text-white">Compendium</h1>
+<p class="text-sm text-gray-400">SRD 5.1 System Reference Archive</p>
+</div>
+<!-- Search Bar -->
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="w-full h-12 rounded-xl border-0 bg-surface-dark pl-10 pr-4 text-white placeholder-gray-500 focus:ring-2 focus:ring-primary" placeholder="Search spells, monsters, items..." type="text" value="Fireball"/>
+</div>
+<!-- Quick Filters (Pills) -->
+<div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+<button class="whitespace-nowrap rounded-full bg-primary px-4 py-1.5 text-xs font-bold text-white shadow-lg shadow-primary/25 ring-1 ring-white/10">All Content</button>
+<button class="whitespace-nowrap rounded-full bg-surface-dark px-4 py-1.5 text-xs font-medium text-gray-300 hover:bg-surface-hover ring-1 ring-white/5 transition-colors">Monsters</button>
+<button class="whitespace-nowrap rounded-full bg-surface-dark px-4 py-1.5 text-xs font-medium text-gray-300 hover:bg-surface-hover ring-1 ring-white/5 transition-colors">Spells</button>
+<button class="whitespace-nowrap rounded-full bg-surface-dark px-4 py-1.5 text-xs font-medium text-gray-300 hover:bg-surface-hover ring-1 ring-white/5 transition-colors">Items</button>
+<button class="whitespace-nowrap rounded-full bg-surface-dark px-4 py-1.5 text-xs font-medium text-gray-300 hover:bg-surface-hover ring-1 ring-white/5 transition-colors">Classes</button>
+</div>
+</div>
+<!-- Results List (Scrollable) -->
+<div class="flex-1 overflow-y-auto pr-2 custom-scrollbar space-y-2">
+<!-- Result Item: Active -->
+<div class="group relative flex cursor-pointer flex-col gap-1 rounded-lg border-l-4 border-primary bg-surface-hover p-4 shadow-md transition-all">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-white group-hover:text-primary-300">Fireball</h3>
+<span class="rounded bg-primary/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary-200">Spell</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-gray-400">
+<span>Level 3 Evocation</span>
+<span class="size-1 rounded-full bg-gray-600"></span>
+<span>VSM</span>
+</div>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 opacity-100">
+<span class="material-symbols-outlined text-primary">chevron_right</span>
+</div>
+</div>
+<!-- Result Item -->
+<div class="group relative flex cursor-pointer flex-col gap-1 rounded-lg border-l-4 border-transparent bg-surface-dark p-4 transition-all hover:bg-surface-hover hover:border-white/20">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-gray-200">Fire Bolt</h3>
+<span class="rounded bg-primary/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary-200">Spell</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-gray-500">
+<span>Evocation Cantrip</span>
+<span class="size-1 rounded-full bg-gray-600"></span>
+<span>VS</span>
+</div>
+</div>
+<!-- Result Item -->
+<div class="group relative flex cursor-pointer flex-col gap-1 rounded-lg border-l-4 border-transparent bg-surface-dark p-4 transition-all hover:bg-surface-hover hover:border-white/20">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-gray-200">Fire Giant</h3>
+<span class="rounded bg-red-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-red-300">Monster</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-gray-500">
+<span>CR 9</span>
+<span class="size-1 rounded-full bg-gray-600"></span>
+<span>Huge Giant</span>
+</div>
+</div>
+<!-- Result Item -->
+<div class="group relative flex cursor-pointer flex-col gap-1 rounded-lg border-l-4 border-transparent bg-surface-dark p-4 transition-all hover:bg-surface-hover hover:border-white/20">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-gray-200">Ring of Fire Resistance</h3>
+<span class="rounded bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-300">Item</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-gray-500">
+<span>Rare Ring</span>
+<span class="size-1 rounded-full bg-gray-600"></span>
+<span>Requires Attunement</span>
+</div>
+</div>
+<!-- Skeleton Loader Item (Simulating Load) -->
+<div class="flex flex-col gap-2 rounded-lg bg-surface-dark/50 p-4 animate-pulse">
+<div class="h-4 w-1/3 rounded bg-white/10"></div>
+<div class="h-3 w-1/2 rounded bg-white/5"></div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Detail Panel (The "Stat Block") -->
+<div class="flex-1 h-full overflow-hidden rounded-2xl bg-surface-dark border border-white/5 relative shadow-2xl">
+<!-- Decorative Top Border -->
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
+<div class="h-full overflow-y-auto custom-scrollbar">
+<!-- Header Section with Image Background Overlay -->
+<div class="relative bg-[#1A1625] px-8 pt-10 pb-8">
+<div class="absolute top-0 right-0 h-full w-1/2 overflow-hidden opacity-20 pointer-events-none">
+<!-- Abstract magic effect -->
+<img class="h-full w-full object-cover mask-gradient-to-l" data-alt="Abstract orange and red magical smoke swirls representing fire magic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBnrqFD07XFa8gdRVLpOvsoNfEwgjWDGOp1s5nTyVxJca8RL3F9HOvuVspop8szIxn7waM7cHFKUH_OWLGu7pVf1Unc5maCN6Cmk9hu8UdiRNqvIMwiV203abrDuwKV9b6mBb8Ac9SjnQqJJr7IF8HoUPx8kHgkIwkQ01kLGe2dFPZ0ImsSqt4zQg1dQA-lewwsyk9z08mmAlPZslD69seD-IbIEDmydGGccFMD3qalrm68gGR_m54Jlhf6ARdEQBM0avYP_64djI" style="-webkit-mask-image: linear-gradient(to right, transparent, black);"/>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary text-3xl">local_fire_department</span>
+<h1 class="text-4xl font-black text-white tracking-tight">Fireball</h1>
+</div>
+<p class="text-lg text-primary font-serif italic">3rd-level evocation</p>
+</div>
+</div>
+<!-- Quick Stats Grid -->
+<div class="grid grid-cols-2 md:grid-cols-4 border-y border-white/5 bg-[#171520]">
+<div class="flex flex-col gap-1 p-4 border-r border-white/5">
+<span class="text-xs uppercase tracking-wider text-gray-500 font-bold">Casting Time</span>
+<span class="text-sm text-gray-200 font-medium">1 Action</span>
+</div>
+<div class="flex flex-col gap-1 p-4 border-r border-white/5">
+<span class="text-xs uppercase tracking-wider text-gray-500 font-bold">Range</span>
+<span class="text-sm text-gray-200 font-medium">150 feet</span>
+</div>
+<div class="flex flex-col gap-1 p-4 border-r border-white/5">
+<span class="text-xs uppercase tracking-wider text-gray-500 font-bold">Components</span>
+<span class="text-sm text-gray-200 font-medium">V, S, M (guano)</span>
+</div>
+<div class="flex flex-col gap-1 p-4">
+<span class="text-xs uppercase tracking-wider text-gray-500 font-bold">Duration</span>
+<span class="text-sm text-gray-200 font-medium">Instantaneous</span>
+</div>
+</div>
+<!-- Main Description Body -->
+<div class="p-8 text-gray-300 leading-relaxed space-y-6 max-w-4xl">
+<p>
+                            A bright streak flashes from your pointing finger to a point you choose within range and then blossoms with a low roar into an explosion of flame. Each creature in a 20-foot-radius sphere centered on that point must make a Dexterity saving throw. A target takes <span class="text-primary font-bold">8d6 fire damage</span> on a failed save, or half as much damage on a successful one.
+                        </p>
+<p>
+                            The fire spreads around corners. It ignites flammable objects in the area that aren't being worn or carried.
+                        </p>
+<!-- Higher Levels Block -->
+<div class="rounded-lg bg-surface-hover/50 p-6 border border-white/5">
+<h4 class="text-white font-bold mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">upgrade</span>
+                                At Higher Levels
+                            </h4>
+<p class="text-sm text-gray-400">
+                                When you cast this spell using a spell slot of 4th level or higher, the damage increases by <span class="text-white font-medium">1d6</span> for each slot level above 3rd.
+                            </p>
+</div>
+<!-- Class List -->
+<div class="pt-4 border-t border-white/10">
+<span class="text-xs text-gray-500 uppercase tracking-widest font-bold block mb-3">Available For</span>
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center px-2.5 py-1 rounded-md bg-white/5 text-xs font-medium text-gray-300 border border-white/10">Sorcerer</span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-md bg-white/5 text-xs font-medium text-gray-300 border border-white/10">Wizard</span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-md bg-white/5 text-xs font-medium text-gray-300 border border-white/10">Warlock (Fiend)</span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-md bg-white/5 text-xs font-medium text-gray-300 border border-white/10">Cleric (Light)</span>
+</div>
+</div>
+</div>
+<!-- Action Footer (Sticky) -->
+<div class="sticky bottom-0 bg-surface-dark border-t border-white/10 p-4 flex justify-end gap-3 backdrop-blur-md bg-opacity-90">
+<button class="px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-white text-sm font-medium transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">bookmark</span>
+                            Pin to Dashboard
+                        </button>
+<button class="px-6 py-2 rounded-lg bg-primary hover:bg-primary/90 text-white text-sm font-bold shadow-lg shadow-primary/20 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">add</span>
+                            Add to Spellbook
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Global Styles for Scrollbar -->
+<style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</body></html>

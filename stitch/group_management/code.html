@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MoonForge - Group Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3211d4",
+                        "primary-hover": "#260ca3",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131022",
+                        "surface-dark": "#1e1b2e",
+                        "surface-hover": "#2b2839",
+                    },
+                    fontFamily: {
+                        "display": ["Be Vietnam Pro", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.375rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131022; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2b2839; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3e3a52; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display h-screen flex flex-col overflow-hidden">
+<nav class="flex-shrink-0 h-18 px-6 flex items-center justify-between border-b border-slate-200 dark:border-white/10 bg-white dark:bg-[#0f0f16] z-40 relative">
+<div class="flex items-center gap-3 w-48">
+<div class="h-9 w-9 rounded-lg bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center shadow-lg shadow-primary/30">
+<span class="material-symbols-outlined text-white text-[20px]">token</span>
+</div>
+<div class="hidden md:flex flex-col">
+<h1 class="text-base font-bold leading-none tracking-tight">MoonForge</h1>
+<p class="text-slate-500 dark:text-slate-400 text-[10px] font-medium mt-0.5">DM Dashboard</p>
+</div>
+</div>
+<div class="flex items-center justify-center flex-1">
+<div class="hidden md:flex items-center p-1 gap-1 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/5">
+<a class="px-4 py-1.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-white/5 transition-all" href="#">Dashboard</a>
+<a class="px-4 py-1.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-white/5 transition-all" href="#">Campaign</a>
+<a class="px-4 py-1.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-white/5 transition-all" href="#">Compendium</a>
+<a class="px-4 py-1.5 rounded-lg text-sm font-bold text-primary dark:text-white bg-white dark:bg-white/10 shadow-sm ring-1 ring-black/5 dark:ring-white/5" href="#">Groups</a>
+<a class="px-4 py-1.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-white/5 transition-all" href="#">Settings</a>
+</div>
+</div>
+<div class="flex items-center justify-end gap-3 w-48">
+<button class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-slate-500 dark:text-slate-400 transition-colors relative">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-red-500 border-2 border-white dark:border-[#0f0f16]"></span>
+</button>
+<div class="h-8 w-px bg-slate-200 dark:bg-white/10 mx-1"></div>
+<button class="flex items-center gap-2 rounded-full pl-1 pr-1 py-1 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">
+<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center border border-slate-200 dark:border-white/10" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCH_OLuDg1JxHRtHF5xGTRI_63-tLLFegHaItS6PCJsbc7Dmlq_n5ep8ELkm0BHvbcGROAvbFCLkJAuX_v_LSmWckBC3DYx4gjYGw7PQgiJw_Z_bnZYFNA1BDy9dJerTZXqKetNhmCrztZbyEdMxhphpC8xJaTSg9RZi9gpC2pzudK86JHbz6V0CR5qin6BGP7ZBcNj8g9Rw6_8XNLT_9HcRGahXKZ2k9y4dWD0xHXU0-9V1aKF5Qlx3TQK5Rm1ps9FiPYI2yXd3Xc');"></div>
+</button>
+</div>
+</nav>
+<main class="flex-1 flex flex-col overflow-hidden relative">
+<div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+<header class="flex-shrink-0 px-8 py-6 z-10">
+<div class="flex flex-col gap-6">
+<div class="flex flex-wrap items-end justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<h2 class="text-3xl md:text-4xl font-black tracking-tight text-slate-900 dark:text-white">The Sunday Crew</h2>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+<p class="text-slate-500 dark:text-slate-400 font-medium flex items-center gap-2">
+<span class="inline-block w-2 h-2 rounded-full bg-green-500"></span>
+                            Campaign Level 5 • Next Session: Oct 24th
+                        </p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center gap-2 px-4 h-10 rounded-lg border border-slate-200 dark:border-white/10 text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-surface-hover transition-colors text-sm font-bold">
+<span class="material-symbols-outlined text-[20px]">link</span>
+<span class="hidden sm:inline">Invite Link</span>
+</button>
+<button class="flex items-center justify-center gap-2 px-4 h-10 rounded-lg bg-primary hover:bg-primary-hover text-white transition-colors text-sm font-bold shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+<span>Add Player</span>
+</button>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-4 p-1">
+<div class="relative w-full max-w-md group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 rounded-lg bg-white dark:bg-surface-hover border border-slate-200 dark:border-transparent text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-primary focus:border-transparent focus:outline-none transition-all text-sm" placeholder="Search characters, classes, or players..." type="text"/>
+</div>
+<div class="flex items-center gap-2 ml-auto">
+<button class="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg transition-colors" title="Manage Group Settings">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-6 w-px bg-slate-200 dark:bg-white/10 mx-1"></div>
+<button class="p-2 text-slate-400 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors" title="Delete Group">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto px-8 pb-8 z-10">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<div class="group relative flex flex-col bg-white dark:bg-surface-dark rounded-xl overflow-hidden border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
+<div class="relative aspect-[4/3] overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Stylized portrait of a medieval warrior in armor" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDp9Hd6yrfgUNwVNkD8egEKJn_sDDEQH66AjUQiEHX2yNLhA84bW2hxO0jCOLKro7-rrmbXU4JEfR3dMlRQXb5jkZLA2WDSLN4xk3zdX0quX46nuJaOyt0GhqT1Y4oJ4F06JS2fFS_YG_OkWE4-8quKDIMtOIEOmwj7dGLZ5Uz8DjM8eNr5QfJl7G1DqWi8NYKtcfhSE1IhxVd9mxh3bONI3Uzf52R9VQ180OHOxgWyg7glle8EVBe_40n5xBC74u8nNaFCmhrUuHY');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute top-3 right-3">
+<div class="bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded border border-white/10 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-red-500">local_fire_department</span>
+                                D&amp;D Beyond
+                             </div>
+</div>
+<div class="absolute bottom-0 left-0 p-4 w-full">
+<h3 class="text-white text-lg font-bold truncate leading-tight">Valeros</h3>
+<p class="text-slate-300 text-sm font-medium truncate">Human Fighter (Lvl 5)</p>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-4">
+<div class="flex items-center justify-between gap-2">
+<div class="flex flex-col items-center bg-slate-50 dark:bg-white/5 rounded p-2 flex-1 border border-slate-100 dark:border-white/5">
+<span class="text-[10px] uppercase text-slate-500 font-bold tracking-wider">HP</span>
+<span class="text-green-500 font-bold text-lg leading-none">45</span>
+</div>
+<div class="flex flex-col items-center bg-slate-50 dark:bg-white/5 rounded p-2 flex-1 border border-slate-100 dark:border-white/5">
+<span class="text-[10px] uppercase text-slate-500 font-bold tracking-wider">AC</span>
+<span class="text-slate-700 dark:text-white font-bold text-lg leading-none">18</span>
+</div>
+<div class="flex flex-col items-center bg-slate-50 dark:bg-white/5 rounded p-2 flex-1 border border-slate-100 dark:border-white/5">
+<span class="text-[10px] uppercase text-slate-500 font-bold tracking-wider">Pass.</span>
+<span class="text-slate-700 dark:text-white font-bold text-lg leading-none">12</span>
+</div>
+</div>
+<div class="flex items-center justify-between border-t border-slate-100 dark:border-white/10 pt-3">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center" data-alt="User avatar of John Doe" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCH_OLuDg1JxHRtHF5xGTRI_63-tLLFegHaItS6PCJsbc7Dmlq_n5ep8ELkm0BHvbcGROAvbFCLkJAuX_v_LSmWckBC3DYx4gjYGw7PQgiJw_Z_bnZYFNA1BDy9dJerTZXqKetNhmCrztZbyEdMxhphpC8xJaTSg9RZi9gpC2pzudK86JHbz6V0CR5qin6BGP7ZBcNj8g9Rw6_8XNLT_9HcRGahXKZ2k9y4dWD0xHXU0-9V1aKF5Qlx3TQK5Rm1ps9FiPYI2yXd3Xc');"></div>
+<span class="text-xs text-slate-500 dark:text-slate-400 font-medium">Played by <span class="text-slate-700 dark:text-slate-200">John</span></span>
+</div>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<div class="group relative flex flex-col bg-white dark:bg-surface-dark rounded-xl overflow-hidden border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
+<div class="relative aspect-[4/3] overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Stylized portrait of a mystic cleric in robes" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAU-KhpHbUdlSbqX-NTojg1DdL2dD95XhRK0T8cAo0f4aNcKpa_tSEVGrWi8enaLQ3U-dEqisvPZ8AL8O804-CAEfZpX2_z2AWjnIWCKP0uDi61OwgVr23Garf3_86stfe7O7A8CnAiG7PgvpKU4KES2VKxDFX_UwOciw8RAFqtosZPzQ5Tx7KVgdJVCfNct-sCE74KjD1IzWt6QaUQQZFLHTRUCbC5v64VyMe5_hLtjj-M8pAc-bsM-QMSNoIyGTgpGiw53PeyBuE');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute top-3 right-3">
+<div class="bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded border border-white/10 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-red-500">local_fire_department</span>
+                                D&amp;D Beyond
+                             </div>
+</div>
+<div class="absolute bottom-0 left-0 p-4 w-full">
+<h3 class="text-white text-lg font-bold truncate leading-tight">Kyra</h3>
+<p class="text-slate-300 text-sm font-medium truncate">Cleric of Sarenrae (Lvl 5)</p>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-4">
+<div class="flex items-center justify-between gap-2">
+<div class="flex flex-col items-center bg-slate-50 dark:bg-white/5 rounded p-2 flex-1 border border-slate-100 dark:border-white/5">
+<span class="text-[10px] uppercase text-slate-500 font-bold tracking-wider">HP</span>
+<span class="text-green-500 font-bold text-lg leading-none">38</span>
+</div>
+<div class="flex flex-col items-center bg-slate-50 dark:bg-white/5 rounded p-2 flex-1 border border-slate-100 dark:border-white/5">
+<span class="text-[10px] uppercase text-slate-500 font-bold tracking-wider">AC</span>
+<span class="text-slate-700 dark:text-white font-bold text-lg leading-none">16</span>
+</div>
+<div class="flex flex-col items-center bg-slate-50 dark:bg-white/5 rounded p-2 flex-1 border border-slate-100 dark:border-white/5">
+<span class="text-[10px] uppercase text-slate-500 font-bold tracking-wider">Pass.</span>
+<span class="text-slate-700 dark:text-white font-bold text-lg leading-none">14</span>
+</div>
+</div>
+<div class="flex items-center justify-between border-t border-slate-100 dark:border-white/10 pt-3">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center" data-alt="User avatar of Sarah" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBGnYZmoh-4IQcQ7tXQ-VrO1QroSZvRkzvS2NdX-96_9wQbwWBZQcOqt3LY_DVax768QW3bPeIEAuLQg1FNm15pXP4lfUE3wuWFPyzievJIeJCHtcQOGUoHdtxgJKef4z6zSQ8rqjCABolOpDCCWq1deuZ6OqtYmZoypmOMaOSfGzpwhtrhm_uZ-ht5hgmbOJiKtj2EUDxpYlH1Sxc5ab68gkHDL7WR3_xaLU3RE8mT5WIKUPl9eghUP13wCeiyTjoIWfcBnG-C3s8');"></div>
+<span class="text-xs text-slate-500 dark:text-slate-400 font-medium">Played by <span class="text-slate-700 dark:text-slate-200">Sarah</span></span>
+</div>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<div class="group relative flex flex-col bg-white dark:bg-surface-dark rounded-xl overflow-hidden border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
+<div class="relative aspect-[4/3] overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Stylized portrait of a shadowy rogue" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDIDgEeSebEzETfigcVBZ3WlheRuTXIAdAQapIY3jwfbPl__9Kyv84lArBEPII1B4qmQlJ8eXD1EgRYyMad5afRJW4x5hjfPRcxiP8n8QVpJGpESV3mMxOx3T_PbMuNjUbbFmxQA1SjP92eabq5tmllwSZ9nqEjOakMyBCGfSJ4J-zRNFe9luWJXo4F-_rdTKzszLWSTUdSx8mpkXWjWeLYBlDfmExQvTu_a2VzQMhn0drMpZqJnBgXFXJuDF_TC6kiI7Df5TjyCcY');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-4 w-full">
+<h3 class="text-white text-lg font-bold truncate leading-tight">Merisiel</h3>
+<p class="text-slate-300 text-sm font-medium truncate">Elven Rogue (Lvl 5)</p>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-4">
+<div class="flex items-center justify-between gap-2">
+<div class="flex flex-col items-center bg-slate-50 dark:bg-white/5 rounded p-2 flex-1 border border-slate-100 dark:border-white/5">
+<span class="text-[10px] uppercase text-slate-500 font-bold tracking-wider">HP</span>
+<span class="text-yellow-500 font-bold text-lg leading-none">32</span>
+</div>
+<div class="flex flex-col items-center bg-slate-50 dark:bg-white/5 rounded p-2 flex-1 border border-slate-100 dark:border-white/5">
+<span class="text-[10px] uppercase text-slate-500 font-bold tracking-wider">AC</span>
+<span class="text-slate-700 dark:text-white font-bold text-lg leading-none">15</span>
+</div>
+<div class="flex flex-col items-center bg-slate-50 dark:bg-white/5 rounded p-2 flex-1 border border-slate-100 dark:border-white/5">
+<span class="text-[10px] uppercase text-slate-500 font-bold tracking-wider">Pass.</span>
+<span class="text-slate-700 dark:text-white font-bold text-lg leading-none">13</span>
+</div>
+</div>
+<div class="flex items-center justify-between border-t border-slate-100 dark:border-white/10 pt-3">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center" data-alt="User avatar of Mike" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBEyCZ1h9toahq8BVxTu-ox4lUyG7WPeWgBOpp41L7p1QkMxaa_NM2GWQhamVad5gqSew5MHCbFy0RwabnHGqy5btqjsTHJIEDG780t0LIgVLj3PTDVR6pXXGfWSgsJWHBouSh3zdqPVxzotyele2OmKGVVZOxLdLy7dpTDA9GNOoU-f3lq5QEgGYPwPf_VywautPtrP_rBtNW6JFizOM9q0L1DyrySNGTIxARqlPNX1hojdYtU7Hk3GoGbEOMN4j2_BXNnnAbIi5M');"></div>
+<span class="text-xs text-slate-500 dark:text-slate-400 font-medium">Played by <span class="text-slate-700 dark:text-slate-200">Mike</span></span>
+</div>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<div class="relative flex flex-col h-full min-h-[300px] rounded-xl border-2 border-dashed border-slate-300 dark:border-white/10 hover:border-primary hover:bg-slate-50 dark:hover:bg-white/5 cursor-pointer transition-all group">
+<div class="flex flex-1 flex-col items-center justify-center gap-4 p-6">
+<div class="h-16 w-16 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[32px] text-slate-400 group-hover:text-white transition-colors">add</span>
+</div>
+<div class="text-center">
+<h3 class="text-slate-900 dark:text-white font-bold text-lg">Add Character</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1 max-w-[200px]">Create manually or import from external sources</p>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<span class="px-3 py-1.5 rounded bg-slate-200 dark:bg-white/10 text-xs font-semibold text-slate-600 dark:text-slate-300">Manual Entry</span>
+<span class="text-slate-400 text-xs">or</span>
+<span class="px-3 py-1.5 rounded bg-[#E40712]/10 text-[#E40712] text-xs font-semibold flex items-center gap-1 border border-[#E40712]/20">
+<span class="material-symbols-outlined text-[14px]">local_fire_department</span>
+                                 D&amp;D Beyond
+                             </span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+</body></html>

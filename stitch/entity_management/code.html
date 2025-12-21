@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MoonForge - Entity Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3211d4",
+                        "primary-hover": "#4b2ae8",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131022",
+                        "surface-dark": "#1e1b2e",
+                        "surface-light": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Be Vietnam Pro", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131022; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2b2839; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3211d4; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen flex flex-col overflow-hidden">
+<nav class="h-16 shrink-0 bg-surface-light dark:bg-surface-dark border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 z-40 relative">
+<div class="flex items-center gap-3 w-48 shrink-0">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 shadow-lg shadow-primary/20" data-alt="MoonForge logo abstract purple galaxy" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuANbH5uBz358ecHSUNiIPDxROF_c3ZZG1Yz6sxEPgVghXu6edOg_1aZHRBzLqdIBZd_QS7stHHjfYf1YzQRO4wXTY7lNYPPscVO2nB8MLBWnLI336yB0Y6nZta8XjgClctRPU-tSE0Yr2M9o9dWmkNf9--OvpMJxzM6qr6eHmqWQrM-viDU2C0H8vxcPIM5h25zBqg70SqjZgTfd5MSSuISdSjh-YI1LZoHdhpAd17IC8l16be8Qp-bfG5b-YE90hbl3duTPqTFUiQ");'></div>
+<div class="flex flex-col">
+<h1 class="text-lg font-bold leading-tight tracking-tight">MoonForge</h1>
+<p class="text-slate-500 dark:text-slate-400 text-[10px] font-medium uppercase tracking-wider">Campaign Manager</p>
+</div>
+</div>
+<div class="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
+<a class="px-4 py-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800" href="#">Dashboard</a>
+<a class="px-4 py-2 text-sm font-bold text-primary bg-primary/10 rounded-lg" href="#">Campaign</a>
+<a class="px-4 py-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800" href="#">Compendium</a>
+<a class="px-4 py-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800" href="#">Groups</a>
+<a class="px-4 py-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800" href="#">Settings</a>
+</div>
+<div class="flex items-center gap-4 w-48 justify-end">
+<button class="text-slate-400 hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 size-2 bg-red-500 rounded-full border-2 border-surface-light dark:border-surface-dark"></span>
+</button>
+<div class="h-6 w-px bg-slate-200 dark:bg-slate-700"></div>
+<div class="flex items-center gap-3 cursor-pointer group">
+<div class="size-9 rounded-full bg-slate-300 dark:bg-slate-700 bg-cover bg-center ring-2 ring-transparent group-hover:ring-primary/20 transition-all" data-alt="User avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA7jRaXd82gyn0171NrGa1swavEeDVBBL6wyW2564ZYNTfjjCOpGx4CH1OdJ-SAYNto7cUB4LXFrxYoJVTfqaKZbaZ1mXUViym0xek9bfJn2SvQfplr8G0bvx3Isi2TTvrqweXrdgG8gcPYOAgo2osTbizZaXmPGo7P8ClaGAsd07aJXZ0IgYF5aPE9PmcmdNEaPryJG8vz0K7fufry7MP6K-PORji9DYW7F5-gbJoMIjsCd8Fx384h0hBgljqV6daDpN5_bN3AMKk");'></div>
+</div>
+</div>
+</nav>
+<div class="flex flex-1 overflow-hidden">
+<aside class="w-64 h-full flex flex-col border-r border-slate-200 dark:border-slate-800 bg-surface-light dark:bg-background-dark shrink-0 transition-all duration-300">
+<div class="p-4 pt-6 pb-2">
+<div class="px-3 mb-2">
+<span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Active Campaign</span>
+</div>
+<button class="w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800/50 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-left group border border-slate-200 dark:border-slate-700/50">
+<span class="text-sm font-bold text-slate-900 dark:text-slate-100 truncate">Kingdom of Shadows</span>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200 text-[18px]">unfold_more</span>
+</button>
+</div>
+<nav class="flex-1 px-4 flex flex-col gap-1 overflow-y-auto pt-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">dashboard</span>
+<span class="text-sm font-medium">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary border border-primary/20 shadow-sm shadow-primary/5" href="#">
+<span class="material-symbols-outlined text-[20px] font-variation-settings-'FILL'1">group</span>
+<span class="text-sm font-bold">Entities</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">map</span>
+<span class="text-sm font-medium">Maps</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">book_2</span>
+<span class="text-sm font-medium">Notes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">swords</span>
+<span class="text-sm font-medium">Encounters</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-[20px]">keyboard_double_arrow_left</span>
+<span class="text-sm font-medium">Collapse</span>
+</button>
+</div>
+</aside>
+<main class="flex-1 flex flex-col h-full overflow-hidden bg-background-light dark:bg-background-dark relative">
+<header class="w-full px-8 pt-8 pb-4 flex flex-col gap-6 shrink-0 z-10">
+<div class="flex items-center gap-2 text-sm">
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors" href="#">MoonForge</a>
+<span class="text-slate-600 dark:text-slate-600">/</span>
+<span class="text-primary font-medium">Entity Management</span>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Entities</h2>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-primary/50 text-primary hover:bg-primary/10 transition-colors group">
+<span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">auto_awesome</span>
+<span class="text-sm font-medium">Generate with AI</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-white shadow-lg shadow-primary/30 transition-all hover:shadow-primary/50">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span class="text-sm font-bold">Create Entity</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col xl:flex-row gap-4 justify-between items-stretch xl:items-center bg-white dark:bg-surface-dark p-2 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+<div class="relative flex-1 min-w-[300px]">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-transparent border-none text-slate-900 dark:text-white placeholder-slate-400 focus:ring-0 focus:outline-none text-sm h-10" placeholder="Search NPCs, monsters, items, places..." type="text"/>
+</div>
+<div class="hidden xl:block w-px h-8 bg-slate-200 dark:bg-slate-700 mx-2"></div>
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 xl:pb-0 px-2">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary text-white text-sm font-medium shadow-sm transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">grid_view</span>
+                            All
+                        </button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 text-sm font-medium transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">person</span>
+                            NPCs
+                        </button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 text-sm font-medium transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">skull</span>
+                            Monsters
+                        </button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 text-sm font-medium transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">swords</span>
+                            Items
+                        </button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 text-sm font-medium transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+                            Locations
+                        </button>
+</div>
+<div class="hidden sm:flex items-center bg-slate-100 dark:bg-slate-800 rounded-lg p-1 ml-2">
+<button class="p-1.5 rounded bg-white dark:bg-slate-600 shadow text-primary dark:text-white">
+<span class="material-symbols-outlined text-[20px] block">grid_view</span>
+</button>
+<button class="p-1.5 rounded text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px] block">view_list</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto px-8 pb-8">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
+<div class="group relative flex flex-col bg-white dark:bg-surface-dark rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-primary/50 dark:hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/5 cursor-pointer">
+<div class="h-40 w-full bg-cover bg-center relative" data-alt="Portrait of an elderly dwarf blacksmith with a glowing hammer" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJvDD5kBzULxD0I5dBAXGMYoc3urUZ69CmOTI8DPsD-Hyf5eyjrZMZrhz4ffE1jVYEc4PjQDQOoYk61YsjVbEje_HzmI4bC_BJTOtAAxcPZ7vg-rwBUCS9J8eebmSbG2jL_i3C8NQXNJjKAcwBQJ2DRhxW0i46TezlbOtHX3YT5DIR-P0IX7RyoOA_pKgpL9A_Vu2cp88TZd_ElIwd5c8rDOyMAzlSmOWKbs3jSoQ79IM3CikHPar3Chr31XPEwCypfXfV2ME0mfU");'>
+<div class="absolute top-2 right-2">
+<span class="bg-black/60 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded border border-white/10 uppercase tracking-wider">NPC</span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight group-hover:text-primary transition-colors">Grom Ironbeard</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Dwarf • Blacksmith</p>
+</div>
+<button class="text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-2 mt-auto pt-4">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">shield</span> LVL 5
+                                </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-green-500/10 text-green-600 dark:text-green-400 text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">sentiment_satisfied</span> Friendly
+                                </span>
+</div>
+</div>
+</div>
+<div class="group relative flex flex-col bg-white dark:bg-surface-dark rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-primary/50 dark:hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/5 cursor-pointer">
+<div class="h-40 w-full bg-cover bg-center relative" data-alt="A glowing blue sword resting on a stone pedestal" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBw39TOQvqXrhzzEO0Gs0rrwoDH_SE91K9XGL5cd3thz_ZgqZcANIAD5c4dF1qL_l31NpkcnHWeuWgafzCEnn-YN6T8vPRnu3k5oEnuMAsMZtZFTmx7vo7NuLkvX5NZbPE5KToyEwGRg_Y_TsN6LT4_dOqAKlilhtngg_AwxgTk1KdhZOdckKTDUYl8Y8uc5uBXcC_LE6aYKdWNQ-S51SqLEMODD68GT1LO6Hhqt3-dVLIP66M-dQpIF_WdYGJc6lneB6A2zUXHxIM");'>
+<div class="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-surface-dark to-transparent opacity-60"></div>
+<div class="absolute top-2 right-2">
+<span class="bg-blue-600/80 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded border border-white/10 uppercase tracking-wider">Rare Item</span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight group-hover:text-primary transition-colors">Sword of Embers</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Weapon • Longsword</p>
+</div>
+<button class="text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-2 mt-auto pt-4">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">fitness_center</span> 1d8 + 2
+                                </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-orange-500/10 text-orange-600 dark:text-orange-400 text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">link</span> Attunement
+                                </span>
+</div>
+</div>
+</div>
+<div class="group relative flex flex-col bg-white dark:bg-surface-dark rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-primary/50 dark:hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/5 cursor-pointer">
+<div class="h-40 w-full bg-cover bg-center relative" data-alt="Dark forest with glowing mushrooms and fog" data-location="The Whispering Woods" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAgxzdnMnm1-GxeWxx8Eo1LpNv_ssfN_WaL6KdHA9igZF8EOHAFQbpk_SWbF_xYvsIwoka1IZD6OmzpLBWLXjRpz4pX47ko1a9oLpqN5x-tk4d8BfimnUmFOnbU79oIsuMxhGrqHHYXM6DCZRhB9k5J5nCUdXLUKbwAASVmhTOLTgqYXT5bGxWIYWjUVqgYGim73_7STaoRqOBdPOVJaGH4IgEZK_1kWpg1mg7ZDK-4Qyfq0D_teXYhbsJAbYpEW-T_t98LIAmA4QA");'>
+<div class="absolute top-2 right-2">
+<span class="bg-black/60 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded border border-white/10 uppercase tracking-wider">Location</span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight group-hover:text-primary transition-colors">Whispering Woods</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Region • Forest</p>
+</div>
+<button class="text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-2 mt-auto pt-4">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">map</span> Sector 4
+                                </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-purple-500/10 text-purple-600 dark:text-purple-400 text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">auto_fix_high</span> Magical
+                                </span>
+</div>
+</div>
+</div>
+<div class="group relative flex flex-col bg-white dark:bg-surface-dark rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-primary/50 dark:hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/5 cursor-pointer">
+<div class="h-40 w-full bg-cover bg-center relative" data-alt="Scary goblin with red eyes in a cave" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBFEFWXbGru4QQXXs18oaez1tCiH7sd0MbxxtNFwZImkz9OyFU3MLWeUh25FvXkAfZrR2EaiSR1kzlCFNXSRpdPNsyexrs3I0a6PaeswQBnkXTH9_0zReddpja87X2ffKFGDP_RnS9sNI_FdskWLltS2iWdJY7j9ocBrF76E2IrXXEQ-tUmey8ehRqqym3rZ9V7XWM6woNDzLIUYgPihkyIr51nFT8BIdxq7NrCgkw1SeDGyAPRSIHG-i0mwm5mH_j_zQzl77lqR50");'>
+<div class="absolute top-2 right-2">
+<span class="bg-red-900/80 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded border border-white/10 uppercase tracking-wider">Monster</span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight group-hover:text-primary transition-colors">Cave Goblin</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Humanoid • Goblinoid</p>
+</div>
+<button class="text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-2 mt-auto pt-4">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">flash_on</span> CR 1/4
+                                </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-red-500/10 text-red-600 dark:text-red-400 text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">error</span> Hostile
+                                </span>
+</div>
+</div>
+</div>
+<div class="group relative flex flex-col bg-white dark:bg-surface-dark rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-primary/50 dark:hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/5 cursor-pointer">
+<div class="h-40 w-full bg-cover bg-center relative" data-alt="Mysterious hooded figure in a tavern corner" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCr504aTic41lHJj1etl-BWbHGlhmfDDbYUer3Jl0s-tsQcYFL4ngnw2Ej0ci9iflIcRmpq-bv4fUcYb-4Sp7bFm7eDUbG2fn6jJrKyqmHIIFUX0kCraJMNfZXMj8Ih5KhGs2VfPszqx0n2LkmZqEaMTyBR9Wwgmk7SoGWrkBc9_RcsC5KbztcztarbtXgMWnY7LREFRKEs_x8bTsbJlGG0YjF7SJt9Fe1f6CrwPqhNyhZoiZD-2svRkYvPtJfhlRKR3bXXnazvmH4");'>
+<div class="absolute top-2 right-2">
+<span class="bg-black/60 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded border border-white/10 uppercase tracking-wider">NPC</span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight group-hover:text-primary transition-colors">Elara Moonwhisper</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Elf • Ranger</p>
+</div>
+<button class="text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-2 mt-auto pt-4">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">shield</span> LVL 7
+                                </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">help</span> Neutral
+                                </span>
+</div>
+</div>
+</div>
+<div class="group relative flex flex-col justify-center items-center bg-gradient-to-br from-primary/20 to-surface-dark rounded-xl overflow-hidden border border-dashed border-primary/50 hover:border-primary hover:bg-primary/10 transition-all cursor-pointer h-full min-h-[300px]">
+<div class="size-16 rounded-full bg-primary/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px] text-primary">auto_awesome</span>
+</div>
+<h3 class="text-slate-900 dark:text-white text-lg font-bold mb-1">Generate Entity</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm text-center px-6">Describe an idea and let AI forge the stats and backstory.</p>
+</div>
+</div>
+<div class="w-full flex justify-center py-8">
+<button class="text-slate-500 dark:text-slate-400 hover:text-primary text-sm font-medium flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined animate-spin" style="font-size: 18px;">refresh</span>
+                        Loading more legends...
+                    </button>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

@@ -1,0 +1,8 @@
+targets:
+  $default:
+    builders:
+      flutter_gen_runner:
+        options:
+      drift_dev:
+        options:
+

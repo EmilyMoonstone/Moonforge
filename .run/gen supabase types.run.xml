@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="gen supabase types" type="PowerShellRunType" factoryName="PowerShell" focusToolWindowBeforeRun="true" scriptUrl="$ProjectFileDir$\supabase\genTypes.ps1" workingDirectory="$ProjectFileDir$\supabase" executablePath="$PROJECT_DIR$/../../../../Program Files/PowerShell/7/pwsh.exe">
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>

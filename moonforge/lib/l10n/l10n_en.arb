@@ -1,0 +1,31 @@
+{
+  "@@locale": "en",
+  "appTitle": "Moonforge",
+
+  "your": "Your",
+  "newString": "New",
+  "edit": "Edit",
+  "delete": "Delete",
+  "sparkWithAI": "Spark with AI",
+  "search": "Search",
+
+  "notifications": "Notifications",
+  "settings": "Settings",
+  "profile": "Profile",
+  "nGroups": "{count, plural, =0 {No Groups} =1 {1 group} other {{count} Groups}}",
+
+  "nCampaigns": "{count, plural, =0{No Campaigns} =1{1 Campaign} other{{count} Campaigns}}",
+  "spCampaigns": "{number, select, singular{Campaign} other{Campaigns}}",
+  "nAdventures": "{count, plural, =0 {No Adventures} =1 {1 Adventure} other {{count} Adventures}}",
+  "spAdventures": "{number, select, singular{Adventure} other{Adventures}}",
+  "nChapters": "{count, plural, =0 {No Chapters} =1 {1 Chapter} other {{count} Chapters}}",
+  "spChapters": "{number, select, singular{Chapter} other{Chapters}}",
+  "nScenes": "{count, plural, =0 {No Scenes} =1 {1 Scene} other {{count} Scenes}}",
+  "spScenes": "{number, select, singular{Scene} other{Scenes}}",
+  "nPlayers": "{count, plural, =0 {No Players} =1 {1 Player} other {{count} Players}}",
+  "spPlayers": "{number, select, singular{Player} other{Players}}",
+
+  "sortBy": "{sortType, select, nameAsc{Name (A-Z)} nameDesc{Name (Z-A)} dateCreatedAsc{Date Created (Oldest First)} dateCreatedDesc{Date Created (Newest First)} lastModifiedAsc{Last Modified (Oldest First)} lastModifiedDesc{Last Modified (Newest First)} other{Unknown Sort}}",
+  "noXFound": "No {entity} Found",
+  "loadingX": "Loading {entity}..."
+}

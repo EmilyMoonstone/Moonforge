@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chapter Details &amp; Adventures - MoonForge</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;900&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3211d4",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131022",
+                        "surface-dark": "#1e1c29", 
+                        "border-dark": "#2b2839",
+                        "text-secondary": "#a19db9"
+                    },
+                    fontFamily: {
+                        "display": ["Be Vietnam Pro", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased text-slate-900 dark:text-white overflow-hidden min-h-screen flex flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-border-dark bg-[#121118] px-6 py-3 sticky top-0 z-50 h-16 shrink-0">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">MoonForge</h2>
+</div>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-text-secondary text-sm font-medium leading-normal hover:text-white transition-colors" href="#">Dashboard</a>
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Campaign</a>
+<a class="text-text-secondary text-sm font-medium leading-normal hover:text-white transition-colors" href="#">Compendium</a>
+<a class="text-text-secondary text-sm font-medium leading-normal hover:text-white transition-colors" href="#">Groups</a>
+<a class="text-text-secondary text-sm font-medium leading-normal hover:text-white transition-colors" href="#">Settings</a>
+</div>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<label class="hidden md:flex flex-col min-w-40 !h-9 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full border border-border-dark focus-within:border-primary transition-colors bg-surface-dark">
+<div class="text-text-secondary flex border-none items-center justify-center pl-3 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-[18px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-transparent focus:border-none h-full placeholder:text-text-secondary px-3 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search..." value=""/>
+</div>
+</label>
+<button class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border-2 border-border-dark hover:border-primary transition-colors" data-alt="User profile avatar showing a fantasy character portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD3qb_bAMlopx1du6EDYArTNNmC6XQ7yL2VlQ2a1tLKJ--qxwEzOai9loluw5NOrdbMrl7N8AdfC_V8baVbS61921gOSBp2WY-JR0q66ep5LknNoNUUHHwukUSQ5La1ejZXWRB4E-ZgJUo3DuyeSKioa8bEp2mpi2MTd1kd-90POsmcdbkFfZJHm-T88jq5QDIYLPjpqGXwl4ff7btW6MZ7B8KQonsarhSqWhn0xoIH0JN1s4hsn6LGSIvExw8WgKxOQ92UtEqKIOQ");'></button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden h-[calc(100vh-64px)]">
+<aside class="hidden lg:flex flex-col w-72 bg-[#121118] border-r border-border-dark overflow-y-auto shrink-0 select-none custom-scrollbar">
+<div class="p-4 border-b border-border-dark sticky top-0 bg-[#121118] z-20">
+<button class="flex items-center justify-between w-full p-2 text-white bg-surface-dark rounded-lg border border-border-dark hover:border-primary transition-all group shadow-sm">
+<div class="flex items-center gap-3 overflow-hidden">
+<div class="size-8 rounded-md bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center text-white shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[18px]">castle</span>
+</div>
+<div class="flex flex-col items-start overflow-hidden">
+<span class="text-[10px] uppercase text-text-secondary font-bold tracking-wider leading-none mb-0.5">Campaign</span>
+<span class="font-bold text-sm truncate leading-none">The Azure King</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white text-[20px]">expand_more</span>
+</button>
+</div>
+<div class="flex flex-col py-4 px-3 gap-6">
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary hover:text-white hover:bg-white/5 rounded-lg text-sm font-medium transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">dashboard</span>
+                    Overview
+                </a>
+<div class="flex flex-col">
+<div class="flex items-center justify-between px-3 pt-2 pb-1">
+<span class="text-xs font-bold text-text-secondary uppercase tracking-wider">Narrative</span>
+<button class="text-text-secondary hover:text-white transition-colors" title="New Chapter">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+<div class="flex flex-col gap-1 mt-1">
+<button class="flex items-center gap-2 px-3 py-1.5 text-text-secondary hover:text-white hover:bg-white/5 rounded-md text-sm transition-colors w-full text-left group">
+<span class="material-symbols-outlined text-[18px] text-text-secondary/50 group-hover:text-white">arrow_right</span>
+<span class="material-symbols-outlined text-[18px] text-amber-700">book_2</span>
+<span class="truncate">Chapter 1: The Awakening</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-1.5 text-text-secondary hover:text-white hover:bg-white/5 rounded-md text-sm transition-colors w-full text-left group">
+<span class="material-symbols-outlined text-[18px] text-text-secondary/50 group-hover:text-white">arrow_right</span>
+<span class="material-symbols-outlined text-[18px] text-amber-700">book_2</span>
+<span class="truncate">Chapter 2: Port City</span>
+</button>
+<div class="flex flex-col bg-white/[0.02] rounded-lg pb-2">
+<button class="flex items-center gap-2 px-3 py-2 text-white font-medium rounded-t-md text-sm transition-colors w-full text-left">
+<span class="material-symbols-outlined text-[18px]">arrow_drop_down</span>
+<span class="material-symbols-outlined text-[18px] text-amber-500">book_2</span>
+<span class="truncate">Chapter 3: The Swamp</span>
+</button>
+<div class="flex flex-col gap-0.5 pl-[19px] relative">
+<div class="absolute left-[11px] top-0 bottom-2 w-px bg-border-dark"></div>
+<a class="relative flex items-center gap-2 px-3 py-1.5 text-sm text-primary bg-primary/10 rounded-md ml-2 border-l-2 border-primary" href="#">
+                                     Details &amp; Adventures
+                                 </a>
+<div class="flex flex-col">
+<button class="relative flex items-center gap-2 px-3 py-1.5 ml-2 text-text-secondary hover:text-white hover:bg-white/5 rounded-md text-sm transition-colors w-full text-left group border-l-2 border-transparent hover:border-text-secondary/50">
+<span class="material-symbols-outlined text-[16px] text-text-secondary/70">arrow_right</span>
+<span class="material-symbols-outlined text-[18px] text-indigo-400">landscape</span>
+<span class="truncate">The Sunken Temple</span>
+</button>
+</div>
+<div class="flex flex-col">
+<button class="relative flex items-center gap-2 px-3 py-1.5 ml-2 text-white bg-white/5 rounded-md text-sm transition-colors w-full text-left group border-l-2 border-transparent hover:border-text-secondary/50">
+<span class="material-symbols-outlined text-[16px] text-text-secondary/70">arrow_drop_down</span>
+<span class="material-symbols-outlined text-[18px] text-indigo-400">landscape</span>
+<span class="truncate">Whispers in the Mist</span>
+</button>
+<div class="flex flex-col pl-7 gap-0.5 mt-0.5">
+<a class="flex items-center gap-2 px-2 py-1 text-xs text-text-secondary hover:text-white hover:bg-white/5 rounded transition-colors group" href="#">
+<span class="material-symbols-outlined text-[14px] text-green-400 group-hover:text-green-300">movie</span>
+<span>The Fog Maze</span>
+</a>
+<a class="flex items-center gap-2 px-2 py-1 text-xs text-text-secondary hover:text-white hover:bg-white/5 rounded transition-colors group" href="#">
+<span class="material-symbols-outlined text-[14px] text-red-400 group-hover:text-red-300">swords</span>
+<span>Hag's Ambush</span>
+</a>
+</div>
+</div>
+<div class="flex flex-col">
+<button class="relative flex items-center gap-2 px-3 py-1.5 ml-2 text-text-secondary hover:text-white hover:bg-white/5 rounded-md text-sm transition-colors w-full text-left group border-l-2 border-transparent hover:border-text-secondary/50">
+<span class="material-symbols-outlined text-[16px] text-text-secondary/70">arrow_right</span>
+<span class="material-symbols-outlined text-[18px] text-indigo-400">landscape</span>
+<span class="truncate">The Hag's Bargain</span>
+</button>
+</div>
+</div>
+</div>
+<button class="flex items-center gap-2 px-3 py-1.5 text-text-secondary hover:text-white hover:bg-white/5 rounded-md text-sm transition-colors w-full text-left group">
+<span class="material-symbols-outlined text-[18px] text-text-secondary/50 group-hover:text-white">arrow_right</span>
+<span class="material-symbols-outlined text-[18px] text-amber-700">book_2</span>
+<span class="truncate">Chapter 4: The Citadel</span>
+</button>
+</div>
+</div>
+</div>
+<div class="w-full h-px bg-border-dark"></div>
+<div class="flex flex-col gap-1">
+<span class="px-3 text-xs font-bold text-text-secondary uppercase tracking-wider mb-2">Database</span>
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary hover:text-white hover:bg-white/5 rounded-lg text-sm font-medium transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] text-blue-400 group-hover:text-blue-300">map</span>
+                    Maps
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary hover:text-white hover:bg-white/5 rounded-lg text-sm font-medium transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] text-purple-400 group-hover:text-purple-300">person</span>
+                    Entities
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary hover:text-white hover:bg-white/5 rounded-lg text-sm font-medium transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] text-red-400 group-hover:text-red-300">swords</span>
+                    Encounters
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary hover:text-white hover:bg-white/5 rounded-lg text-sm font-medium transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] text-emerald-400 group-hover:text-emerald-300">backpack</span>
+                    Items &amp; Loot
+                </a>
+</div>
+</div>
+</aside>
+<main class="flex-1 overflow-y-auto w-full relative">
+<div class="px-4 md:px-8 lg:px-12 py-8 max-w-[1400px] mx-auto w-full">
+<nav class="flex flex-wrap gap-2 mb-6 items-center">
+<a class="text-text-secondary text-sm font-medium hover:text-white transition-colors" href="#">Campaigns</a>
+<span class="text-text-secondary text-sm font-medium">/</span>
+<a class="text-text-secondary text-sm font-medium hover:text-white transition-colors" href="#">The Azure King</a>
+<span class="text-text-secondary text-sm font-medium">/</span>
+<span class="text-primary text-sm font-medium">Chapter 3: The Swamp</span>
+</nav>
+<div class="flex flex-col lg:flex-row gap-8 mb-8">
+<div class="flex-1">
+<div class="flex flex-col gap-4">
+<div class="flex items-start justify-between">
+<div>
+<h1 class="text-white text-3xl lg:text-4xl font-black leading-tight tracking-tight mb-2">Chapter 3: The Swamp</h1>
+<p class="text-text-secondary text-base font-normal max-w-2xl">A treacherous journey through the sunken lands to find the ancient relic of the drowned king.</p>
+</div>
+<button class="p-2 text-text-secondary hover:text-white hover:bg-surface-dark rounded-lg transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+<div class="flex gap-3 flex-wrap mt-2">
+<div class="flex h-7 items-center justify-center gap-x-2 rounded-lg bg-surface-dark border border-border-dark px-3">
+<span class="material-symbols-outlined text-yellow-500 text-[16px]">star</span>
+<p class="text-white text-xs font-semibold uppercase tracking-wide">Level 3-5</p>
+</div>
+<div class="flex h-7 items-center justify-center gap-x-2 rounded-lg bg-surface-dark border border-border-dark px-3">
+<span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>
+<p class="text-white text-xs font-semibold uppercase tracking-wide">In Progress</p>
+</div>
+<div class="flex h-7 items-center justify-center gap-x-2 rounded-lg bg-surface-dark border border-border-dark px-3">
+<span class="material-symbols-outlined text-blue-400 text-[16px]">map</span>
+<p class="text-white text-xs font-semibold uppercase tracking-wide">Setting: Swamp</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex gap-3 lg:w-1/3">
+<div class="flex flex-1 flex-col gap-1 rounded-lg border border-border-dark bg-surface-dark p-3 items-start hover:border-primary/50 transition-colors">
+<p class="text-white text-2xl font-bold leading-none">3</p>
+<p class="text-text-secondary text-[10px] font-medium uppercase tracking-wider">Adventures</p>
+</div>
+<div class="flex flex-1 flex-col gap-1 rounded-lg border border-border-dark bg-surface-dark p-3 items-start hover:border-primary/50 transition-colors">
+<p class="text-white text-2xl font-bold leading-none">5</p>
+<p class="text-text-secondary text-[10px] font-medium uppercase tracking-wider">Key NPCs</p>
+</div>
+<div class="flex flex-1 flex-col gap-1 rounded-lg border border-border-dark bg-surface-dark p-3 items-start hover:border-primary/50 transition-colors">
+<p class="text-white text-2xl font-bold leading-none">Tue</p>
+<p class="text-text-secondary text-[10px] font-medium uppercase tracking-wider">Last Played</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col lg:flex-row gap-8 pb-12">
+<div class="w-full lg:w-2/3 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h3 class="text-lg font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">menu_book</span>
+                                Chapter Chronicles
+                            </h3>
+<button class="text-xs font-medium text-text-secondary hover:text-white flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-sm">open_in_full</span>
+                                Focus Mode
+                            </button>
+</div>
+<div class="flex flex-col w-full rounded-xl border border-border-dark bg-surface-dark overflow-hidden min-h-[500px] shadow-lg">
+<div class="flex flex-wrap items-center gap-1 p-2 border-b border-border-dark bg-[#181621]">
+<button class="p-1.5 rounded hover:bg-border-dark text-text-secondary hover:text-white transition-colors" title="Bold">
+<span class="material-symbols-outlined text-[18px]">format_bold</span>
+</button>
+<button class="p-1.5 rounded hover:bg-border-dark text-text-secondary hover:text-white transition-colors" title="Italic">
+<span class="material-symbols-outlined text-[18px]">format_italic</span>
+</button>
+<button class="p-1.5 rounded hover:bg-border-dark text-text-secondary hover:text-white transition-colors" title="Underline">
+<span class="material-symbols-outlined text-[18px]">format_underlined</span>
+</button>
+<div class="w-px h-4 bg-border-dark mx-1"></div>
+<button class="p-1.5 rounded hover:bg-border-dark text-text-secondary hover:text-white transition-colors" title="Heading 1">
+<span class="material-symbols-outlined text-[18px]">title</span>
+</button>
+<button class="p-1.5 rounded hover:bg-border-dark text-text-secondary hover:text-white transition-colors" title="List">
+<span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
+</button>
+<button class="p-1.5 rounded hover:bg-border-dark text-text-secondary hover:text-white transition-colors" title="Quote">
+<span class="material-symbols-outlined text-[18px]">format_quote</span>
+</button>
+<div class="w-px h-4 bg-border-dark mx-1"></div>
+<button class="p-1.5 rounded hover:bg-border-dark text-text-secondary hover:text-white transition-colors" title="Link">
+<span class="material-symbols-outlined text-[18px]">link</span>
+</button>
+<button class="p-1.5 rounded hover:bg-border-dark text-text-secondary hover:text-white transition-colors" title="Image">
+<span class="material-symbols-outlined text-[18px]">image</span>
+</button>
+<div class="flex-1"></div>
+<span class="text-xs text-text-secondary px-2">Saved</span>
+</div>
+<div class="flex-1 p-6 text-gray-300 font-body leading-relaxed outline-none" contenteditable="true">
+<h2 class="text-xl font-bold text-white mb-4">The Arrival at Bogwater</h2>
+<p class="mb-4 text-sm">The party arrived at the edge of the swamp just as the sun began to set, casting long, eerie shadows across the murky water. The air was thick with the scent of decay and damp earth. A low mist clung to the ground, obscuring the path ahead.</p>
+<p class="mb-4 text-sm">Here, the <span class="text-primary font-medium cursor-pointer">Marsh Hags</span> are known to dwell. It is said they trade secrets for memories. The players should feel a sense of unease. Use the ambient soundtrack "Swamp Whispers" to enhance the mood.</p>
+<h3 class="text-lg font-bold text-white mt-6 mb-3">Key Objectives</h3>
+<ul class="list-disc pl-5 mb-4 space-y-2 text-sm">
+<li>Locate the sunken ruins of the old temple.</li>
+<li>Avoid alerting the lizardfolk patrols.</li>
+<li>Find the <span class="text-purple-400 font-medium">Jade Idol</span> before the eclipse.</li>
+</ul>
+<div class="my-6 p-4 border-l-4 border-yellow-600 bg-yellow-600/10 rounded-r-lg">
+<p class="text-yellow-200 text-sm italic"><strong>DM Note:</strong> If the players choose to light a fire, roll for a random encounter immediately. The light attracts the Will-o'-wisps.</p>
+</div>
+<p class="text-sm">As they ventured deeper, the trees seemed to close in around them, their twisted branches reaching out like skeletal fingers...</p>
+</div>
+</div>
+</div>
+<div class="w-full lg:w-1/3 flex flex-col gap-6">
+<div class="flex flex-col gap-3">
+<button class="relative group w-full p-0.5 rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300">
+<div class="relative flex items-center justify-center gap-2 w-full h-10 bg-surface-dark rounded-[5px] group-hover:bg-opacity-90 transition-all">
+<span class="material-symbols-outlined text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-pink-400 text-[18px]">auto_awesome</span>
+<span class="font-bold text-sm text-white">Spark with AI</span>
+</div>
+</button>
+<button class="flex items-center justify-center gap-2 h-11 w-full rounded-lg bg-primary hover:bg-primary/90 text-white font-bold text-sm shadow-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                                New Adventure
+                            </button>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between pb-2 border-b border-border-dark">
+<h3 class="text-base font-bold text-white">Adventures</h3>
+<button class="text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+</button>
+</div>
+<div class="group relative flex flex-col gap-2 p-3 rounded-xl border border-border-dark bg-surface-dark hover:border-primary/50 cursor-pointer transition-all duration-200 hover:translate-y-[-2px] hover:shadow-xl">
+<div class="flex justify-between items-start">
+<h4 class="text-white font-bold text-sm group-hover:text-primary transition-colors">The Sunken Temple</h4>
+<div class="size-6 rounded-full border border-border-dark flex items-center justify-center bg-background-dark text-text-secondary hover:text-white hover:bg-border-dark transition-colors" title="Options">
+<span class="material-symbols-outlined text-[14px]">more_horiz</span>
+</div>
+</div>
+<p class="text-text-secondary text-xs line-clamp-2">Exploring the ruins to find the entrance to the lower levels. First encounter with the Guardian.</p>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+<span class="text-[10px] font-medium text-text-secondary">Completed</span>
+</div>
+<span class="text-[10px] text-text-secondary">Session 12</span>
+</div>
+</div>
+<div class="group relative flex flex-col gap-2 p-3 rounded-xl border-l-4 border-l-primary border-y border-r border-border-dark bg-[#181621] hover:bg-surface-dark cursor-pointer transition-all duration-200 shadow-md">
+<div class="flex justify-between items-start">
+<h4 class="text-white font-bold text-sm group-hover:text-primary transition-colors">Whispers in the Mist</h4>
+<div class="size-6 rounded-full border border-border-dark flex items-center justify-center bg-background-dark text-text-secondary hover:text-white hover:bg-border-dark transition-colors" title="Options">
+<span class="material-symbols-outlined text-[14px]">more_horiz</span>
+</div>
+</div>
+<p class="text-text-secondary text-xs line-clamp-2">Navigating the fog maze. The players are currently tracking the Hag to her lair.</p>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+<span class="text-[10px] font-medium text-blue-400">In Progress</span>
+</div>
+<span class="text-[10px] text-text-secondary">Session 13</span>
+</div>
+</div>
+<div class="group relative flex flex-col gap-2 p-3 rounded-xl border border-border-dark bg-surface-dark hover:border-primary/50 cursor-pointer transition-all duration-200 hover:translate-y-[-2px]">
+<div class="flex justify-between items-start">
+<h4 class="text-white font-bold text-sm group-hover:text-primary transition-colors">The Hag's Bargain</h4>
+<div class="size-6 rounded-full border border-border-dark flex items-center justify-center bg-background-dark text-text-secondary hover:text-white hover:bg-border-dark transition-colors" title="Options">
+<span class="material-symbols-outlined text-[14px]">more_horiz</span>
+</div>
+</div>
+<p class="text-text-secondary text-xs line-clamp-2">Potential social encounter or combat depending on player choices.</p>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+<span class="text-[10px] font-medium text-text-secondary">Planned</span>
+</div>
+<span class="text-[10px] text-text-secondary">--</span>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<div class="flex items-center justify-between pb-2 mb-3 border-b border-border-dark">
+<h3 class="text-xs font-bold text-text-secondary uppercase tracking-wider">Chapter NPCs</h3>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-surface-dark cursor-pointer group transition-colors">
+<div class="size-8 rounded-full bg-cover bg-center" data-alt="Portrait of an old hag NPC" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB74a2sL6mEWvu0wycshLws_2zMiuyc0WovMWPCnU-qiEBlZ3J-2Nh46ID7rG3owRYONTd665KO6QXulFEQFaxD19Ow0B9RVCrm6R2gSjNKG56y5kODUhLuYLyeh6S4JKlZ2yRn5STyI1JrAKV2uUk0Ve1fECjLraTHbnXvn3Fwv9MIGLM6kcYj0an9Vpy9wPOfxZtEHPXY7vnNjdR4kNR7zyeHzemjvv9wjMZnvR7HCLMhHanrgp7v5O14TWzZ18Xw3gQ-yYppZtQ")'></div>
+<div class="flex flex-col">
+<span class="text-sm font-semibold text-white group-hover:text-primary transition-colors">Baba Yaga</span>
+<span class="text-xs text-text-secondary">Archfey Warlock</span>
+</div>
+</div>
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-surface-dark cursor-pointer group transition-colors">
+<div class="size-8 rounded-full bg-cover bg-center" data-alt="Portrait of a lizardfolk warrior" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCb83anS8iQSvmKeOXZBOfM5y_GJWh0uZof9cVHwBtY20VfsIjgBJy2JrrCDBYoq0TiJO-rDf94kbqAmFhEKhM7Dtd8Rtmy7_5dqMRlfX0n4c03c_sZ0ryOGOZz3uZV-lPfdeJdw-T_hIoj0nNOZoQwiGmsReVwjv0tmxYnmamUAbLkWllB376rqbY1_UUTPllI0y53fHxBzD5_56xnsaZfr1MGMD0rHb5uwk8AK7fzg1ID6Qa3zHQWuyYpGDxqpvxFxmH-fQyorcU")'></div>
+<div class="flex flex-col">
+<span class="text-sm font-semibold text-white group-hover:text-primary transition-colors">Kroxigor</span>
+<span class="text-xs text-text-secondary">Lizardfolk Chief</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

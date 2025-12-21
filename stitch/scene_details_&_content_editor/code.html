@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MoonForge - Scene Editor</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3211d4",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131022",
+                        "surface-dark": "#1e1b2e",
+                        "surface-lighter": "#2b2839",
+                        "border-dark": "#2b2839",
+                    },
+                    fontFamily: {
+                        "display": ["Be Vietnam Pro", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131022; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2b2839; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3e3b4f; 
+        }
+        .editor-content p {
+            margin-bottom: 1.2em;
+        }
+        .editor-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-top: 1.5em;
+            margin-bottom: 0.75em;
+        }
+        .editor-content .read-aloud {
+            background-color: rgba(50, 17, 212, 0.1);
+            border-left: 4px solid #3211d4;
+            padding: 1rem;
+            font-style: italic;
+            color: #e2e8f0;
+            margin-bottom: 1.5rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        .mention {
+            color: #6d4aff;background: rgba(50, 17, 212, 0.15);
+            padding: 0 4px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .mention:hover {
+            background: rgba(50, 17, 212, 0.3);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-300 h-screen flex flex-col overflow-hidden">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-dark px-6 py-3 bg-surface-dark z-20 shrink-0 h-16">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-white cursor-pointer">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-tight">MoonForge</h2>
+</div>
+<nav class="hidden lg:flex items-center gap-1 bg-surface-lighter/50 p-1 rounded-lg border border-white/5">
+<a class="px-3 py-1.5 text-sm font-medium text-[#a19db9] hover:text-white hover:bg-white/5 rounded-md transition-all" href="#">Dashboard</a>
+<a class="px-3 py-1.5 text-sm font-medium text-white bg-surface-lighter shadow-sm rounded-md ring-1 ring-white/10" href="#">Campaign</a>
+<a class="px-3 py-1.5 text-sm font-medium text-[#a19db9] hover:text-white hover:bg-white/5 rounded-md transition-all" href="#">Compendium</a>
+<a class="px-3 py-1.5 text-sm font-medium text-[#a19db9] hover:text-white hover:bg-white/5 rounded-md transition-all" href="#">Groups</a>
+<a class="px-3 py-1.5 text-sm font-medium text-[#a19db9] hover:text-white hover:bg-white/5 rounded-md transition-all" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center justify-end gap-6">
+<label class="hidden xl:flex flex-col w-60 h-9">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-surface-lighter overflow-hidden focus-within:ring-1 focus-within:ring-primary">
+<div class="text-[#a19db9] flex items-center justify-center pl-3">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="flex w-full min-w-0 flex-1 resize-none overflow-hidden border-none bg-transparent focus:ring-0 text-white placeholder:text-[#a19db9] px-3 text-sm font-normal leading-normal" placeholder="Search..." value=""/>
+</div>
+</label>
+<div class="flex gap-3">
+<button class="flex items-center justify-center gap-2 rounded-lg h-9 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-semibold shadow-[0_0_15px_rgba(50,17,212,0.4)]">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+<span class="hidden md:inline">Present</span>
+</button>
+<button class="flex items-center justify-center gap-2 rounded-lg h-9 px-4 bg-surface-lighter hover:bg-[#363245] transition-colors text-white text-sm font-semibold">
+<span class="material-symbols-outlined text-[18px]">ios_share</span>
+<span class="hidden md:inline">Export</span>
+</button>
+</div>
+<div class="flex items-center gap-3 pl-3 border-l border-border-dark">
+<div class="flex flex-col items-end hidden md:flex">
+<span class="text-xs font-medium text-emerald-400">Saved</span>
+</div>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 ring-2 ring-surface-lighter cursor-pointer" data-alt="User profile avatar showing a fantasy character portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB6nKTqFLscVP3InUccWgQJKMRuMSI8DimaLsoYvQKNYvLGtPvjRpzFvR6NaJ6gUcI0hh4ZWFX--PUkFy_LIdG7nQk-fFlWwCCJjoT4sVEz3DSgtspLDSUMPNQRDXZK4jrSzrUHDiyF6kv4p0iNSSUJWPvx61fBAJsig9DiJqkweBPoKwMMWLR6qwvHW7KR08RR1BDbx8kCCrQLGE38SQS6Eg0qKDfkSWnt7HBikedIPH4EYI0nThs2zsIl4sN9XATCqcDc_OrqqKw");'>
+</div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden relative">
+<aside class="w-64 bg-surface-dark border-r border-border-dark flex flex-col shrink-0 z-10">
+<div class="p-3 border-b border-border-dark">
+<button class="flex w-full items-center justify-between gap-2 px-2 py-1.5 rounded-md bg-surface-lighter border border-white/5 hover:border-white/10 transition-colors">
+<div class="flex items-center gap-2 overflow-hidden">
+<div class="size-5 rounded bg-primary/20 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">swords</span>
+</div>
+<span class="text-white text-sm font-medium truncate">Curse of Strahd</span>
+</div>
+<span class="material-symbols-outlined text-[#a19db9] text-[20px]">expand_more</span>
+</button>
+</div>
+<div class="p-2 flex-1 overflow-y-auto">
+<div class="space-y-0.5">
+<button class="flex w-full items-center gap-3 px-2 py-2 rounded-md hover:bg-surface-lighter text-left group">
+<span class="material-symbols-outlined text-[#a19db9] text-[20px] group-hover:text-white transition-colors">grid_view</span>
+<span class="text-[#a19db9] group-hover:text-white text-sm font-medium transition-colors">Overview</span>
+</button>
+</div>
+<div class="mt-4 mb-2 px-2">
+<h3 class="text-[#5f5b74] text-xs font-bold uppercase tracking-wider">Campaign Content</h3>
+</div>
+<div class="space-y-1">
+<div>
+<button class="flex w-full items-center gap-2 px-2 py-1.5 rounded-md hover:bg-surface-lighter text-left group">
+<span class="material-symbols-outlined text-[#a19db9] text-[20px] group-hover:text-white transition-colors">chevron_right</span>
+<span class="material-symbols-outlined text-amber-500 text-[18px]">folder</span>
+<span class="text-white text-sm font-medium">Chapter 1: The Mist</span>
+</button>
+</div>
+<div>
+<button class="flex w-full items-center gap-2 px-2 py-1.5 rounded-md hover:bg-surface-lighter text-left group">
+<span class="material-symbols-outlined text-[#a19db9] text-[20px] group-hover:text-white transition-colors">expand_more</span>
+<span class="material-symbols-outlined text-amber-500 text-[18px]">folder_open</span>
+<span class="text-white text-sm font-medium">Chapter 2: Vallaki</span>
+</button>
+<div class="pl-3 mt-1 ml-2 border-l border-white/10 space-y-1">
+<div>
+<button class="flex w-full items-center gap-2 px-2 py-1.5 rounded-md hover:bg-surface-lighter text-left group">
+<span class="material-symbols-outlined text-[#a19db9] text-[20px] group-hover:text-white transition-colors">expand_more</span>
+<span class="material-symbols-outlined text-blue-400 text-[18px]">book</span>
+<span class="text-[#a19db9] group-hover:text-white text-sm font-medium">The Bones</span>
+</button>
+<div class="pl-6 flex flex-col gap-0.5 mt-1">
+<button class="flex w-full items-center gap-2 px-2 py-1.5 rounded-md hover:bg-surface-lighter text-left text-[#a19db9] hover:text-white">
+<span class="material-symbols-outlined text-[16px]">description</span>
+<span class="text-sm">Meeting Father Lucian</span>
+</button>
+<button class="flex w-full items-center gap-2 px-2 py-1.5 rounded-md hover:bg-surface-lighter text-left text-[#a19db9] hover:text-white">
+<span class="material-symbols-outlined text-[16px]">description</span>
+<span class="text-sm">Investigating the Crypt</span>
+</button>
+</div>
+</div>
+<div>
+<button class="flex w-full items-center gap-2 px-2 py-1.5 rounded-md hover:bg-surface-lighter text-left group">
+<span class="material-symbols-outlined text-[#a19db9] text-[20px] group-hover:text-white transition-colors">expand_more</span>
+<span class="material-symbols-outlined text-blue-400 text-[18px]">book</span>
+<span class="text-[#a19db9] group-hover:text-white text-sm font-medium">Ambush at Bridge</span>
+</button>
+<div class="pl-6 flex flex-col gap-0.5 mt-1">
+<button class="flex w-full items-center gap-2 px-2 py-1.5 rounded-md hover:bg-surface-lighter text-left text-[#a19db9] hover:text-white">
+<span class="material-symbols-outlined text-[16px]">description</span>
+<span class="text-sm">The Setup</span>
+</button>
+<button class="flex w-full items-center gap-2 px-2 py-1.5 rounded-md bg-surface-lighter text-left text-white relative">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 bg-primary rounded-r"></div>
+<span class="material-symbols-outlined text-[16px] text-primary">edit_document</span>
+<span class="text-sm font-medium">The Ambush</span>
+</button>
+<button class="flex w-full items-center gap-2 px-2 py-1.5 rounded-md hover:bg-surface-lighter text-left text-[#a19db9] hover:text-white">
+<span class="material-symbols-outlined text-[16px]">description</span>
+<span class="text-sm">Aftermath</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-6 mb-2 px-2">
+<h3 class="text-[#5f5b74] text-xs font-bold uppercase tracking-wider">World Data</h3>
+</div>
+<div class="space-y-0.5">
+<button class="flex w-full items-center gap-3 px-2 py-2 rounded-md hover:bg-surface-lighter text-left group">
+<span class="material-symbols-outlined text-[#a19db9] text-[20px]">map</span>
+<span class="text-[#a19db9] group-hover:text-white text-sm font-medium transition-colors">Maps</span>
+</button>
+<button class="flex w-full items-center gap-3 px-2 py-2 rounded-md hover:bg-surface-lighter text-left group">
+<span class="material-symbols-outlined text-[#a19db9] text-[20px]">person</span>
+<span class="text-[#a19db9] group-hover:text-white text-sm font-medium transition-colors">Entities &amp; NPCs</span>
+</button>
+<button class="flex w-full items-center gap-3 px-2 py-2 rounded-md hover:bg-surface-lighter text-left group">
+<span class="material-symbols-outlined text-[#a19db9] text-[20px]">swords</span>
+<span class="text-[#a19db9] group-hover:text-white text-sm font-medium transition-colors">Encounters</span>
+</button>
+<button class="flex w-full items-center gap-3 px-2 py-2 rounded-md hover:bg-surface-lighter text-left group">
+<span class="material-symbols-outlined text-[#a19db9] text-[20px]">backpack</span>
+<span class="text-[#a19db9] group-hover:text-white text-sm font-medium transition-colors">Items &amp; Loot</span>
+</button>
+</div>
+</div>
+<div class="p-3 border-t border-border-dark mt-auto">
+<button class="flex w-full items-center gap-3 px-2 py-2 rounded-md hover:bg-surface-lighter text-left text-[#a19db9] hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-sm font-medium">Campaign Settings</span>
+</button>
+</div>
+</aside>
+<main class="flex-1 overflow-y-auto bg-background-dark relative scroll-smooth">
+<div class="max-w-[850px] mx-auto px-8 py-8 pb-32 min-h-full flex flex-col">
+<nav class="flex flex-wrap gap-2 mb-4 text-sm">
+<a class="text-[#a19db9] hover:text-white hover:underline transition-colors" href="#">Chapter 2</a>
+<span class="text-[#a19db9] font-medium">/</span>
+<a class="text-[#a19db9] hover:text-white hover:underline transition-colors" href="#">Ambush at Bridge</a>
+<span class="text-[#a19db9] font-medium">/</span>
+<span class="text-white font-medium">The Ambush</span>
+</nav>
+<div class="mb-6">
+<h1 class="text-4xl font-bold text-white tracking-tight mb-4 outline-none empty:before:content-[attr(placeholder)] empty:before:text-gray-500" contenteditable="true">The Ambush at Blackwood Bridge</h1>
+<div class="flex flex-wrap gap-2">
+<div class="flex h-7 items-center justify-center gap-x-2 rounded-full bg-red-500/10 border border-red-500/20 px-3">
+<div class="size-1.5 rounded-full bg-red-500"></div>
+<p class="text-red-400 text-xs font-semibold uppercase tracking-wide">Combat</p>
+</div>
+<div class="flex h-7 items-center justify-center gap-x-2 rounded-full bg-green-500/10 border border-green-500/20 px-3">
+<div class="size-1.5 rounded-full bg-green-500"></div>
+<p class="text-green-400 text-xs font-semibold uppercase tracking-wide">Forest</p>
+</div>
+<div class="flex h-7 items-center justify-center gap-x-2 rounded-full bg-surface-lighter border border-white/5 px-3">
+<p class="text-[#a19db9] text-xs font-medium">Level 4 Party</p>
+</div>
+<button class="h-7 w-7 flex items-center justify-center rounded-full bg-surface-lighter hover:bg-[#363245] text-[#a19db9] hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+</div>
+<div class="sticky top-0 z-10 mx-[-20px] px-[20px] pt-2 pb-4 bg-background-dark/95 backdrop-blur-sm transition-all">
+<div class="flex items-center gap-1 p-1 bg-surface-lighter rounded-lg border border-white/5 shadow-lg w-fit">
+<div class="flex items-center gap-0.5 px-1 border-r border-white/10 pr-2 mr-1">
+<button class="p-1.5 rounded hover:bg-white/10 text-white" title="Heading 1"><span class="font-bold text-sm">H1</span></button>
+<button class="p-1.5 rounded hover:bg-white/10 text-[#a19db9] hover:text-white" title="Heading 2"><span class="font-bold text-sm">H2</span></button>
+</div>
+<button class="p-1.5 rounded hover:bg-white/10 text-white" title="Bold"><span class="material-symbols-outlined text-[20px]">format_bold</span></button>
+<button class="p-1.5 rounded hover:bg-white/10 text-[#a19db9] hover:text-white" title="Italic"><span class="material-symbols-outlined text-[20px]">format_italic</span></button>
+<button class="p-1.5 rounded hover:bg-white/10 text-[#a19db9] hover:text-white" title="Underline"><span class="material-symbols-outlined text-[20px]">format_underlined</span></button>
+<div class="w-px h-5 bg-white/10 mx-1"></div>
+<button class="p-1.5 rounded hover:bg-white/10 text-[#a19db9] hover:text-white" title="Quote"><span class="material-symbols-outlined text-[20px]">format_quote</span></button>
+<button class="p-1.5 rounded hover:bg-white/10 text-primary" title="Read Aloud Block"><span class="material-symbols-outlined text-[20px]">campaign</span></button>
+<button class="p-1.5 rounded hover:bg-white/10 text-[#a19db9] hover:text-white" title="Insert Image"><span class="material-symbols-outlined text-[20px]">image</span></button>
+<div class="w-px h-5 bg-white/10 mx-1"></div>
+<button class="p-1.5 rounded hover:bg-white/10 text-[#a19db9] hover:text-white" title="More"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</div>
+</div>
+<article class="editor-content text-lg leading-relaxed text-[#c4c0d6] min-h-[500px] outline-none" contenteditable="true">
+<div class="read-aloud">
+                        "As you step onto the ancient timbers of Blackwood Bridge, the forest sounds abruptly cease. The rushing water below seems unusually loud, masking the snap of twigs on the far bank. A heavy mist begins to coil around your ankles, cold and unnatural."
+                    </div>
+<p>
+                        The bridge is approximately 40 feet long and 10 feet wide. It is slick with moss and moisture from the river below. Any character moving more than half speed must succeed on a <strong>DC 12 Dexterity (Acrobatics)</strong> check or fall prone.
+                    </p>
+<p>
+<span class="mention" contenteditable="false">@Old Man Ricket</span> warned the party about this crossing. If they remembered his advice about the "creaking plank," they might spot the trap.
+                    </p>
+<h2>The Ambush</h2>
+<p>
+                        Hiding in the dense foliage on the northern bank are three <span class="mention" contenteditable="false">@Goblin Archer</span> units and one <span class="mention" contenteditable="false">@Goblin Shaman</span>. They have total cover until they attack.
+                    </p>
+<p>
+<strong>Tactic:</strong> The archers will focus fire on the character carrying the <span class="mention" contenteditable="false">@Moonstone Lantern</span>, recognizing it as a source of magical power. The Shaman will attempt to cast <em>Entangle</em> on the bridge itself to trap the party in the open.
+                    </p>
+<div class="my-8 rounded-xl overflow-hidden border border-border-dark relative group">
+<img alt="Top down fantasy map of a forest bridge crossing" class="w-full object-cover h-[350px]" data-alt="Top down map of a wooden bridge crossing a river in a dark forest" data-location="Blackwood Forest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIST12q7c6IGiqxbFO2ywx7v5ADG5UL2yFRuQGSt1yeopI5JAQ4lYA7NX0LTXLTAoiNeLcRokQRjTYa67Yh971prA2gFa-6JVINS1k-IKKkbUdb_4To6kZmjQYXfCrlT5jqHXFwyyi36R6vkIdw9SSKkDSKjJgj7bh6xNNpX4HX6VmW95RflyQd39E-LtkCdddDLe7QGwlQml9b-vcEnGsRm0EO9tIsoaCpgWvrlvvqTRLEGV4M5YtqtOpm_3NLvvuGwM5-JPvkkc"/>
+<div class="absolute bottom-3 right-3 bg-black/70 backdrop-blur px-2 py-1 rounded text-xs text-white">Map: Blackwood Crossing</div>
+</div>
+<h2>Treasure &amp; Loot</h2>
+<p>
+                        If the party investigates the Shaman's pouch, they will find 45gp and a <span class="mention" contenteditable="false">@Ring of Protection</span> that seems to be made of twisted roots.
+                    </p>
+<p class="text-slate-500 italic">Start typing '/' for commands or '@' to link entities...</p>
+</article>
+</div>
+</main>
+<aside class="w-80 bg-surface-dark border-l border-border-dark flex flex-col shrink-0 overflow-y-auto hidden xl:flex">
+<div class="p-5 border-b border-border-dark">
+<h4 class="text-xs font-bold text-[#a19db9] uppercase tracking-wider mb-4">Atmosphere</h4>
+<div class="flex gap-3 mb-4">
+<div class="size-16 rounded-lg bg-cover bg-center shrink-0 border border-white/10" data-alt="Abstract moody purple and blue smoke" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCFTDaj6nGAN9bpyJ-yU9DAlGw_VYicRfclIP4A1tguSpvGHXUjLkp9dfqP0PLbV2hBpz4JCW3EIpcWIWDcvKhb4k3AGwLHEF3oPDuc2kmosXV9Qt5amE9otdZfxZywxe3lYBUfhXucCxC_dbvonzrEAuUFCJH4EBNZ31GX2zbw_4xeuf2t88zu503WzTORwan6Tq76hd-21jgdTVXLKeVZDJuBuYtGffFxnJumaCxqZxahmEq7cs1eA53dWbrss2FJRwbi6wAa9qY')">
+</div>
+<div class="flex flex-col justify-center">
+<span class="text-white text-sm font-medium">Dark Woods Ambience</span>
+<span class="text-[#a19db9] text-xs">Playing • Volume 40%</span>
+<div class="flex gap-2 mt-2">
+<button class="text-white hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">pause_circle</span></button>
+<button class="text-[#a19db9] hover:text-white transition-colors"><span class="material-symbols-outlined text-[20px]">skip_next</span></button>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 py-1.5 bg-surface-lighter hover:bg-[#363245] rounded text-xs text-white font-medium border border-white/5 transition-colors">Change Music</button>
+<button class="flex-1 py-1.5 bg-surface-lighter hover:bg-[#363245] rounded text-xs text-white font-medium border border-white/5 transition-colors">Set Image</button>
+</div>
+</div>
+<div class="p-5 border-b border-border-dark">
+<div class="flex items-center justify-between mb-4">
+<h4 class="text-xs font-bold text-[#a19db9] uppercase tracking-wider">Active Encounter</h4>
+<span class="px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 text-[10px] font-bold border border-red-500/30">HARD</span>
+</div>
+<div class="bg-surface-lighter rounded-lg p-3 border border-white/5 hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="flex items-center gap-3 mb-3">
+<div class="size-10 bg-red-900/40 rounded-md flex items-center justify-center text-red-400">
+<span class="material-symbols-outlined">swords</span>
+</div>
+<div>
+<div class="text-white font-bold text-sm">Bridge Ambush</div>
+<div class="text-[#a19db9] text-xs">CR 5 • 850 XP</div>
+</div>
+<span class="material-symbols-outlined text-[#a19db9] ml-auto group-hover:text-primary transition-colors">edit</span>
+</div>
+<div class="space-y-2">
+<div class="flex items-center justify-between text-xs">
+<span class="text-white">3x Goblin Archer</span>
+<span class="text-[#a19db9]">HP 7</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="text-white">1x Goblin Shaman</span>
+<span class="text-[#a19db9]">HP 18</span>
+</div>
+</div>
+<button class="w-full mt-3 py-1.5 bg-primary hover:bg-primary/90 rounded text-xs text-white font-bold transition-colors">Run Encounter</button>
+</div>
+</div>
+<div class="p-5 flex-1">
+<h4 class="text-xs font-bold text-[#a19db9] uppercase tracking-wider mb-4">Mentioned Entities</h4>
+<div class="flex flex-col gap-3">
+<div class="flex items-start gap-3 p-2 rounded hover:bg-surface-lighter transition-colors cursor-pointer group">
+<div class="size-8 rounded-full bg-cover bg-center shrink-0" data-alt="Portrait of an old man NPC" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDgzOtwbwari7QCiCZedo891TvC0N0YucdLN0fzg5C98dhIeBXMKvS_UlwC1A3zf6oIM5ynNsCr36KRVfxHyMtNHRhUsH9uK29N-Fvjx5DyEAZfRTkwLwR57QE0hxkWNpClbHqjoLhAtfmAU6xpP2X5J_p84qiIZ1aPaMKOoYZZL8_OhERMuTAwi7RnRhl4zpDZqV7RgEiK56J3FEwKBUJ0-xciMXcXWDO1iRusuJo5w5P54_g_Hu6RdcicuW9xJ55FD3B7HOLDsCc')"></div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<p class="text-sm font-medium text-white truncate group-hover:text-primary">Old Man Ricket</p>
+<span class="material-symbols-outlined text-[16px] text-[#555] group-hover:text-[#a19db9]">open_in_new</span>
+</div>
+<p class="text-xs text-[#a19db9]">NPC • Friendly</p>
+</div>
+</div>
+<div class="flex items-start gap-3 p-2 rounded hover:bg-surface-lighter transition-colors cursor-pointer group">
+<div class="size-8 rounded bg-surface-lighter flex items-center justify-center shrink-0 text-red-400">
+<span class="material-symbols-outlined text-[18px]">bug_report</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<p class="text-sm font-medium text-white truncate group-hover:text-primary">Goblin Shaman</p>
+<span class="material-symbols-outlined text-[16px] text-[#555] group-hover:text-[#a19db9]">open_in_new</span>
+</div>
+<p class="text-xs text-[#a19db9]">Monster • CR 1/4</p>
+</div>
+</div>
+<div class="flex items-start gap-3 p-2 rounded hover:bg-surface-lighter transition-colors cursor-pointer group">
+<div class="size-8 rounded bg-surface-lighter flex items-center justify-center shrink-0 text-amber-400">
+<span class="material-symbols-outlined text-[18px]">diamond</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<p class="text-sm font-medium text-white truncate group-hover:text-primary">Ring of Protection</p>
+<span class="material-symbols-outlined text-[16px] text-[#555] group-hover:text-[#a19db9]">open_in_new</span>
+</div>
+<p class="text-xs text-[#a19db9]">Item • Rare</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+
+</body></html>

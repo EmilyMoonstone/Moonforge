@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MoonForge Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;900&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3211d4",
+                        "primary-hover": "#260ca3",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131022",
+                        "surface-dark": "#1d1c2a",
+                        "surface-border": "#2e2b3d"
+                    },
+                    fontFamily: {
+                        "display": ["Be Vietnam Pro", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-gray-100 min-h-screen flex items-center justify-center p-4">
+<!-- Main Container Card -->
+<div class="w-full max-w-[1200px] h-[800px] max-h-[90vh] bg-white dark:bg-surface-dark rounded-xl shadow-2xl flex overflow-hidden border border-gray-200 dark:border-surface-border">
+<!-- Left Side: Hero Image (Hidden on small screens) -->
+<div class="hidden lg:flex lg:w-1/2 relative bg-gray-900">
+<!-- Background Image -->
+<div class="absolute inset-0 w-full h-full bg-cover bg-center" data-alt="Mystical blue glowing forge in a dark cave" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAmE0q4llAZwCwsGylIdX1YK360iuMZOqwiXMl2qEn2ArLF7mNIcDbQsZty2RjGMfkka_Nt8AWHf42Ca7w2rfgQeN2jAwzv2y_YnAYdXCRCYej9VgS9uKQVjsz0I2hhWZ8WColj7heHltouLBzf7y1CeQbU7ESN3WOwwuSoEA1zHYEEYxFLlpWUwTR2z4KQMEQwlkVpQpCEyXJguZk6WMHc51KT--P7fuiO6gvVc2BJUiVovQ42VsyYB7GAON119aze8rv3ZFaN5uY");'>
+</div>
+<!-- Overlay Gradient -->
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent opacity-80 mix-blend-multiply"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-background-dark/40 to-background-dark/90"></div>
+<!-- Content Overlay -->
+<div class="relative z-10 flex flex-col justify-between p-12 h-full text-white">
+<div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-4xl text-blue-400">swords</span>
+<span class="text-2xl font-bold tracking-tight">MoonForge</span>
+</div>
+</div>
+<div>
+<h2 class="text-4xl font-bold leading-tight mb-4 text-white">Forge Your Legend. <br/>Control Your Destiny.</h2>
+<p class="text-gray-300 text-lg max-w-md">Join thousands of dungeon masters and adventurers managing their campaigns with the power of the moon.</p>
+<div class="flex items-center gap-4 mt-8">
+<div class="flex -space-x-3">
+<img alt="User avatar" class="w-10 h-10 rounded-full border-2 border-primary" data-alt="Portrait of a female adventurer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9xVEMz2Kujsn2A_KGf2dCqXNCiRnivMt-2_Q8tFjiFHyTPwllOzPSibcHR_A5Qb6PlUxUExh_HZcPnk5_rSm3gYPUnj0CxFNYDZA_BtIXXdBK8avobHka9N02UZx_bJJeqVlwrDnC-6j4PkIuu2GkrgB55rsSnG0RNQegI7AsyIPIwVnVxYmTlIGxIFexdkd1qlPNLBu5XrLsFRoD6gRpoFv3PJM763JOws-Z7ShDnAMjaRef5fhfYstzii8XBASJJsve-yI1rKE"/>
+<img alt="User avatar" class="w-10 h-10 rounded-full border-2 border-primary" data-alt="Portrait of a male adventurer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-oUQdRJxqrYG9gRecHJ_Aicou_uoy-4zT64wrb2dq4EDrYFRzkVkfqUQfFNPvMS1MHRYjsrqvMmyrGXYVbNMWfubeULayYJbf34aOAGLZAAKfI-AsE0mXdroirGIHAW1lvnXdhAkrR8N311ovcNrGJBZYJ5_pEzSfyi2NoD0Ba_dubXX2Lwo22yeVQ7xWEPE6Q4HqmHHOIpfv-oNhdH-Qbaem8OBjlomqGGRTCH2R9iZqoeEKtsyk_TMZLieNWTc6nn8nwoE68eU"/>
+<img alt="User avatar" class="w-10 h-10 rounded-full border-2 border-primary" data-alt="Portrait of a smiling user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuRJ8h9bMZ0js2eE0cGJWHHB16sKJ0uVffLwgjN5J3uS9DrdTUOYcnHmuVrG6Mtjqhi6gmP6uEA7Nfr489_L68IGKtdz5fSFEqYgmHa5uvwvKf6Kb2U7nv-7mSO_Z_PWNi_Dh4u1dRxnhzd6J0ZU5VQitO9hqqqmXhhNYLmODoKbrecn_mX8QOVFiG4o_ZNmW5BKlGZNp6J6QhHk90RPZ-oXE-UZCCo0gJ-0vceMw5h5SjlHgGJ5dBhWz6pSyC0dtLkLXBF_NYkNA"/>
+</div>
+<p class="text-sm font-medium text-blue-200">10k+ Legends Created</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side: Forms -->
+<div class="w-full lg:w-1/2 flex flex-col relative bg-white dark:bg-[#131022]">
+<!-- Mobile Header Logo (Visible only on small screens) -->
+<div class="lg:hidden p-6 pb-0 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-3xl text-primary">swords</span>
+<span class="text-xl font-bold tracking-tight dark:text-white">MoonForge</span>
+</div>
+<div class="flex-1 overflow-y-auto px-8 py-10 md:px-16 md:py-12 flex flex-col justify-center">
+<div class="mb-8 text-center">
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Welcome Back</h1>
+<p class="text-gray-500 dark:text-gray-400">Enter your credentials to access the realm.</p>
+</div>
+<!-- Tab Switcher -->
+<div class="flex p-1 mb-8 bg-gray-100 dark:bg-[#1d1c2a] rounded-lg relative">
+<!-- This is a purely visual toggle simulation for the design. In a real app, JS handles state. -->
+<label class="flex-1 text-center cursor-pointer relative z-10">
+<input checked="" class="peer sr-only" name="auth-mode" type="radio" value="login"/>
+<div class="py-2.5 px-4 rounded-md text-sm font-medium text-gray-500 transition-all peer-checked:bg-white peer-checked:text-primary peer-checked:shadow-sm dark:peer-checked:bg-[#2e2b3d] dark:peer-checked:text-white dark:text-gray-400">
+                            Login
+                        </div>
+</label>
+<label class="flex-1 text-center cursor-pointer relative z-10">
+<input class="peer sr-only" name="auth-mode" type="radio" value="signup"/>
+<div class="py-2.5 px-4 rounded-md text-sm font-medium text-gray-500 transition-all peer-checked:bg-white peer-checked:text-primary peer-checked:shadow-sm dark:peer-checked:bg-[#2e2b3d] dark:peer-checked:text-white dark:text-gray-400">
+                            Sign Up
+                        </div>
+</label>
+</div>
+<!-- Login Form -->
+<form class="space-y-5" onsubmit="event.preventDefault();">
+<div class="space-y-2">
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Adventurer Name or Email
+                        </label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 material-symbols-outlined text-[20px]">person</span>
+<input class="w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-[#1d1c27] border border-gray-200 dark:border-[#3f3b54] rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500" placeholder="Gandalf@shire.com" type="text"/>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Secret Phrase
+                            </label>
+<a class="text-xs font-medium text-primary hover:text-primary-hover hover:underline" href="#">Forgot phrase?</a>
+</div>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 material-symbols-outlined text-[20px]">lock</span>
+<input class="w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-[#1d1c27] border border-gray-200 dark:border-[#3f3b54] rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility_off</span>
+</button>
+</div>
+</div>
+<button class="w-full py-3.5 px-4 bg-primary hover:bg-primary-hover text-white font-semibold rounded-lg shadow-lg shadow-primary/25 transition-all active:scale-[0.98] flex items-center justify-center gap-2 group" type="submit">
+<span>Open the Gate</span>
+<span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</form>
+<!-- Divider -->
+<div class="relative my-8">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-gray-200 dark:border-gray-700"></div>
+</div>
+<div class="relative flex justify-center text-sm">
+<span class="px-3 bg-white dark:bg-[#131022] text-gray-500 dark:text-gray-400 font-medium">Or venture forth with</span>
+</div>
+</div>
+<!-- Social Login -->
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-2 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-[#1d1c2a] transition-colors group">
+<img alt="Google" class="w-5 h-5" data-alt="Google G logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6nglrZ7Hi9Tsunra-irp0dl_bsrDiUWQj3KNzP5qfVp2-dc94PpFwz4tbfo8P0OFaA4WzLwKxUsNcov1wbbbs6cboNjYd8Ohs2HI-BjaQPz2DC7n90PQ8vW8Dij_4hfDBwWeuyytAKJkUCCaO57CVXXsUk9pgV9r2dd2ULg5NX6LiEYATXtjzPFEPTyEC4vcFvBVCZwOXOVcP6o_MHgcW9gMCcrD0FdnTVwzohc-w5OCHDJ5jS7W3at6HMyntuSCEB0_e5pJoUh8"/>
+<span class="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">Google</span>
+</button>
+<button class="flex items-center justify-center gap-2 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-[#1d1c2a] transition-colors group">
+<img alt="Discord" class="w-5 h-5" data-alt="Discord controller logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfDneaUpY3J5NbwmI5LSpvpIzBvpliZ_2J0Ty95y-_oegObQ5UoRNj1-B21hVsntvkW91kzZYxmpQIpyiNx0mvSDtPyhMZDmdOI26KH5MVWCtFLQ2ufo0aeHsKI2tjWPa3vS0AjgSYXrrYovh-S2BlGCU5y4pdHmqdwFX8gN_MXDq_zXO5yXDodL2wqrdUm2nd59SRhiD9AyVRyo37WDSvVdrXOt-4W210wJW7cKWE0Fmx6gTPi6xo9V_7TouUP2S0S15vipgp46Q"/>
+<span class="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">Discord</span>
+</button>
+</div>
+</div>
+<!-- Footer area -->
+<div class="p-6 text-center text-xs text-gray-400 dark:text-gray-500 border-t border-gray-100 dark:border-gray-800">
+<p>© 2023 MoonForge. All rights reserved.</p>
+<div class="flex justify-center gap-4 mt-2">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+</div>
+</body></html>

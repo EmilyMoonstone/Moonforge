@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MoonForge - Campaign Maps</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3211d4",
+                        "primary-light": "#5a3ae0",
+                        "primary-dark": "#210b96",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131022",
+                        "surface-dark": "#1c182e",
+                        "surface-light": "#26213b",
+                        "border-dark": "#2f2b45",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131022; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2f2b45; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3211d4; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white h-screen flex flex-col overflow-hidden font-display selection:bg-primary selection:text-white">
+<!-- Top Navigation Bar -->
+<header class="h-16 shrink-0 border-b border-border-dark bg-surface-dark px-6 flex items-center justify-between z-20">
+<div class="flex items-center gap-4">
+<div class="size-8 text-primary flex items-center justify-center">
+<svg class="size-8" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z"></path>
+</svg>
+</div>
+<h1 class="text-xl font-bold tracking-tight">MoonForge</h1>
+</div>
+<nav class="hidden md:flex items-center gap-1">
+<a class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors" href="#">Dashboard</a>
+<a class="px-4 py-2 text-sm font-medium text-white bg-white/10 rounded-lg transition-colors" href="#">Campaign</a>
+<a class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors" href="#">Compendium</a>
+<a class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors" href="#">Groups</a>
+<a class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-gray-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="size-9 rounded-full bg-cover bg-center ring-2 ring-primary/30" data-alt="User profile avatar showing a fantasy character" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCZVOQn3XpE-Ki4vSBlhDi_KOEub4Xhfh8o0Uhxov9AIL1HK81Hkik-7trpjMo83W2BjZmVtApNJlSSOZStEk5KhiFN5UA9vFfl6QhI8ce6oeURC0fEOruoCECdxx1BgzFdRW3yJZIJ-mQafuZzKQ5Q1nwVf1RicsY0HpcPNfTuIAqzT4FGmih5BTilPHFCA8hCYSxkmBIOhzE3veyFLb-tJ2kALWe5QDHNZjfzGoQ6IS-LJEEMmeo8x3XQWM_GvFO_smfLEV1yNaE');">
+</div>
+</div>
+</header>
+<!-- Main Layout -->
+<div class="flex flex-1 overflow-hidden">
+<!-- Sidebar: Campaign Explorer -->
+<aside class="w-64 bg-background-dark border-r border-border-dark flex flex-col shrink-0">
+<div class="p-4 border-b border-border-dark flex items-center justify-between">
+<span class="text-sm font-semibold text-gray-300 uppercase tracking-wider">Explorer</span>
+<button class="text-gray-400 hover:text-white hover:bg-white/10 rounded p-1 transition-colors">
+<span class="material-symbols-outlined text-[20px]">add_box</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-3 space-y-1">
+<!-- Search Input in Sidebar -->
+<div class="mb-4 relative">
+<span class="material-symbols-outlined absolute left-2.5 top-2 text-gray-500 text-[18px]">search</span>
+<input class="w-full bg-surface-dark border border-border-dark rounded-lg py-1.5 pl-9 pr-3 text-sm text-gray-300 placeholder-gray-600 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Search..." type="text"/>
+</div>
+<!-- Tree View -->
+<div class="space-y-1">
+<div class="group flex items-center gap-2 px-2 py-1.5 rounded-lg bg-surface-light text-white cursor-pointer border border-border-dark">
+<span class="material-symbols-outlined text-primary text-[20px] transition-transform">folder_open</span>
+<span class="text-sm font-medium truncate">Act 1: The Beginning</span>
+</div>
+<div class="pl-4 space-y-1 border-l border-border-dark ml-3 mt-1">
+<div class="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-primary/20 text-white cursor-pointer">
+<span class="material-symbols-outlined text-primary-light text-[20px]">map</span>
+<span class="text-sm font-medium truncate">Kingdom of Aethelgard</span>
+</div>
+<div class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-gray-400 hover:bg-white/5 hover:text-white cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-[20px]">folder</span>
+<span class="text-sm truncate">Phandalin</span>
+</div>
+<div class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-gray-400 hover:bg-white/5 hover:text-white cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-[20px]">folder</span>
+<span class="text-sm truncate">Cragmaw Hideout</span>
+</div>
+</div>
+</div>
+<div class="space-y-1 pt-2">
+<div class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-gray-400 hover:bg-white/5 hover:text-white cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-gray-500 text-[20px]">folder</span>
+<span class="text-sm truncate">Act 2: The Journey</span>
+</div>
+<div class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-gray-400 hover:bg-white/5 hover:text-white cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-gray-500 text-[20px]">folder</span>
+<span class="text-sm truncate">Side Quests</span>
+</div>
+<div class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-gray-400 hover:bg-white/5 hover:text-white cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-gray-500 text-[20px]">folder</span>
+<span class="text-sm truncate">Unsorted Maps</span>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-border-dark">
+<div class="bg-surface-light rounded-lg p-3 border border-border-dark">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-semibold text-gray-400">STORAGE</span>
+<span class="text-xs text-primary-light">75%</span>
+</div>
+<div class="w-full bg-background-dark rounded-full h-1.5">
+<div class="bg-primary h-1.5 rounded-full" style="width: 75%"></div>
+</div>
+<p class="text-xs text-gray-500 mt-2">1.5GB of 2GB used</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 bg-background-dark relative overflow-hidden">
+<!-- Page Header -->
+<div class="px-8 py-6 border-b border-border-dark bg-background-dark flex flex-wrap gap-4 items-center justify-between shrink-0">
+<div>
+<div class="flex items-center gap-2 text-sm text-gray-500 mb-1">
+<span>Campaigns</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span>Act 1</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-white">Maps</span>
+</div>
+<h2 class="text-3xl font-bold text-white tracking-tight">Atlas: Kingdom of Aethelgard</h2>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-border-dark bg-surface-light text-white text-sm font-semibold hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[18px]">create_new_folder</span>
+<span>New Folder</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary hover:bg-primary-light text-white text-sm font-semibold shadow-lg shadow-primary/20 transition-all">
+<span class="material-symbols-outlined text-[20px]">cloud_upload</span>
+<span>Upload Map</span>
+</button>
+</div>
+</div>
+<!-- Toolbar & Filters -->
+<div class="px-8 py-4 flex flex-col md:flex-row gap-4 justify-between items-center border-b border-border-dark bg-background-dark/50 backdrop-blur-sm shrink-0 z-10">
+<!-- Chips -->
+<div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide w-full md:w-auto">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/20 border border-primary/30 text-primary-light text-sm font-medium whitespace-nowrap transition-colors">
+                        All Maps
+                    </button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-light hover:bg-white/5 border border-border-dark text-gray-400 hover:text-white text-sm font-medium whitespace-nowrap transition-colors">
+<span class="material-symbols-outlined text-[16px]">public</span> World
+                    </button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-light hover:bg-white/5 border border-border-dark text-gray-400 hover:text-white text-sm font-medium whitespace-nowrap transition-colors">
+<span class="material-symbols-outlined text-[16px]">location_city</span> City
+                    </button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-light hover:bg-white/5 border border-border-dark text-gray-400 hover:text-white text-sm font-medium whitespace-nowrap transition-colors">
+<span class="material-symbols-outlined text-[16px]">swords</span> Battle
+                    </button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-light hover:bg-white/5 border border-border-dark text-gray-400 hover:text-white text-sm font-medium whitespace-nowrap transition-colors">
+<span class="material-symbols-outlined text-[16px]">grid_view</span> Dungeons
+                    </button>
+</div>
+<!-- Right Controls -->
+<div class="flex items-center gap-3 w-full md:w-auto justify-end">
+<div class="flex items-center bg-surface-light border border-border-dark rounded-lg p-1">
+<button class="p-1.5 rounded hover:bg-white/10 text-white bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">grid_view</span>
+</button>
+<button class="p-1.5 rounded hover:bg-white/10 text-gray-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">view_list</span>
+</button>
+</div>
+<div class="h-6 w-px bg-border-dark"></div>
+<button class="text-sm font-medium text-gray-400 hover:text-white flex items-center gap-1">
+                        Sort by: Date <span class="material-symbols-outlined text-[16px]">arrow_drop_down</span>
+</button>
+</div>
+</div>
+<!-- Scrollable Grid Content -->
+<div class="flex-1 overflow-y-auto p-8">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Card 1: Selected Map -->
+<div class="group relative flex flex-col bg-surface-light rounded-xl border-2 border-primary shadow-xl overflow-hidden hover:translate-y-[-2px] transition-all duration-300">
+<div class="relative aspect-video w-full overflow-hidden bg-gray-900">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A detailed parchment style map of a fantasy continent with mountains and forests" data-location="Aethelgard" style="background-image: url('https://placeholder.pics/svg/300');">
+</div>
+<!-- Selection Overlay -->
+<div class="absolute inset-0 bg-primary/10 pointer-events-none"></div>
+<!-- Badges -->
+<div class="absolute top-3 left-3 flex flex-wrap gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-600/90 text-white uppercase tracking-wider backdrop-blur-sm shadow-sm">World</span>
+</div>
+<!-- Actions Overlay (Visible on Hover) -->
+<div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-[2px]">
+<button class="size-10 rounded-full bg-white text-gray-900 hover:bg-primary hover:text-white flex items-center justify-center transition-colors shadow-lg" title="Edit Map">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="size-10 rounded-full bg-white text-gray-900 hover:bg-primary hover:text-white flex items-center justify-center transition-colors shadow-lg" title="View Fullscreen">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-1">
+<div class="flex justify-between items-start">
+<h3 class="text-base font-semibold text-white truncate pr-2">Continental Map</h3>
+<button class="text-gray-500 hover:text-white">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+<div class="flex items-center gap-2 text-xs text-gray-400">
+<span>Edited 2h ago</span>
+<span class="size-1 rounded-full bg-gray-600"></span>
+<span>2.4 MB</span>
+</div>
+<div class="mt-3 flex items-center gap-3 border-t border-border-dark pt-3">
+<div class="flex items-center gap-1 text-xs text-primary-light font-medium" title="Linked Locations">
+<span class="material-symbols-outlined text-[14px]">share_location</span>
+<span>5 Regions</span>
+</div>
+<div class="flex items-center gap-1 text-xs text-gray-400" title="Notes">
+<span class="material-symbols-outlined text-[14px]">description</span>
+<span>2 Notes</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Battle Map -->
+<div class="group relative flex flex-col bg-surface-light rounded-xl border border-border-dark overflow-hidden hover:border-gray-500 hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300">
+<div class="relative aspect-video w-full overflow-hidden bg-gray-900">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Top down view of a dark dungeon tavern battlemap with grid lines" data-location="Tavern" style="background-image: url('https://placeholder.pics/svg/300');">
+</div>
+<div class="absolute top-3 left-3 flex flex-wrap gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-600/90 text-white uppercase tracking-wider backdrop-blur-sm shadow-sm">Battle</span>
+</div>
+<!-- Active Session Indicator -->
+<div class="absolute top-3 right-3">
+<span class="flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-green-500 border-2 border-white"></span>
+</span>
+</div>
+<div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-[2px]">
+<button class="size-10 rounded-full bg-white text-gray-900 hover:bg-primary hover:text-white flex items-center justify-center transition-colors shadow-lg">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="size-10 rounded-full bg-white text-gray-900 hover:bg-primary hover:text-white flex items-center justify-center transition-colors shadow-lg">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-1">
+<div class="flex justify-between items-start">
+<h3 class="text-base font-semibold text-white truncate pr-2">Tavern Basement</h3>
+<button class="text-gray-500 hover:text-white">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+<div class="flex items-center gap-2 text-xs text-gray-400">
+<span>Edited Yesterday</span>
+<span class="size-1 rounded-full bg-gray-600"></span>
+<span>30x30 Grid</span>
+</div>
+<div class="mt-3 flex items-center gap-3 border-t border-border-dark pt-3">
+<div class="flex items-center gap-1 text-xs text-blue-400 font-medium" title="Encounters">
+<span class="material-symbols-outlined text-[14px]">swords</span>
+<span>3 Encounters</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3: Region Map -->
+<div class="group relative flex flex-col bg-surface-light rounded-xl border border-border-dark overflow-hidden hover:border-gray-500 hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300">
+<div class="relative aspect-video w-full overflow-hidden bg-gray-900">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A spooky forest map top down view with fog" data-location="Forest" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBUrXZb2MtwcPTdgx3L4EvchwHF3UNKgEL8z9RargEumGgpg9c-kZTm0IQfTCDvYH6kl7YR4K8FsMP4wSg1cFKYAXd0AQzpCOjhx00ne2wifF09iQ6XuFGgwoCEBhkr9z4dBbPF2tPPpEAZgm4VqoPiRqTsdzNrvS2f2fpVGKHlitL_UC9LonP48LKurw53l_fqZDKI_Sw9Cgexpcc2A6gVW5vGF93-IhIlxZXOyAIma8qytIJLl23OoRKbbFWaZDgmXE4Y8DQ39BE');">
+</div>
+<div class="absolute top-3 left-3 flex flex-wrap gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-600/90 text-white uppercase tracking-wider backdrop-blur-sm shadow-sm">Region</span>
+</div>
+<div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-[2px]">
+<button class="size-10 rounded-full bg-white text-gray-900 hover:bg-primary hover:text-white flex items-center justify-center transition-colors shadow-lg">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="size-10 rounded-full bg-white text-gray-900 hover:bg-primary hover:text-white flex items-center justify-center transition-colors shadow-lg">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-1">
+<div class="flex justify-between items-start">
+<h3 class="text-base font-semibold text-white truncate pr-2">Mistwood Forest</h3>
+<button class="text-gray-500 hover:text-white">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+<div class="flex items-center gap-2 text-xs text-gray-400">
+<span>Edited 3 days ago</span>
+<span class="size-1 rounded-full bg-gray-600"></span>
+<span>No Grid</span>
+</div>
+<div class="mt-3 flex items-center gap-3 border-t border-border-dark pt-3">
+<div class="flex items-center gap-1 text-xs text-gray-400 font-medium">
+<span class="material-symbols-outlined text-[14px]">push_pin</span>
+<span>12 Markers</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 4: Dungeon Map -->
+<div class="group relative flex flex-col bg-surface-light rounded-xl border border-border-dark overflow-hidden hover:border-gray-500 hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300">
+<div class="relative aspect-video w-full overflow-hidden bg-gray-900">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Blueprint style map of a dwarven stronghold" data-location="Stronghold" style="background-image: url('https://placeholder.pics/svg/300');">
+</div>
+<div class="absolute top-3 left-3 flex flex-wrap gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-600/90 text-white uppercase tracking-wider backdrop-blur-sm shadow-sm">Dungeon</span>
+</div>
+<div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-[2px]">
+<button class="size-10 rounded-full bg-white text-gray-900 hover:bg-primary hover:text-white flex items-center justify-center transition-colors shadow-lg">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-1">
+<div class="flex justify-between items-start">
+<h3 class="text-base font-semibold text-white truncate pr-2">Ironhold Depths</h3>
+<button class="text-gray-500 hover:text-white">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+<div class="flex items-center gap-2 text-xs text-gray-400">
+<span>Edited 1 week ago</span>
+<span class="size-1 rounded-full bg-gray-600"></span>
+<span>50x50 Grid</span>
+</div>
+<div class="mt-3 flex items-center gap-3 border-t border-border-dark pt-3">
+<div class="flex items-center gap-1 text-xs text-gray-400">
+<span>-- No Links --</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 5: Upload Placeholder -->
+<div class="group relative flex flex-col items-center justify-center bg-surface-light/30 rounded-xl border-2 border-dashed border-border-dark hover:border-primary hover:bg-primary/5 cursor-pointer transition-all duration-300 aspect-video sm:aspect-auto">
+<div class="flex flex-col items-center gap-3 text-center p-6">
+<div class="size-12 rounded-full bg-surface-light group-hover:bg-primary/20 flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-gray-400 group-hover:text-primary text-[24px]">add_photo_alternate</span>
+</div>
+<div>
+<h3 class="text-sm font-semibold text-white group-hover:text-primary transition-colors">Upload New Map</h3>
+<p class="text-xs text-gray-500 mt-1">Drag &amp; drop or click</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- "Drawer" - Contextual Overlay for Selected Item (Right Side) -->
+<!-- Positioned absolute to simulate a drawer opening over content or pushing content -->
+<div class="absolute top-0 right-0 h-full w-80 bg-surface-light border-l border-border-dark shadow-2xl transform translate-x-0 transition-transform flex flex-col z-30">
+<!-- Drawer Header -->
+<div class="p-4 border-b border-border-dark flex items-center justify-between">
+<h3 class="font-semibold text-white">Map Details</h3>
+<button class="text-gray-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Drawer Content -->
+<div class="flex-1 overflow-y-auto p-4 space-y-6">
+<!-- Thumbnail -->
+<div class="rounded-lg overflow-hidden border border-border-dark relative group">
+<div class="aspect-video w-full bg-cover bg-center" data-alt="Small thumbnail of the selected continental map" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuANyO8r3ErKRXFid-1T5j7k7z_KjLoSugpeELTKab51jeGCHYO_Eycrm8EwtHhNNctQyK8jENuJvGJaL2Lj53-sSYM497MdcBhlBiLIT-ULVYHaFA1hG4mVkeD0ATilf0ce1g7NgDKws3XEalb6EYBjNQI-fWUIBfWYWzKSfAREpi7WmpfQwFvIA5wQ2lWYhL3r4lnde9r6J17Q3oPpv_gjQHpY-Tcra763Ye34_sGmS7nEZaJs-rFhGLjO_sQ0_ypwvS4XEKifCIk');">
+</div>
+<div class="absolute bottom-2 right-2">
+<span class="bg-black/70 text-white text-[10px] px-1.5 py-0.5 rounded">4096 x 2048</span>
+</div>
+</div>
+<!-- Info -->
+<div class="space-y-3">
+<div>
+<label class="text-xs font-medium text-gray-500 uppercase tracking-wide">Title</label>
+<input class="mt-1 w-full bg-background-dark border border-border-dark rounded px-3 py-2 text-sm text-white focus:ring-1 focus:ring-primary focus:border-primary" type="text" value="Continental Map"/>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="text-xs font-medium text-gray-500 uppercase tracking-wide">Type</label>
+<select class="mt-1 w-full bg-background-dark border border-border-dark rounded px-2 py-2 text-sm text-white">
+<option>World</option>
+<option>Battle</option>
+<option>City</option>
+</select>
+</div>
+<div>
+<label class="text-xs font-medium text-gray-500 uppercase tracking-wide">Grid</label>
+<select class="mt-1 w-full bg-background-dark border border-border-dark rounded px-2 py-2 text-sm text-white">
+<option>None</option>
+<option>Square</option>
+<option>Hex</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Quick Actions -->
+<div>
+<label class="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2 block">Quick Actions</label>
+<div class="grid grid-cols-2 gap-2">
+<button class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-background-dark hover:bg-white/5 border border-border-dark text-gray-300 hover:text-white text-xs font-medium transition-colors">
+<span class="material-symbols-outlined text-[16px] text-green-400">add_location</span>
+                                Add Marker
+                            </button>
+<button class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-background-dark hover:bg-white/5 border border-border-dark text-gray-300 hover:text-white text-xs font-medium transition-colors">
+<span class="material-symbols-outlined text-[16px] text-blue-400">link</span>
+                                Link Note
+                            </button>
+<button class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-background-dark hover:bg-white/5 border border-border-dark text-gray-300 hover:text-white text-xs font-medium transition-colors">
+<span class="material-symbols-outlined text-[16px] text-yellow-400">brush</span>
+                                Draw
+                            </button>
+<button class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-background-dark hover:bg-white/5 border border-border-dark text-gray-300 hover:text-white text-xs font-medium transition-colors">
+<span class="material-symbols-outlined text-[16px] text-purple-400">foggy</span>
+                                Fog of War
+                            </button>
+</div>
+</div>
+<!-- Linked Content -->
+<div>
+<div class="flex items-center justify-between mb-2">
+<label class="text-xs font-medium text-gray-500 uppercase tracking-wide">Linked Regions</label>
+<button class="text-primary hover:text-primary-light text-xs font-medium">Add</button>
+</div>
+<div class="space-y-2">
+<div class="flex items-center gap-2 p-2 rounded bg-background-dark border border-border-dark">
+<div class="size-6 rounded bg-primary/20 flex items-center justify-center text-primary-light">
+<span class="material-symbols-outlined text-[14px]">map</span>
+</div>
+<span class="text-xs text-gray-300 flex-1">Kingdom of Aethelgard</span>
+<button class="text-gray-500 hover:text-red-400"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</div>
+<div class="flex items-center gap-2 p-2 rounded bg-background-dark border border-border-dark">
+<div class="size-6 rounded bg-amber-500/20 flex items-center justify-center text-amber-500">
+<span class="material-symbols-outlined text-[14px]">apartment</span>
+</div>
+<span class="text-xs text-gray-300 flex-1">Capital City</span>
+<button class="text-gray-500 hover:text-red-400"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Drawer Footer -->
+<div class="p-4 border-t border-border-dark bg-background-dark/30">
+<button class="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-500 text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+                        Delete Map
+                    </button>
+</div>
+</div>
+</main>
+</div>
+</body></html>

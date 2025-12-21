@@ -1,0 +1,5 @@
+confirm_signup: Confirm your MoonForge signup
+invite: Your MoonForge invitation
+change_email: Confirm your MoonForge email change
+reset_password: Reset your MoonForge password
+reauthenticate: MoonForge verification code

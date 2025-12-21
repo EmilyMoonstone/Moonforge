@@ -1,0 +1,116 @@
+name: moonforge
+description: "a manager for dungeons&dragons campaigns"
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State & Data Management
+  go_router: ^17.0.1
+  provider: ^6.1.5+1
+  shared_preferences: ^2.5.4
+  flutter_hooks: ^0.21.3+1
+  get_storage: ^2.1.1
+  path_provider: ^2.1.5
+  path: ^1.9.1
+  uuid: ^4.5.2
+  swagger_parser: ^1.37.0
+
+  # UI Components
+  google_fonts: ^6.3.3
+  shadcn_flutter: ^0.0.47
+  window_manager: ^0.5.1
+  # desktop_multi_window: ^0.3.0
+  chips_input_autocomplete: ^1.2.2
+  flutter_launcher_icons: ^0.14.4
+  # skeletonizer: ^2.1.2
+  loader_overlay: ^5.0.0
+  markdown_widget: ^2.3.2+8
+  fluentui_system_icons: ^1.1.273
+  flutter_acrylic: ^1.1.4
+
+  # Other
+  intl: ^0.20.2
+  package_info_plus: ^9.0.0
+  envied: ^1.3.2
+  # auto_updater: ^1.0.0
+  # local_notifier: ^0.1.6
+  # command_palette: ^0.7.6
+  app_links: ^6.4.1
+  collection: ^1.19.1
+  logger: ^2.6.2
+  share_plus: ^12.0.1
+  dart_helper_utils: ^5.4.1
+  auto_route: ^11.1.0
+  get_it: ^9.2.0
+  supabase_flutter: ^2.12.0
+  powersync: ^1.17.0
+  drift: ^2.30.0
+  drift_sqlite_async: ^0.2.6
+  flutter_riverpod: ^3.0.3
+  riverpod_annotation: ^3.0.3
+  stream_transform: ^2.1.1
+  hooks_riverpod: ^3.0.3
+  flutter_localization: ^0.3.3
+  flutter_gen: ^5.12.0
+  timeago: ^3.7.1
+  ffi: ^2.1.4
+  win32: ^5.15.0
+  material_symbols_icons: ^4.2892.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  envied_generator: ^1.3.2
+  build_runner: ^2.10.4
+  auto_route_generator: ^10.4.0
+  flutter_gen_runner: ^5.12.0
+  riverpod_generator: ^3.0.3
+  drift_dev: ^2.30.0
+
+
+flutter:
+  generate: true
+  uses-material-design: true
+  assets:
+    - .env
+    - assets/logo/
+    - assets/logo/Moonforge-Icon-purple.appiconset/
+    - assets/logo/Moonforge-Logo-purple.appiconset/
+    - assets/images/
+    - assets/images/placeholders/
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_256.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true
+  web:
+    generate: true
+    image_path: "assets/logo/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_256.png"
+    background_color: "#2A2033"
+    theme_color: "#A855F7"
+  windows:
+    generate: true
+    image_path: "assets/logo/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_256.png"
+    icon_size: 256 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/logo/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_256.png"
+
+flutter_gen:
+  output: lib/gen/
+  # line_length: 80 # Optional
+
+  integrations:
+    image: true
+    flutter_svg: true
+    rive: true
+    lottie: true
