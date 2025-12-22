@@ -15,6 +15,12 @@ class MapsRepository {
     return _db.select(_db.mapsTable).watch();
   }
 
+  Stream<List<MapsTableData>> watchByCampaignId(String campaignId) {
+    return (_db.select(
+      _db.mapsTable,
+    )..where((tbl) => tbl.campaignId.equals(campaignId))).watch();
+  }
+
   Future<int> add(MapsTableData map) {
     return _db.into(_db.mapsTable).insert(map);
   }

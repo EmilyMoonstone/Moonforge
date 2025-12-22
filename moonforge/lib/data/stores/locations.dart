@@ -15,6 +15,23 @@ class LocationsRepository {
     return _db.select(_db.locationsTable).watch();
   }
 
+  Stream<List<LocationsTableData>> watchByCampaignId() {
+    return (_db.select(_db.locationsTable)
+          ..where((tbl) => tbl.campaignId.isNotNull()))
+        .watch();
+  }
+
+  Stream<List<LocationsTableData>> watchByScopes(List<String> scopeIds) {
+    return (_db.select(_db.locationsTable)
+          ..where((tbl) => tbl.scopeId.isIn(scopeIds)))
+        .watch();
+  }
+
+  Stream<List<LocationsWithScope>> watchWithScopes() {
+    return _db.select(_db.locationsWithScopes).watch();
+  }
+  
+
   Future<int> add(LocationsTableData location) {
     return _db.into(_db.locationsTable).insert(location);
   }

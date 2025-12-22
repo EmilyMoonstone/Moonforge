@@ -15,6 +15,22 @@ class EncountersRepository {
     return _db.select(_db.encountersTable).watch();
   }
 
+  Stream<List<EncountersTableData>> watchByCampaignId(String campaignId) {
+    return (_db.select(
+      _db.encountersTable,
+    )..where((tbl) => tbl.campaignId.equals(campaignId))).watch();
+  }
+
+  Stream<List<EncountersTableData>> watchByScopes(List<String> scopeIds) {
+    return (_db.select(_db.encountersTable)
+          ..where((tbl) => tbl.scopeId.isIn(scopeIds)))
+        .watch();
+  }
+
+  Stream<List<EncountersWithScope>> watchWithScopes() {
+    return _db.select(_db.encountersWithScopes).watch();
+  }
+
   Future<int> add(EncountersTableData encounter) {
     return _db.into(_db.encountersTable).insert(encounter);
   }

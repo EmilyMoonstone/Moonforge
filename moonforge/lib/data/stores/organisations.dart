@@ -1,8 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moonforge/data/database.dart';
 
-final organisationsRepositoryProvider =
-    Provider<OrganisationsRepository>((ref) {
+final organisationsRepositoryProvider = Provider<OrganisationsRepository>((
+  ref,
+) {
   final db = ref.watch(driftDatabase);
   return OrganisationsRepository(db);
 });
@@ -16,6 +17,22 @@ class OrganisationsRepository {
     return _db.select(_db.organisationsTable).watch();
   }
 
+  Stream<List<OrganisationsTableData>> watchByCampaignId(String campaignId) {
+    return (_db.select(
+      _db.organisationsTable,
+    )..where((tbl) => tbl.campaignId.equals(campaignId))).watch();
+  }
+
+  Stream<List<OrganisationsTableData>> watchByScopes(List<String> scopeIds) {
+    return (_db.select(
+      _db.organisationsTable,
+    )..where((tbl) => tbl.scopeId.isIn(scopeIds))).watch();
+  }
+
+  Stream<List<OrganisationsWithScope>> watchWithScopes() {
+    return _db.select(_db.organisationsWithScopes).watch();
+  }
+
   Future<int> add(OrganisationsTableData organisation) {
     return _db.into(_db.organisationsTable).insert(organisation);
   }
@@ -25,9 +42,7 @@ class OrganisationsRepository {
   }
 
   Future<void> upsert(OrganisationsTableData organisation) async {
-    await _db
-        .into(_db.organisationsTable)
-        .insertOnConflictUpdate(organisation);
+    await _db.into(_db.organisationsTable).insertOnConflictUpdate(organisation);
   }
 
   Future<int> delete(OrganisationsTableData organisation) {
@@ -35,9 +50,9 @@ class OrganisationsRepository {
   }
 
   Future<int> deleteById(String id) {
-    return (_db.delete(_db.organisationsTable)
-          ..where((t) => t.id.equals(id)))
-        .go();
+    return (_db.delete(
+      _db.organisationsTable,
+    )..where((t) => t.id.equals(id))).go();
   }
 }
 
@@ -49,15 +64,15 @@ class OrganisationsNotifier
   }
 }
 
-final organisationsProvider = StreamNotifierProvider<OrganisationsNotifier,
-    List<OrganisationsTableData>>(
-  OrganisationsNotifier.new,
-);
+final organisationsProvider =
+    StreamNotifierProvider<OrganisationsNotifier, List<OrganisationsTableData>>(
+      OrganisationsNotifier.new,
+    );
 
 final organisationsCommandsProvider =
     AsyncNotifierProvider<OrganisationsCommands, void>(
-  OrganisationsCommands.new,
-);
+      OrganisationsCommands.new,
+    );
 
 class OrganisationsCommands extends AsyncNotifier<void> {
   @override

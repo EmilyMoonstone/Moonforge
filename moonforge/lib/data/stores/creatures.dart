@@ -15,6 +15,22 @@ class CreaturesRepository {
     return _db.select(_db.creaturesTable).watch();
   }
 
+  Stream<List<CreaturesTableData>> watchByCampaignId(String campaignId) {
+    return (_db.select(
+      _db.creaturesTable,
+    )..where((tbl) => tbl.campaignId.equals(campaignId))).watch();
+  }
+
+  Stream<List<CreaturesTableData>> watchByScopes(List<String> scopeIds) {
+    return (_db.select(
+      _db.creaturesTable,
+    )..where((tbl) => tbl.scopeId.isIn(scopeIds))).watch();
+  }
+
+  Stream<List<CreaturesWithScope>> watchWithScopes() {
+     return _db.select(_db.creaturesWithScopes).watch();
+  }
+
   Future<int> add(CreaturesTableData creature) {
     return _db.into(_db.creaturesTable).insert(creature);
   }
@@ -32,9 +48,7 @@ class CreaturesRepository {
   }
 
   Future<int> deleteById(String id) {
-    return (_db.delete(_db.creaturesTable)
-          ..where((t) => t.id.equals(id)))
-        .go();
+    return (_db.delete(_db.creaturesTable)..where((t) => t.id.equals(id))).go();
   }
 }
 
@@ -51,9 +65,7 @@ final creaturesProvider =
     );
 
 final creaturesCommandsProvider =
-    AsyncNotifierProvider<CreaturesCommands, void>(
-      CreaturesCommands.new,
-    );
+    AsyncNotifierProvider<CreaturesCommands, void>(CreaturesCommands.new);
 
 class CreaturesCommands extends AsyncNotifier<void> {
   @override
@@ -92,5 +104,21 @@ class CreaturesCommands extends AsyncNotifier<void> {
     state = await AsyncValue.guard(() async {
       await ref.read(creaturesRepositoryProvider).deleteById(id);
     });
+  }
+}
+
+extension CreaturesStreamExtensions on Stream<List<CreaturesTableData>> {
+  Stream<List<CreaturesTableData>> whereKind(String kind) {
+    return map(
+      (creatures) =>
+          creatures.where((creature) => creature.kind == kind).toList(),
+    );
+  }
+
+  Stream<List<CreaturesTableData>> whereNotKind(String kind) {
+    return map(
+      (creatures) =>
+          creatures.where((creature) => creature.kind != kind).toList(),
+    );
   }
 }

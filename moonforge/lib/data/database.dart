@@ -7,8 +7,18 @@ import 'package:powersync/powersync.dart' as powersync;
 
 part 'database.g.dart';
 part 'models/database_classes.g.dart';
+part 'views.dart';
 
-@DriftDatabase(tables: tables, include: {'queries.drift'})
+@DriftDatabase(
+  tables: tables,
+  views: [
+    LocationsWithScopes,
+    OrganisationsWithScopes,
+    ItemsWithScopes,
+    CreaturesWithScopes,
+    EncountersWithScopes,
+  ],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 

@@ -15,6 +15,22 @@ class ItemsRepository {
     return _db.select(_db.itemsTable).watch();
   }
 
+  Stream<List<ItemsTableData>> watchByCampaignId(String campaignId) {
+    return (_db.select(
+      _db.itemsTable,
+    )..where((tbl) => tbl.campaignId.equals(campaignId))).watch();
+  }
+
+  Stream<List<ItemsTableData>> watchByScopes(List<String> scopeIds) {
+    return (_db.select(_db.itemsTable)
+          ..where((tbl) => tbl.scopeId.isIn(scopeIds)))
+        .watch();
+  }
+
+  Stream<List<ItemsWithScope>> watchWithScopes() {
+    return _db.select(_db.itemsWithScopes).watch();
+  }
+
   Future<int> add(ItemsTableData item) {
     return _db.into(_db.itemsTable).insert(item);
   }

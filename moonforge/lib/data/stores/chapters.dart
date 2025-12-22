@@ -21,6 +21,12 @@ class ChaptersRepository {
         .watch();
   }
 
+  Future<ChaptersTableData?> getById(String id) async {
+    return (_db.select(_db.chaptersTable)
+          ..where((t) => t.id.equals(id)))
+        .getSingleOrNull();
+  }
+
   Future<int> add(ChaptersTableData chapter) {
     return _db.into(_db.chaptersTable).insert(chapter);
   }

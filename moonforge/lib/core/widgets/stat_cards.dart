@@ -1,4 +1,5 @@
 import 'package:moonforge/layout/app_spacing.dart';
+import 'package:moonforge/layout/theme.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 class StateCardData {
@@ -41,23 +42,21 @@ class StatCard extends StatelessWidget {
     final theme = Theme.of(context);
     return Card(
       fillColor: data.color?.withValues(alpha: 0.1),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              if (data.icon != null)
-                Icon(data.icon, color: data.color ?? theme.colorScheme.primary),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(data.title, style: theme.typography.large).muted(),
-                ],
-              ),
-            ],
-          ),
-          Gap(AppSpacing.md),
-          Text(data.value, style: theme.typography.h3),
-        ],
+      padding: AppSpacing.paddingMd,
+      child: IntrinsicWidth(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(data.value, style: theme.typography.h3),
+                Spacer(),
+                if (data.icon != null)
+                  Icon(data.icon, color: data.color ?? theme.colorScheme.primary),
+              ],
+            ),
+            Text(data.title.toUpperCase(), style: theme.typography.xSmall.trackingWider).muted(),
+          ],
+        ),
       ),
     );
   }

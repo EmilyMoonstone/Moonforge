@@ -52,7 +52,7 @@
 
 ## 📸 Screenshots
 
-<div align="center" style="display: flex; flex-wrap: wrap; justify-content: start;">
+<div style="display: flex; flex-wrap: wrap; justify-content: start;">
   <img src="moonforge/assets/images/placeholders/campaign.png" alt="Campaign Overview" width="400" height="225" style="object-fit: cover; border-radius: 8px; margin: 8px;">
 </div>
 

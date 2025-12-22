@@ -19,6 +19,31 @@ import 'package:moonforge/data/stores/playing_campaigns.dart';
 import 'package:moonforge/data/stores/scenes.dart';
 import 'package:moonforge/data/stores/session_logs.dart';
 
+Stream<List<T>> _watchByScopesInternal<T>(
+  Future<Iterable<ContentScopesTableData>> scopeFuture,
+  Stream<List<T>> Function(List<String> scopeIds) watchByScopes,
+) async* {
+  final scopes = await scopeFuture;
+  final scopeIds = scopes.map((scope) => scope.id).toList();
+  if (scopeIds.isEmpty) {
+    yield <T>[];
+    return;
+  }
+
+  yield* watchByScopes(scopeIds);
+}
+
+Future<Iterable<ContentScopesTableData>> _wrapSingleScopeFuture(
+  Future<ContentScopesTableData?> scopeFuture,
+) async {
+  final scope = await scopeFuture;
+  if (scope == null) {
+    return const <ContentScopesTableData>[];
+  }
+
+  return <ContentScopesTableData>[scope];
+}
+
 extension AdventuresRef on Ref {
   AdventuresRepository get adventuresRepository {
     return read(adventuresRepositoryProvider);
@@ -197,6 +222,155 @@ extension ContentScopesRef on Ref {
       contentScopesCommandsProvider.notifier,
     ).deleteContentScopeById(id);
   }
+}
+
+extension ScopedStreamsRef on Ref {
+  Stream<List<T>> watchByScopes<T>({
+    String? campaignId,
+    String? chapterId,
+    String? adventureId,
+    String? sceneId,
+    required Stream<List<T>> Function(List<String> scopeIds) watchByScopes,
+  }) {
+    final providedScopeIds = [
+      campaignId,
+      chapterId,
+      adventureId,
+      sceneId,
+    ].whereType<String>().toList();
+    if (providedScopeIds.length != 1) {
+      return Stream.error(ArgumentError('Provide exactly one scope id.'));
+    }
+
+    final scopeFuture = campaignId != null
+        ? read(contentScopesRepositoryProvider).getByCampaignId(campaignId)
+        : chapterId != null
+        ? read(contentScopesRepositoryProvider).getByChapterId(chapterId)
+        : adventureId != null
+        ? read(contentScopesRepositoryProvider).getByAdventureId(adventureId)
+        : _wrapSingleScopeFuture(
+            read(contentScopesRepositoryProvider).getBySceneId(sceneId!),
+          );
+
+    return _watchByScopesInternal(scopeFuture, watchByScopes);
+  }
+
+  Stream<List<T>> watchByScopesOnly<T>({
+    String? campaignId,
+    String? chapterId,
+    String? adventureId,
+    String? sceneId,
+    required Stream<List<T>> Function(List<String> scopeIds) watchByScopes,
+  }) {
+    final providedScopeIds = [
+      campaignId,
+      chapterId,
+      adventureId,
+      sceneId,
+    ].whereType<String>().toList();
+    if (providedScopeIds.length != 1) {
+      return Stream.error(ArgumentError('Provide exactly one scope id.'));
+    }
+
+    final scopeFuture = campaignId != null
+        ? _wrapSingleScopeFuture(
+            read(
+              contentScopesRepositoryProvider,
+            ).getOnlyByCampaignId(campaignId),
+          )
+        : chapterId != null
+        ? _wrapSingleScopeFuture(
+            read(
+              contentScopesRepositoryProvider,
+            ).getOnlyByChapterId(chapterId),
+          )
+        : adventureId != null
+        ? _wrapSingleScopeFuture(
+            read(
+              contentScopesRepositoryProvider,
+            ).getOnlyByAdventureId(adventureId),
+          )
+        : _wrapSingleScopeFuture(
+            read(contentScopesRepositoryProvider).getBySceneId(sceneId!),
+          );
+
+    return _watchByScopesInternal(scopeFuture, watchByScopes);
+  }
+}
+
+extension ScopedStreamsWidgetRef on WidgetRef {
+  Stream<List<T>> watchByScopes<T>({
+    String? campaignId,
+    String? chapterId,
+    String? adventureId,
+    String? sceneId,
+    required Stream<List<T>> Function(List<String> scopeIds) watchByScopes,
+  }) {
+    final providedScopeIds = [
+      campaignId,
+      chapterId,
+      adventureId,
+      sceneId,
+    ].whereType<String>().toList();
+    if (providedScopeIds.length != 1) {
+      return Stream.error(ArgumentError('Provide exactly one scope id.'));
+    }
+
+    final scopeFuture = campaignId != null
+        ? read(contentScopesRepositoryProvider).getByCampaignId(campaignId)
+        : chapterId != null
+        ? read(contentScopesRepositoryProvider).getByChapterId(chapterId)
+        : adventureId != null
+        ? read(contentScopesRepositoryProvider).getByAdventureId(adventureId)
+        : _wrapSingleScopeFuture(
+            read(contentScopesRepositoryProvider).getBySceneId(sceneId!),
+          );
+
+    return _watchByScopesInternal(scopeFuture, watchByScopes);
+  }
+
+  Stream<List<T>> watchByScopesOnly<T>({
+    String? campaignId,
+    String? chapterId,
+    String? adventureId,
+    String? sceneId,
+    required Stream<List<T>> Function(List<String> scopeIds) watchByScopes,
+  }) {
+    final providedScopeIds = [
+      campaignId,
+      chapterId,
+      adventureId,
+      sceneId,
+    ].whereType<String>().toList();
+    if (providedScopeIds.length != 1) {
+      return Stream.error(ArgumentError('Provide exactly one scope id.'));
+    }
+
+    final scopeFuture = campaignId != null
+        ? _wrapSingleScopeFuture(
+            read(
+              contentScopesRepositoryProvider,
+            ).getOnlyByCampaignId(campaignId),
+          )
+        : chapterId != null
+        ? _wrapSingleScopeFuture(
+            read(
+              contentScopesRepositoryProvider,
+            ).getOnlyByChapterId(chapterId),
+          )
+        : adventureId != null
+        ? _wrapSingleScopeFuture(
+            read(
+              contentScopesRepositoryProvider,
+            ).getOnlyByAdventureId(adventureId),
+          )
+        : _wrapSingleScopeFuture(
+            read(contentScopesRepositoryProvider).getBySceneId(sceneId!),
+          );
+
+    return _watchByScopesInternal(scopeFuture, watchByScopes);
+  }
+
 }
 
 extension CreaturesRef on Ref {

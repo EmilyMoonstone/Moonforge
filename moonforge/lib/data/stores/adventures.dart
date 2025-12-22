@@ -15,6 +15,12 @@ class AdventuresRepository {
     return _db.select(_db.adventuresTable).watch();
   }
 
+  Stream<List<AdventuresTableData>> watchByChapterId(String chapterId) {
+    return (_db.select(_db.adventuresTable)
+          ..where((t) => t.chapterId.equals(chapterId)))
+        .watch();
+  }
+
   Future<int> add(AdventuresTableData adventure) {
     return _db.into(_db.adventuresTable).insert(adventure);
   }

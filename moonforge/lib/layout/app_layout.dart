@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:moonforge/layout/app_spacing.dart';
+import 'package:moonforge/layout/widgets/scroll_view_default.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:moonforge/layout/widgets/app_top_bar.dart';
 import 'package:moonforge/routes/app_router.gr.dart';
@@ -11,12 +12,14 @@ class AppLayout extends StatefulWidget {
     required this.activeItem,
     this.sidebar,
     this.bodyPadding = const EdgeInsets.all(24),
+    this.withScrollView = true,
   });
 
   final Widget child;
   final AppNavItem activeItem;
   final Widget? sidebar;
   final EdgeInsetsGeometry bodyPadding;
+  final bool withScrollView;
 
   @override
   State<AppLayout> createState() => _AppLayoutState();
@@ -53,24 +56,22 @@ class _AppLayoutState extends State<AppLayout> {
           activeItem: widget.activeItem,
           onNavigate: (item) => _handleNavigate(context, item),
         ),
-      
       ],
       child: Expanded(
-          child: Row(
-            children: [
-              if (widget.sidebar != null) widget.sidebar!,
-              Expanded(
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: SingleChildScrollView(
-                    padding: AppSpacing.paddingXl,
-                    child: widget.child,
-                  ),
-                ),
+        child: Row(
+          children: [
+            if (widget.sidebar != null) widget.sidebar!,
+            Expanded(
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: widget.withScrollView
+                    ? ScrollViewDefault(child: widget.child)
+                    : widget.child,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
     );
   }
 }

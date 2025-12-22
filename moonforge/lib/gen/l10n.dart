@@ -224,6 +224,96 @@ abstract class AppLocalizations {
   /// **'{number, select, singular{Player} other{Players}}'**
   String spPlayers(String number);
 
+  /// No description provided for @nEntities.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0 {No Entities} =1 {1 Entity} other {{count} Entities}}'**
+  String nEntities(num count);
+
+  /// No description provided for @spEntities.
+  ///
+  /// In en, this message translates to:
+  /// **'{number, select, singular{Entity} other{Entities}}'**
+  String spEntities(String number);
+
+  /// No description provided for @nItems.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0 {No Items} =1 {1 Item} other {{count} Items}}'**
+  String nItems(num count);
+
+  /// No description provided for @spItems.
+  ///
+  /// In en, this message translates to:
+  /// **'{number, select, singular{Item} other{Items}}'**
+  String spItems(String number);
+
+  /// No description provided for @nLocations.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0 {No Locations} =1 {1 Location} other {{count} Locations}}'**
+  String nLocations(num count);
+
+  /// No description provided for @spLocations.
+  ///
+  /// In en, this message translates to:
+  /// **'{number, select, singular{Location} other{Locations}}'**
+  String spLocations(String number);
+
+  /// No description provided for @nOrganizations.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0 {No Organizations} =1 {1 Organization} other {{count} Organizations}}'**
+  String nOrganizations(num count);
+
+  /// No description provided for @spOrganizations.
+  ///
+  /// In en, this message translates to:
+  /// **'{number, select, singular{Organization} other{Organizations}}'**
+  String spOrganizations(String number);
+
+  /// No description provided for @nNPCs.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0 {No NPCs} =1 {1 NPC} other {{count} NPCs}}'**
+  String nNPCs(num count);
+
+  /// No description provided for @spNPCs.
+  ///
+  /// In en, this message translates to:
+  /// **'{number, select, singular{NPC} other{NPCs}}'**
+  String spNPCs(String number);
+
+  /// No description provided for @nCreatures.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0 {No Creatures} =1 {1 Creature} other {{count} Creatures}}'**
+  String nCreatures(num count);
+
+  /// No description provided for @spCreatures.
+  ///
+  /// In en, this message translates to:
+  /// **'{number, select, singular{Creature} other{Creatures}}'**
+  String spCreatures(String number);
+
+  /// No description provided for @otherX.
+  ///
+  /// In en, this message translates to:
+  /// **'Other {entity}'**
+  String otherX(Object entity);
+
+  /// No description provided for @content.
+  ///
+  /// In en, this message translates to:
+  /// **'Content'**
+  String get content;
+
+  /// No description provided for @createX.
+  ///
+  /// In en, this message translates to:
+  /// **'Create {entity}'**
+  String createX(Object entity);
+
   /// No description provided for @sortBy.
   ///
   /// In en, this message translates to:

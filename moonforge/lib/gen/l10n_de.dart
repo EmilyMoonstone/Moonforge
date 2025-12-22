@@ -156,6 +156,145 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String nEntities(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Entities',
+      one: '1 Entity',
+      zero: 'No Entities',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String spEntities(String number) {
+    String _temp0 = intl.Intl.selectLogic(number, {
+      'singular': 'Entity',
+      'other': 'Entities',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String nItems(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Items',
+      one: '1 Item',
+      zero: 'No Items',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String spItems(String number) {
+    String _temp0 = intl.Intl.selectLogic(number, {
+      'singular': 'Item',
+      'other': 'Items',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String nLocations(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Locations',
+      one: '1 Location',
+      zero: 'No Locations',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String spLocations(String number) {
+    String _temp0 = intl.Intl.selectLogic(number, {
+      'singular': 'Location',
+      'other': 'Locations',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String nOrganizations(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Organizations',
+      one: '1 Organization',
+      zero: 'No Organizations',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String spOrganizations(String number) {
+    String _temp0 = intl.Intl.selectLogic(number, {
+      'singular': 'Organization',
+      'other': 'Organizations',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String nNPCs(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count NPCs',
+      one: '1 NPC',
+      zero: 'No NPCs',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String spNPCs(String number) {
+    String _temp0 = intl.Intl.selectLogic(number, {
+      'singular': 'NPC',
+      'other': 'NPCs',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String nCreatures(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Creatures',
+      one: '1 Creature',
+      zero: 'No Creatures',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String spCreatures(String number) {
+    String _temp0 = intl.Intl.selectLogic(number, {
+      'singular': 'Creature',
+      'other': 'Creatures',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String otherX(Object entity) {
+    return 'Other $entity';
+  }
+
+  @override
+  String get content => 'Content';
+
+  @override
+  String createX(Object entity) {
+    return 'Create $entity';
+  }
+
+  @override
   String sortBy(String sortType) {
     String _temp0 = intl.Intl.selectLogic(sortType, {
       'nameAsc': 'Name (A-Z)',

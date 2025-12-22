@@ -16,6 +16,12 @@ class SessionLogsRepository {
     return _db.select(_db.sessionLogsTable).watch();
   }
 
+  Stream<List<SessionLogsTableData>> watchByGroupId(String groupId) {
+    return (_db.select(
+      _db.sessionLogsTable,
+    )..where((tbl) => tbl.groupId.equals(groupId))).watch();
+  }
+
   Future<int> add(SessionLogsTableData sessionLog) {
     return _db.into(_db.sessionLogsTable).insert(sessionLog);
   }

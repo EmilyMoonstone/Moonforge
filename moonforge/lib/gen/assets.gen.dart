@@ -46,12 +46,39 @@ class $AssetsLogoGen {
 class $AssetsImagesPlaceholdersGen {
   const $AssetsImagesPlaceholdersGen();
 
+  /// File path: assets/images/placeholders/avatar1.png
+  AssetGenImage get avatar1 =>
+      const AssetGenImage('assets/images/placeholders/avatar1.png');
+
+  /// File path: assets/images/placeholders/avatar2.png
+  AssetGenImage get avatar2 =>
+      const AssetGenImage('assets/images/placeholders/avatar2.png');
+
+  /// File path: assets/images/placeholders/avatar3.png
+  AssetGenImage get avatar3 =>
+      const AssetGenImage('assets/images/placeholders/avatar3.png');
+
+  /// File path: assets/images/placeholders/avatar4.png
+  AssetGenImage get avatar4 =>
+      const AssetGenImage('assets/images/placeholders/avatar4.png');
+
+  /// File path: assets/images/placeholders/avatar5.png
+  AssetGenImage get avatar5 =>
+      const AssetGenImage('assets/images/placeholders/avatar5.png');
+
   /// File path: assets/images/placeholders/campaign.png
   AssetGenImage get campaign =>
       const AssetGenImage('assets/images/placeholders/campaign.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [campaign];
+  List<AssetGenImage> get values => [
+    avatar1,
+    avatar2,
+    avatar3,
+    avatar4,
+    avatar5,
+    campaign,
+  ];
 }
 
 class $AssetsLogoMoonforgeIconPurpleAppiconsetGen {

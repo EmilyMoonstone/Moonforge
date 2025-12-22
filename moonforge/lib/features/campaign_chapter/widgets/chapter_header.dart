@@ -1,4 +1,6 @@
+import 'package:moonforge/core/widgets/hover_editable.dart';
 import 'package:moonforge/data/database.dart';
+import 'package:moonforge/gen/l10n.dart';
 import 'package:moonforge/layout/app_spacing.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -20,11 +22,13 @@ class ChapterHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final title = chapter?.title ?? 'Chapter Title';
     final description =
         chapter?.description ?? 'Add a short summary for this chapter.';
-    final updatedAt =
-        chapter == null ? null : DateTime.tryParse(chapter!.updatedAt);
+    final updatedAt = chapter == null
+        ? null
+        : DateTime.tryParse(chapter!.updatedAt);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +36,10 @@ class ChapterHeader extends StatelessWidget {
         HoverEditableRow(
           onEdit: onEditTitle,
           tooltip: 'Edit chapter title',
-          child: Text(title, style: theme.typography.h2),
+          child: Text(
+            '${l10n.spChapters('singular')} ${chapter?.orderNumber}: $title',
+            style: theme.typography.h2,
+          ),
         ),
         Gap(AppSpacing.sm),
         Row(
@@ -58,54 +65,5 @@ class ChapterHeader extends StatelessWidget {
         ),
       ],
     ).asSkeleton(enabled: isLoading);
-  }
-}
-
-class HoverEditableRow extends StatefulWidget {
-  const HoverEditableRow({
-    super.key,
-    required this.child,
-    this.onEdit,
-    this.tooltip,
-  });
-
-  final Widget child;
-  final VoidCallback? onEdit;
-  final String? tooltip;
-
-  @override
-  State<HoverEditableRow> createState() => _HoverEditableRowState();
-}
-
-class _HoverEditableRowState extends State<HoverEditableRow> {
-  bool _isHovered = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(child: widget.child),
-          AnimatedOpacity(
-            opacity: _isHovered ? 1 : 0,
-            duration: const Duration(milliseconds: 150),
-            child: IgnorePointer(
-              ignoring: !_isHovered,
-              child: Tooltip(
-                tooltip: TooltipContainer(child: Text(widget.tooltip ?? 'Edit')).call,
-                child: IconButton(
-                  variance: ButtonVariance.ghost,
-                  icon: const Icon(Icons.edit),
-                  onPressed: widget.onEdit,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
