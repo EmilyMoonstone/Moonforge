@@ -8,6 +8,10 @@
   "delete": "Delete",
   "sparkWithAI": "Spark with AI",
   "search": "Search",
+  "save": "Save",
+  "cancel": "Cancel",
+  "close": "Close",
+  "home": "Home",
 
   "notifications": "Notifications",
   "settings": "Settings",

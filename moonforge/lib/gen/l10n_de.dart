@@ -30,6 +30,18 @@ class AppLocalizationsDe extends AppLocalizations {
   String get search => 'Search';
 
   @override
+  String get save => 'Save';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get home => 'Home';
+
+  @override
   String get notifications => 'Notifications';
 
   @override
