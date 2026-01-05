@@ -5,7 +5,7 @@ $projectId = "tpzfoendnhkizbmyslxo"
 $schemas = "public"
 
 # Define the output file path
-$outputFilePath = "supabase.g.ts"
+$outputFilePath = "./supabase.g.ts"
 
 # Run the Supabase command
 supabase gen types --lang="typescript" --project-id $projectId -s $schemas > $outputFilePath

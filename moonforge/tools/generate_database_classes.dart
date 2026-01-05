@@ -6,12 +6,13 @@ import 'package:collection/collection.dart';
 import 'package:path/path.dart' as p;
 
 const String tableSubfix = 'Table';
-const List<String> doubleFields = ['INSERT_DOUBLE_FIELDS'];
+const List<String> doubleFields = [
+  ];
 final Set<String> arrayColumns = {};
 final String outputPath = p.normalize(
-  p.join(p.current, 'lib/data/models/database_classes.g.dart'),
+  p.join(p.current, 'moonforge/lib/data/models/database_classes.g.dart'),
 );
-final filePath = p.normalize(p.join(p.current, '../supabase/supabase.g.ts'));
+final filePath = p.normalize(p.join(p.current, 'supabase/supabase.g.ts'));
 final partOfPrefix = '../';
 
 List<Map<String, dynamic>> _parseRelationships(String relationshipsSection) {
