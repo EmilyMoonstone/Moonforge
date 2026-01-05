@@ -1,5 +1,33 @@
 # Repository Guidelines
 
+## Project Overview (Where to Look)
+
+- App entry and routing: `moonforge/lib/main.dart`, `moonforge/lib/app.dart`, `moonforge/lib/routes/`.
+- Feature UI and screens: `moonforge/lib/features/` (each feature has pages + widgets).
+- Shared UI components: `moonforge/lib/core/widgets/`.
+- Layout and design system: `moonforge/lib/layout/`.
+- State and providers: `moonforge/lib/core/providers/`.
+- Service wiring / DI: `moonforge/lib/core/get_it/`.
+- Data layer (local DB + repositories): `moonforge/lib/data/`.
+- Generated code: `moonforge/lib/gen/`, `moonforge/lib/routes/app_router.gr.dart`.
+- Localization: `moonforge/lib/l10n/`.
+- Assets: `moonforge/assets/`.
+- Supabase config and types: `supabase/`.
+- PowerSync config: `powersync/` (notably `powersync/sync-rules.yaml`).
+
+## Data Flow Quick Map
+
+- PowerSync setup: `moonforge/lib/data/powersync.dart`.
+- Supabase auth: `moonforge/lib/data/supabase.dart`.
+- Backend connector: `moonforge/lib/data/connector.dart`.
+- Drift DB and schema: `moonforge/lib/data/database.dart`,
+  `moonforge/lib/data/models/powersync-schema.dart`.
+- Generated table models: `moonforge/lib/data/models/database_classes.g.dart`.
+- Views (scoped joins): `moonforge/lib/data/views.dart`.
+- Repositories and providers: `moonforge/lib/data/stores/`.
+- Scope helpers (watch by campaign/chapter/adventure/scene): `moonforge/lib/core/providers/ref_extensions.dart`.
+- Data fetching guide: `docs/data_fetching.md`.
+
 ## Project Structure & Module Organization
 
 - `moonforge/` contains the Flutter application. Primary entry points are `moonforge/lib/main.dart` and `moonforge/lib/app.dart`.
