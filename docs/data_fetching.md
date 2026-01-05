@@ -18,7 +18,8 @@ Key files:
 - `moonforge/lib/data/models/database_classes.g.dart` defines table models.
 - `moonforge/lib/data/views.dart` defines scoped views (entities + scopes).
 - `moonforge/lib/data/stores/*.dart` define repositories and providers.
-- `moonforge/lib/data/ref_extensions.dart` adds helpers like `watchByScopes`.
+- `moonforge/lib/data/ref_extensions.dart` adds read/write helpers on `Ref`.
+- `moonforge/lib/core/providers/ref_extensions.dart` adds scope stream helpers.
 
 ## Data models and schema
 
@@ -145,6 +146,95 @@ final npcsStream = ref.watchByScopes(
 ```
 
 This is a cheap way to filter without introducing additional queries.
+
+## Writing data (create/edit/delete)
+
+All writes go through repositories and `*CommandsProvider` async notifiers.
+This keeps UI state in sync and lets PowerSync replicate changes upstream.
+
+### Create new rows
+
+Use a `*CommandsProvider` via `ref_extensions` helpers
+(`moonforge/lib/data/ref_extensions.dart`) or call the repository directly.
+
+```dart
+final writeState = ref.watch(campaignCommandsProvider);
+if (writeState.isLoading) {
+  return const Text('Saving...');
+}
+if (writeState.hasError) {
+  return Text('Error: ${writeState.error}');
+}
+
+final campaign = CampaignsTableData(
+  id: '...', // required by TableData constructors
+  createdBy: userId,
+  title: title,
+  description: description,
+  content: const {},
+  createdAt: DateTime.now().toIso8601String(),
+  updatedAt: DateTime.now().toIso8601String(),
+);
+
+await ref.addCampaign(campaign);
+```
+
+Note: most tables define `id` with `clientDefault` in Drift, but the generated
+`TableData` constructors still require a value and repositories accept
+`TableData`. Generate ids in the UI (for example via `powersync.uuid.v8()`) or
+add a repository overload that accepts companions if you want DB defaults.
+
+### Edit existing rows
+
+Use `copyWith` on the existing row and call `update*` or `upsert*`:
+
+```dart
+final updated = campaign.copyWith(
+  title: 'New title',
+  updatedAt: DateTime.now().toIso8601String(),
+);
+await ref.updateCampaign(updated);
+```
+
+Use `upsert` when you want "insert or update" semantics.
+
+### Delete rows
+
+```dart
+await ref.deleteCampaignById(campaign.id);
+```
+
+### Scoped entities (locations, items, creatures, organisations, encounters)
+
+These tables store a `scopeId`. Create or fetch the `content_scopes` record
+first, then use its id when inserting the scoped entity.
+
+```dart
+final scope = ContentScopesTableData(
+  id: '...',
+  scopeType: 'chapter',
+  campaignId: campaignId,
+  chapterId: chapterId,
+  adventureId: null,
+  sceneId: null,
+  createdAt: DateTime.now().toIso8601String(),
+  updatedAt: DateTime.now().toIso8601String(),
+);
+await ref.addContentScope(scope);
+
+final location = LocationsTableData(
+  id: '...',
+  campaignId: campaignId,
+  scopeId: scope.id,
+  name: 'New location',
+  description: null,
+  content: const {},
+  data: const {},
+  createdAt: DateTime.now().toIso8601String(),
+  updatedAt: DateTime.now().toIso8601String(),
+);
+await ref.addLocation(location);
+```
 
 ## Using the database directly (advanced)
 

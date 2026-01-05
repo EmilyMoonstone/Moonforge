@@ -15,11 +15,13 @@ import 'package:moonforge/features/chapter/widgets/chapter_header.dart';
 import 'package:moonforge/gen/assets.gen.dart';
 import 'package:moonforge/gen/l10n.dart';
 import 'package:moonforge/layout/app_spacing.dart';
+import 'package:moonforge/layout/icons.dart';
 import 'package:moonforge/layout/widgets/scroll_view_default.dart';
 import 'package:moonforge/layout/widgets/two_pane.dart';
 import 'package:moonforge/routes/app_router.gr.dart';
 import 'package:multiple_stream_builder/multiple_stream_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:moonforge/data/ref_extensions.dart';
 
 @RoutePage()
 class ChapterPage extends ConsumerStatefulWidget {
@@ -72,10 +74,10 @@ class _ChapterPageState extends ConsumerState<ChapterPage> {
           .watchByScopes(scopeIds)
           .whereNotKind('npc'),
     );
-    final organisationsStream = ref.watchByScopes(
+    final organizationsStream = ref.watchByScopes(
       chapterId: widget.chapterId,
       watchByScopes: (scopeIds) =>
-          ref.watch(organisationsRepositoryProvider).watchByScopes(scopeIds),
+          ref.watch(organizationsRepositoryProvider).watchByScopes(scopeIds),
     );
     final itemsStream = ref.watchByScopes(
       chapterId: widget.chapterId,
@@ -138,21 +140,21 @@ class _ChapterPageState extends ConsumerState<ChapterPage> {
           List<LocationsTableData>,
           List<CreaturesTableData>,
           List<CreaturesTableData>,
-          List<OrganisationsTableData>,
+          List<OrganizationsTableData>,
           List<ItemsTableData>
         >(
           streams: StreamTuple5(
             locationsStream,
             npcsStream,
             otherCreaturesStream,
-            organisationsStream,
+            organizationsStream,
             itemsStream,
           ),
           initialData: InitialDataTuple5(
             const <LocationsTableData>[],
             const <CreaturesTableData>[],
             const <CreaturesTableData>[],
-            const <OrganisationsTableData>[],
+            const <OrganizationsTableData>[],
             const <ItemsTableData>[],
           ),
           builder: (context, entitySnapshots) {
@@ -182,7 +184,7 @@ class _ChapterPageState extends ConsumerState<ChapterPage> {
 
             if (entitySnapshots.snapshot4.hasError) {
               return _logAndBuildStreamError(
-                label: 'organisationsStream',
+                label: 'organizationsStream',
                 error: entitySnapshots.snapshot4.error,
                 stackTrace: entitySnapshots.snapshot4.stackTrace,
               );
@@ -202,16 +204,16 @@ class _ChapterPageState extends ConsumerState<ChapterPage> {
                 entitySnapshots.snapshot2.data ?? const <CreaturesTableData>[];
             final otherCreatures =
                 entitySnapshots.snapshot3.data ?? const <CreaturesTableData>[];
-            final organisations =
+            final organizations =
                 entitySnapshots.snapshot4.data ??
-                const <OrganisationsTableData>[];
+                const <OrganizationsTableData>[];
             final items =
                 entitySnapshots.snapshot5.data ?? const <ItemsTableData>[];
             final entitiesCount =
                 locations.length +
                 npcs.length +
                 otherCreatures.length +
-                organisations.length +
+                organizations.length +
                 items.length;
             final bool entitiesLoading =
                 entitySnapshots.snapshot1.connectionState ==
@@ -245,7 +247,19 @@ class _ChapterPageState extends ConsumerState<ChapterPage> {
                   onEditDescription: () {},
                 ),
                 Gap(AppSpacing.xl),
-                ContentView(document: chapter?.content)
+                Expanded(
+                  child: ContentView(
+                    document: chapter?.content,
+                    onSave: (updatedDocument) {
+                      if (chapter != null) {
+                        ref.updateChapter(
+                          chapter.copyWith(content: updatedDocument),
+                        );
+                      }
+                      return Future.value();
+                    },
+                  ),
+                ),
               ],
             );
 
@@ -260,7 +274,7 @@ class _ChapterPageState extends ConsumerState<ChapterPage> {
                         value: isLoading
                             ? '...'
                             : chapterAdventures.length.toString(),
-                        icon: Icons.map,
+                        icon: iconMap,
                         color: Colors.blue,
                       ),
                     ),
@@ -271,7 +285,7 @@ class _ChapterPageState extends ConsumerState<ChapterPage> {
                         value: entitiesLoading
                             ? '...'
                             : entitiesCount.toString(),
-                        icon: Icons.link,
+                        icon: iconEntities,
                         color: Colors.green,
                       ),
                     ),
@@ -329,8 +343,8 @@ class _ChapterPageState extends ConsumerState<ChapterPage> {
                   onNew: () {},
                   onNewLabel: l10n.spOrganizations('singular'),
                   emptyLabel: l10n.noXFound(l10n.spOrganizations('plural')),
-                  children: _buildOrganisationSidebarItems(
-                    organisations,
+                  children: _buildOrganizationSidebarItems(
+                    organizations,
                     entitiesLoading,
                   ),
                 ),
@@ -347,6 +361,7 @@ class _ChapterPageState extends ConsumerState<ChapterPage> {
             );
 
             return TwoPane(
+              scrollFirst: false,
               first: leftColumn,
               second: rightColumn,
             );
@@ -474,13 +489,13 @@ List<Widget> _buildCreatureSidebarItems(
     return [
       SidebarSectionItem(
         title: 'Creature Name',
-          tags: ['type'],
+        tags: ['type'],
         description: 'Creature description placeholder.',
         avatarImage: Assets.images.placeholders.avatar2.image().image,
       ).asSkeleton(enabled: true),
       SidebarSectionItem(
         title: 'Creature Name',
-          tags: ['type'],
+        tags: ['type'],
         description: 'Creature description placeholder.',
         avatarImage: Assets.images.placeholders.avatar2.image().image,
       ).asSkeleton(enabled: true),
@@ -500,8 +515,8 @@ List<Widget> _buildCreatureSidebarItems(
       .toList();
 }
 
-List<Widget> _buildOrganisationSidebarItems(
-  List<OrganisationsTableData> organisations,
+List<Widget> _buildOrganizationSidebarItems(
+  List<OrganizationsTableData> organizations,
   bool isLoading,
 ) {
   if (isLoading) {
@@ -519,12 +534,12 @@ List<Widget> _buildOrganisationSidebarItems(
     ];
   }
 
-  return organisations
+  return organizations
       .map(
-        (organisation) => SidebarSectionItem(
-          title: organisation.name,
-          tags: [organisation.type].whereType<String>().toList(),
-          description: organisation.description ?? 'No description yet.',
+        (organization) => SidebarSectionItem(
+          title: organization.name,
+          tags: [organization.type].whereType<String>().toList(),
+          description: organization.description ?? 'No description yet.',
           onTap: () {},
         ),
       )

@@ -58,7 +58,7 @@ class _AppLayoutState extends State<AppLayout> {
           onNavigate: (item) => _handleNavigate(context, item),
         ),
       ],
-      child: Expanded(
+      child: SizedBox.expand(
         child: Row(
           children: [
             if (widget.sidebar != null) widget.sidebar!,
@@ -67,7 +67,7 @@ class _AppLayoutState extends State<AppLayout> {
                 alignment: Alignment.topLeft,
                 child: Body(
                   child: widget.child,
-                )
+                ),
               ),
             ),
           ],

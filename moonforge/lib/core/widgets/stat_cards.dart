@@ -8,7 +8,7 @@ enum StateCardAlignment { vertical, horizontal, wrap }
 class StateCardData {
   final String title;
   final String value;
-  final IconData? icon;
+  final Widget? icon;
   final Color? color;
   final bool isLoading;
 
@@ -179,11 +179,7 @@ class StatCard extends StatelessWidget {
               children: [
                 Text(data.value, style: theme.typography.h3),
                 Gap(AppSpacing.md),
-                if (data.icon != null)
-                  Icon(
-                    data.icon,
-                    color: data.color ?? theme.colorScheme.primary,
-                  ),
+                if (data.icon != null) data.icon!,
               ],
             ),
             Text(
@@ -208,11 +204,7 @@ class StatCard extends StatelessWidget {
                 children: [
                   Text(data.value, style: theme.typography.h3),
                   Spacer(),
-                  if (data.icon != null)
-                    Icon(
-                      data.icon,
-                      color: data.color ?? theme.colorScheme.primary,
-                    ),
+                  if (data.icon != null) data.icon!,
                 ],
               ),
               Text(

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:app_links/app_links.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -101,8 +102,9 @@ class _AppState extends ConsumerState<App> {
           routerConfig: router.config(),
           locale: locale,
           localizationsDelegates: [
-            AppLocalizations.delegate,
+            ...AppLocalizations.localizationsDelegates,
             ShadcnLocalizationsDelegate.delegate,
+            FlutterQuillLocalizations.delegate,
           ],
           supportedLocales: AppLocalizations.supportedLocales,
           builder: (context, child) {
