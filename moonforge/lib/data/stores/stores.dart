@@ -14,7 +14,7 @@ export 'groups.dart';
 export 'items.dart';
 export 'locations.dart';
 export 'maps.dart';
-export 'organisations.dart';
+export 'organizations.dart';
 export 'playing_campaigns.dart';
 export 'scenes.dart';
 export 'session_logs.dart';

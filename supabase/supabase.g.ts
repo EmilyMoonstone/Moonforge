@@ -57,11 +57,25 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "adventures_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
             foreignKeyName: "adventures_chapter_id_fkey"
             columns: ["chapter_id"]
             isOneToOne: false
             referencedRelation: "chapters"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "adventures_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["chapter_id"]
           },
         ]
       }
@@ -102,11 +116,25 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "campaign_access_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
             foreignKeyName: "campaign_access_source_group_id_fkey"
             columns: ["source_group_id"]
             isOneToOne: false
             referencedRelation: "groups"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaign_access_source_group_id_fkey"
+            columns: ["source_group_id"]
+            isOneToOne: false
+            referencedRelation: "v_group_dashboard"
+            referencedColumns: ["group_id"]
           },
         ]
       }
@@ -179,6 +207,13 @@ export type Database = {
             referencedRelation: "campaigns"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "chapters_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
         ]
       }
       characters: {
@@ -250,6 +285,13 @@ export type Database = {
             referencedRelation: "groups"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "characters_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "v_group_dashboard"
+            referencedColumns: ["group_id"]
+          },
         ]
       }
       content_scopes: {
@@ -292,11 +334,25 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "content_scopes_adventure_id_fkey"
+            columns: ["adventure_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["adventure_id"]
+          },
+          {
             foreignKeyName: "content_scopes_campaign_id_fkey"
             columns: ["campaign_id"]
             isOneToOne: false
             referencedRelation: "campaigns"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_scopes_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
           },
           {
             foreignKeyName: "content_scopes_chapter_id_fkey"
@@ -306,11 +362,74 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "content_scopes_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["chapter_id"]
+          },
+          {
             foreignKeyName: "content_scopes_scene_id_fkey"
             columns: ["scene_id"]
             isOneToOne: false
             referencedRelation: "scenes"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_scopes_scene_id_fkey"
+            columns: ["scene_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["scene_id"]
+          },
+          {
+            foreignKeyName: "content_scopes_scene_id_fkey"
+            columns: ["scene_id"]
+            isOneToOne: false
+            referencedRelation: "v_creature_with_path"
+            referencedColumns: ["scene_id"]
+          },
+          {
+            foreignKeyName: "content_scopes_scene_id_fkey"
+            columns: ["scene_id"]
+            isOneToOne: false
+            referencedRelation: "v_encounter_expanded_with_path"
+            referencedColumns: ["scene_id"]
+          },
+          {
+            foreignKeyName: "content_scopes_scene_id_fkey"
+            columns: ["scene_id"]
+            isOneToOne: false
+            referencedRelation: "v_encounter_with_path"
+            referencedColumns: ["scene_id"]
+          },
+          {
+            foreignKeyName: "content_scopes_scene_id_fkey"
+            columns: ["scene_id"]
+            isOneToOne: false
+            referencedRelation: "v_item_with_path"
+            referencedColumns: ["scene_id"]
+          },
+          {
+            foreignKeyName: "content_scopes_scene_id_fkey"
+            columns: ["scene_id"]
+            isOneToOne: false
+            referencedRelation: "v_location_with_path"
+            referencedColumns: ["scene_id"]
+          },
+          {
+            foreignKeyName: "content_scopes_scene_id_fkey"
+            columns: ["scene_id"]
+            isOneToOne: false
+            referencedRelation: "v_organization_with_path"
+            referencedColumns: ["scene_id"]
+          },
+          {
+            foreignKeyName: "content_scopes_scene_id_fkey"
+            columns: ["scene_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_path"
+            referencedColumns: ["scene_id"]
           },
         ]
       }
@@ -337,7 +456,7 @@ export type Database = {
           languages: Json
           legendary_actions: Json
           name: string
-          organisation_id: string | null
+          organization_id: string | null
           raw: Json
           reactions: Json
           saving_throws: Json
@@ -374,7 +493,7 @@ export type Database = {
           languages?: Json
           legendary_actions?: Json
           name: string
-          organisation_id?: string | null
+          organization_id?: string | null
           raw?: Json
           reactions?: Json
           saving_throws?: Json
@@ -411,7 +530,7 @@ export type Database = {
           languages?: Json
           legendary_actions?: Json
           name?: string
-          organisation_id?: string | null
+          organization_id?: string | null
           raw?: Json
           reactions?: Json
           saving_throws?: Json
@@ -435,11 +554,11 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "creatures_organisation_id_fkey"
-            columns: ["organisation_id"]
+            foreignKeyName: "creatures_campaign_id_fkey"
+            columns: ["campaign_id"]
             isOneToOne: false
-            referencedRelation: "organisations"
-            referencedColumns: ["id"]
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
           },
           {
             foreignKeyName: "creatures_scope_id_fkey"
@@ -447,6 +566,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "content_scopes"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "creatures_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_campaign"
+            referencedColumns: ["scope_id"]
+          },
+          {
+            foreignKeyName: "creatures_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_path"
+            referencedColumns: ["scope_id"]
           },
         ]
       }
@@ -493,6 +626,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "encounter_creatures_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
             foreignKeyName: "encounter_creatures_creature_id_fkey"
             columns: ["creature_id"]
             isOneToOne: false
@@ -500,10 +640,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "encounter_creatures_creature_id_fkey"
+            columns: ["creature_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_creatures"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "encounter_creatures_creature_id_fkey"
+            columns: ["creature_id"]
+            isOneToOne: false
+            referencedRelation: "v_creature_with_path"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "encounter_creatures_encounter_id_fkey"
             columns: ["encounter_id"]
             isOneToOne: false
             referencedRelation: "encounters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "encounter_creatures_encounter_id_fkey"
+            columns: ["encounter_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_encounters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "encounter_creatures_encounter_id_fkey"
+            columns: ["encounter_id"]
+            isOneToOne: false
+            referencedRelation: "v_encounter_expanded_with_path"
+            referencedColumns: ["encounter_id"]
+          },
+          {
+            foreignKeyName: "encounter_creatures_encounter_id_fkey"
+            columns: ["encounter_id"]
+            isOneToOne: false
+            referencedRelation: "v_encounter_with_path"
             referencedColumns: ["id"]
           },
         ]
@@ -551,11 +726,32 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "encounters_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
             foreignKeyName: "encounters_scope_id_fkey"
             columns: ["scope_id"]
             isOneToOne: false
             referencedRelation: "content_scopes"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "encounters_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_campaign"
+            referencedColumns: ["scope_id"]
+          },
+          {
+            foreignKeyName: "encounters_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_path"
+            referencedColumns: ["scope_id"]
           },
         ]
       }
@@ -591,6 +787,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "groups"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "group_members_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "v_group_dashboard"
+            referencedColumns: ["group_id"]
           },
         ]
       }
@@ -673,11 +876,32 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "items_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
             foreignKeyName: "items_scope_id_fkey"
             columns: ["scope_id"]
             isOneToOne: false
             referencedRelation: "content_scopes"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "items_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_campaign"
+            referencedColumns: ["scope_id"]
+          },
+          {
+            foreignKeyName: "items_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_path"
+            referencedColumns: ["scope_id"]
           },
         ]
       }
@@ -724,11 +948,32 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "locations_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
             foreignKeyName: "locations_scope_id_fkey"
             columns: ["scope_id"]
             isOneToOne: false
             referencedRelation: "content_scopes"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "locations_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_campaign"
+            referencedColumns: ["scope_id"]
+          },
+          {
+            foreignKeyName: "locations_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_path"
+            referencedColumns: ["scope_id"]
           },
         ]
       }
@@ -768,9 +1013,16 @@ export type Database = {
             referencedRelation: "campaigns"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "maps_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
         ]
       }
-      organisations: {
+      organizations: {
         Row: {
           campaign_id: string
           content: Json
@@ -809,25 +1061,60 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "organisations_campaign_id_fkey"
+            foreignKeyName: "organizations_campaign_id_fkey"
             columns: ["campaign_id"]
             isOneToOne: false
             referencedRelation: "campaigns"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "organisations_hq_location_fk"
+            foreignKeyName: "organizations_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "organizations_hq_location_fk"
             columns: ["hq_location_id"]
             isOneToOne: true
             referencedRelation: "locations"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "organisations_scope_id_fkey"
+            foreignKeyName: "organizations_hq_location_fk"
+            columns: ["hq_location_id"]
+            isOneToOne: true
+            referencedRelation: "v_campaign_locations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organizations_hq_location_fk"
+            columns: ["hq_location_id"]
+            isOneToOne: true
+            referencedRelation: "v_location_with_path"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organizations_scope_id_fkey"
             columns: ["scope_id"]
             isOneToOne: false
             referencedRelation: "content_scopes"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organizations_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_campaign"
+            referencedColumns: ["scope_id"]
+          },
+          {
+            foreignKeyName: "organizations_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_path"
+            referencedColumns: ["scope_id"]
           },
         ]
       }
@@ -859,11 +1146,25 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "playing_campaigns_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
             foreignKeyName: "playing_campaigns_group_id_fkey"
             columns: ["group_id"]
             isOneToOne: true
             referencedRelation: "groups"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "playing_campaigns_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: true
+            referencedRelation: "v_group_dashboard"
+            referencedColumns: ["group_id"]
           },
         ]
       }
@@ -910,11 +1211,25 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "scenes_adventure_id_fkey"
+            columns: ["adventure_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["adventure_id"]
+          },
+          {
             foreignKeyName: "scenes_campaign_id_fkey"
             columns: ["campaign_id"]
             isOneToOne: false
             referencedRelation: "campaigns"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scenes_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
           },
         ]
       }
@@ -957,11 +1272,1105 @@ export type Database = {
             referencedRelation: "groups"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "session_logs_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "v_group_dashboard"
+            referencedColumns: ["group_id"]
+          },
         ]
       }
     }
     Views: {
-      [_ in never]: never
+      v_campaign_creatures: {
+        Row: {
+          ability_scores: Json | null
+          actions: Json | null
+          alignment: string | null
+          armor_class: number | null
+          campaign_id: string | null
+          challenge_rating: number | null
+          condition_immunities: Json | null
+          content: Json | null
+          created_at: string | null
+          creature_type: string | null
+          damage_immunities: Json | null
+          damage_resistances: Json | null
+          description: string | null
+          experience_points: number | null
+          hit_dice: string | null
+          hit_points: number | null
+          id: string | null
+          kind: string | null
+          languages: Json | null
+          legendary_actions: Json | null
+          name: string | null
+          organization_id: string | null
+          raw: Json | null
+          reactions: Json | null
+          saving_throws: Json | null
+          scope_id: string | null
+          senses: Json | null
+          size: string | null
+          skills: Json | null
+          source: string | null
+          speed: Json | null
+          spellcasting: Json | null
+          subtype: string | null
+          traits: Json | null
+          updated_at: string | null
+        }
+        Insert: {
+          ability_scores?: Json | null
+          actions?: Json | null
+          alignment?: string | null
+          armor_class?: number | null
+          campaign_id?: string | null
+          challenge_rating?: number | null
+          condition_immunities?: Json | null
+          content?: Json | null
+          created_at?: string | null
+          creature_type?: string | null
+          damage_immunities?: Json | null
+          damage_resistances?: Json | null
+          description?: string | null
+          experience_points?: number | null
+          hit_dice?: string | null
+          hit_points?: number | null
+          id?: string | null
+          kind?: string | null
+          languages?: Json | null
+          legendary_actions?: Json | null
+          name?: string | null
+          organization_id?: string | null
+          raw?: Json | null
+          reactions?: Json | null
+          saving_throws?: Json | null
+          scope_id?: string | null
+          senses?: Json | null
+          size?: string | null
+          skills?: Json | null
+          source?: string | null
+          speed?: Json | null
+          spellcasting?: Json | null
+          subtype?: string | null
+          traits?: Json | null
+          updated_at?: string | null
+        }
+        Update: {
+          ability_scores?: Json | null
+          actions?: Json | null
+          alignment?: string | null
+          armor_class?: number | null
+          campaign_id?: string | null
+          challenge_rating?: number | null
+          condition_immunities?: Json | null
+          content?: Json | null
+          created_at?: string | null
+          creature_type?: string | null
+          damage_immunities?: Json | null
+          damage_resistances?: Json | null
+          description?: string | null
+          experience_points?: number | null
+          hit_dice?: string | null
+          hit_points?: number | null
+          id?: string | null
+          kind?: string | null
+          languages?: Json | null
+          legendary_actions?: Json | null
+          name?: string | null
+          organization_id?: string | null
+          raw?: Json | null
+          reactions?: Json | null
+          saving_throws?: Json | null
+          scope_id?: string | null
+          senses?: Json | null
+          size?: string | null
+          skills?: Json | null
+          source?: string | null
+          speed?: Json | null
+          spellcasting?: Json | null
+          subtype?: string | null
+          traits?: Json | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creatures_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "creatures_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "creatures_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "content_scopes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "creatures_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_campaign"
+            referencedColumns: ["scope_id"]
+          },
+          {
+            foreignKeyName: "creatures_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_path"
+            referencedColumns: ["scope_id"]
+          },
+        ]
+      }
+      v_campaign_encounters: {
+        Row: {
+          campaign_id: string | null
+          content: Json | null
+          created_at: string | null
+          data: Json | null
+          description: string | null
+          id: string | null
+          scope_id: string | null
+          title: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          campaign_id?: string | null
+          content?: Json | null
+          created_at?: string | null
+          data?: Json | null
+          description?: string | null
+          id?: string | null
+          scope_id?: string | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          campaign_id?: string | null
+          content?: Json | null
+          created_at?: string | null
+          data?: Json | null
+          description?: string | null
+          id?: string | null
+          scope_id?: string | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "encounters_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "encounters_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "encounters_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "content_scopes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "encounters_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_campaign"
+            referencedColumns: ["scope_id"]
+          },
+          {
+            foreignKeyName: "encounters_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_path"
+            referencedColumns: ["scope_id"]
+          },
+        ]
+      }
+      v_campaign_items: {
+        Row: {
+          attunement: boolean | null
+          campaign_id: string | null
+          content: Json | null
+          created_at: string | null
+          data: Json | null
+          description: string | null
+          id: string | null
+          name: string | null
+          rarity: string | null
+          scope_id: string | null
+          type: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          attunement?: boolean | null
+          campaign_id?: string | null
+          content?: Json | null
+          created_at?: string | null
+          data?: Json | null
+          description?: string | null
+          id?: string | null
+          name?: string | null
+          rarity?: string | null
+          scope_id?: string | null
+          type?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          attunement?: boolean | null
+          campaign_id?: string | null
+          content?: Json | null
+          created_at?: string | null
+          data?: Json | null
+          description?: string | null
+          id?: string | null
+          name?: string | null
+          rarity?: string | null
+          scope_id?: string | null
+          type?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "items_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "items_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "items_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "content_scopes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "items_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_campaign"
+            referencedColumns: ["scope_id"]
+          },
+          {
+            foreignKeyName: "items_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_path"
+            referencedColumns: ["scope_id"]
+          },
+        ]
+      }
+      v_campaign_locations: {
+        Row: {
+          campaign_id: string | null
+          content: Json | null
+          created_at: string | null
+          data: Json | null
+          description: string | null
+          id: string | null
+          name: string | null
+          scope_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          campaign_id?: string | null
+          content?: Json | null
+          created_at?: string | null
+          data?: Json | null
+          description?: string | null
+          id?: string | null
+          name?: string | null
+          scope_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          campaign_id?: string | null
+          content?: Json | null
+          created_at?: string | null
+          data?: Json | null
+          description?: string | null
+          id?: string | null
+          name?: string | null
+          scope_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "locations_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "locations_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "locations_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "content_scopes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "locations_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_campaign"
+            referencedColumns: ["scope_id"]
+          },
+          {
+            foreignKeyName: "locations_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_path"
+            referencedColumns: ["scope_id"]
+          },
+        ]
+      }
+      v_campaign_organizations: {
+        Row: {
+          campaign_id: string | null
+          content: Json | null
+          created_at: string | null
+          description: string | null
+          hq_location_id: string | null
+          id: string | null
+          name: string | null
+          scope_id: string | null
+          type: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          campaign_id?: string | null
+          content?: Json | null
+          created_at?: string | null
+          description?: string | null
+          hq_location_id?: string | null
+          id?: string | null
+          name?: string | null
+          scope_id?: string | null
+          type?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          campaign_id?: string | null
+          content?: Json | null
+          created_at?: string | null
+          description?: string | null
+          hq_location_id?: string | null
+          id?: string | null
+          name?: string | null
+          scope_id?: string | null
+          type?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organizations_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organizations_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "organizations_hq_location_fk"
+            columns: ["hq_location_id"]
+            isOneToOne: true
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organizations_hq_location_fk"
+            columns: ["hq_location_id"]
+            isOneToOne: true
+            referencedRelation: "v_campaign_locations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organizations_hq_location_fk"
+            columns: ["hq_location_id"]
+            isOneToOne: true
+            referencedRelation: "v_location_with_path"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organizations_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "content_scopes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organizations_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_campaign"
+            referencedColumns: ["scope_id"]
+          },
+          {
+            foreignKeyName: "organizations_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_path"
+            referencedColumns: ["scope_id"]
+          },
+        ]
+      }
+      v_campaign_outline: {
+        Row: {
+          adventure_id: string | null
+          adventure_order_number: number | null
+          adventure_title: string | null
+          campaign_id: string | null
+          campaign_title: string | null
+          chapter_id: string | null
+          chapter_order_number: number | null
+          chapter_title: string | null
+          scene_id: string | null
+          scene_order_number: number | null
+          scene_title: string | null
+        }
+        Relationships: []
+      }
+      v_character_quick: {
+        Row: {
+          abilities: Json | null
+          armor_class: number | null
+          avatar_url: string | null
+          classes: Json | null
+          dndbeyond_character_id: number | null
+          group_id: string | null
+          hit_points: number | null
+          id: string | null
+          level: number | null
+          name: string | null
+          race: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          abilities?: Json | null
+          armor_class?: number | null
+          avatar_url?: string | null
+          classes?: Json | null
+          dndbeyond_character_id?: number | null
+          group_id?: string | null
+          hit_points?: number | null
+          id?: string | null
+          level?: number | null
+          name?: string | null
+          race?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          abilities?: Json | null
+          armor_class?: number | null
+          avatar_url?: string | null
+          classes?: Json | null
+          dndbeyond_character_id?: number | null
+          group_id?: string | null
+          hit_points?: number | null
+          id?: string | null
+          level?: number | null
+          name?: string | null
+          race?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "characters_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "characters_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "v_group_dashboard"
+            referencedColumns: ["group_id"]
+          },
+        ]
+      }
+      v_creature_with_path: {
+        Row: {
+          ability_scores: Json | null
+          actions: Json | null
+          adventure_id: string | null
+          adventure_order_number: number | null
+          adventure_title: string | null
+          alignment: string | null
+          armor_class: number | null
+          campaign_id: string | null
+          campaign_title: string | null
+          challenge_rating: number | null
+          chapter_id: string | null
+          chapter_order_number: number | null
+          chapter_title: string | null
+          condition_immunities: Json | null
+          content: Json | null
+          created_at: string | null
+          creature_type: string | null
+          damage_immunities: Json | null
+          damage_resistances: Json | null
+          description: string | null
+          experience_points: number | null
+          hit_dice: string | null
+          hit_points: number | null
+          id: string | null
+          kind: string | null
+          languages: Json | null
+          legendary_actions: Json | null
+          name: string | null
+          organization_id: string | null
+          path_order: string | null
+          path_titles: string | null
+          raw: Json | null
+          reactions: Json | null
+          saving_throws: Json | null
+          scene_id: string | null
+          scene_order_number: number | null
+          scene_title: string | null
+          scope_id: string | null
+          senses: Json | null
+          size: string | null
+          skills: Json | null
+          source: string | null
+          speed: Json | null
+          spellcasting: Json | null
+          subtype: string | null
+          traits: Json | null
+          updated_at: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creatures_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "creatures_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "creatures_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "content_scopes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "creatures_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_campaign"
+            referencedColumns: ["scope_id"]
+          },
+          {
+            foreignKeyName: "creatures_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_path"
+            referencedColumns: ["scope_id"]
+          },
+        ]
+      }
+      v_encounter_expanded_with_path: {
+        Row: {
+          adventure_id: string | null
+          adventure_order_number: number | null
+          adventure_title: string | null
+          campaign_id: string | null
+          campaign_title: string | null
+          chapter_id: string | null
+          chapter_order_number: number | null
+          chapter_title: string | null
+          content: Json | null
+          created_at: string | null
+          creature_ac: number | null
+          creature_cr: number | null
+          creature_hp: number | null
+          creature_id: string | null
+          creature_kind: string | null
+          creature_name: string | null
+          data: Json | null
+          description: string | null
+          encounter_creature_id: string | null
+          encounter_id: string | null
+          initiative: number | null
+          notes: string | null
+          path_order: string | null
+          path_titles: string | null
+          quantity: number | null
+          scene_id: string | null
+          scene_order_number: number | null
+          scene_title: string | null
+          scope_id: string | null
+          title: string | null
+          updated_at: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "encounter_creatures_creature_id_fkey"
+            columns: ["creature_id"]
+            isOneToOne: false
+            referencedRelation: "creatures"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "encounter_creatures_creature_id_fkey"
+            columns: ["creature_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_creatures"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "encounter_creatures_creature_id_fkey"
+            columns: ["creature_id"]
+            isOneToOne: false
+            referencedRelation: "v_creature_with_path"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "encounters_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "encounters_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "encounters_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "content_scopes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "encounters_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_campaign"
+            referencedColumns: ["scope_id"]
+          },
+          {
+            foreignKeyName: "encounters_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_path"
+            referencedColumns: ["scope_id"]
+          },
+        ]
+      }
+      v_encounter_with_path: {
+        Row: {
+          adventure_id: string | null
+          adventure_order_number: number | null
+          adventure_title: string | null
+          campaign_id: string | null
+          campaign_title: string | null
+          chapter_id: string | null
+          chapter_order_number: number | null
+          chapter_title: string | null
+          content: Json | null
+          created_at: string | null
+          data: Json | null
+          description: string | null
+          id: string | null
+          path_order: string | null
+          path_titles: string | null
+          scene_id: string | null
+          scene_order_number: number | null
+          scene_title: string | null
+          scope_id: string | null
+          title: string | null
+          updated_at: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "encounters_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "encounters_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "encounters_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "content_scopes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "encounters_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_campaign"
+            referencedColumns: ["scope_id"]
+          },
+          {
+            foreignKeyName: "encounters_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_path"
+            referencedColumns: ["scope_id"]
+          },
+        ]
+      }
+      v_group_dashboard: {
+        Row: {
+          character_count: number | null
+          dungeon_master_user_id: string | null
+          group_id: string | null
+          group_name: string | null
+          playing_campaign_id: string | null
+          session_log_count: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "playing_campaigns_campaign_id_fkey"
+            columns: ["playing_campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "playing_campaigns_campaign_id_fkey"
+            columns: ["playing_campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+        ]
+      }
+      v_item_with_path: {
+        Row: {
+          adventure_id: string | null
+          adventure_order_number: number | null
+          adventure_title: string | null
+          attunement: boolean | null
+          campaign_id: string | null
+          campaign_title: string | null
+          chapter_id: string | null
+          chapter_order_number: number | null
+          chapter_title: string | null
+          content: Json | null
+          created_at: string | null
+          data: Json | null
+          description: string | null
+          id: string | null
+          name: string | null
+          path_order: string | null
+          path_titles: string | null
+          rarity: string | null
+          scene_id: string | null
+          scene_order_number: number | null
+          scene_title: string | null
+          scope_id: string | null
+          type: string | null
+          updated_at: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "items_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "items_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "items_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "content_scopes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "items_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_campaign"
+            referencedColumns: ["scope_id"]
+          },
+          {
+            foreignKeyName: "items_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_path"
+            referencedColumns: ["scope_id"]
+          },
+        ]
+      }
+      v_location_with_path: {
+        Row: {
+          adventure_id: string | null
+          adventure_order_number: number | null
+          adventure_title: string | null
+          campaign_id: string | null
+          campaign_title: string | null
+          chapter_id: string | null
+          chapter_order_number: number | null
+          chapter_title: string | null
+          content: Json | null
+          created_at: string | null
+          data: Json | null
+          description: string | null
+          id: string | null
+          name: string | null
+          path_order: string | null
+          path_titles: string | null
+          scene_id: string | null
+          scene_order_number: number | null
+          scene_title: string | null
+          scope_id: string | null
+          updated_at: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "locations_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "locations_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "locations_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "content_scopes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "locations_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_campaign"
+            referencedColumns: ["scope_id"]
+          },
+          {
+            foreignKeyName: "locations_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_path"
+            referencedColumns: ["scope_id"]
+          },
+        ]
+      }
+      v_organization_with_path: {
+        Row: {
+          adventure_id: string | null
+          adventure_order_number: number | null
+          adventure_title: string | null
+          campaign_id: string | null
+          campaign_title: string | null
+          chapter_id: string | null
+          chapter_order_number: number | null
+          chapter_title: string | null
+          content: Json | null
+          created_at: string | null
+          description: string | null
+          hq_location_id: string | null
+          id: string | null
+          name: string | null
+          path_order: string | null
+          path_titles: string | null
+          scene_id: string | null
+          scene_order_number: number | null
+          scene_title: string | null
+          scope_id: string | null
+          type: string | null
+          updated_at: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organizations_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organizations_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "organizations_hq_location_fk"
+            columns: ["hq_location_id"]
+            isOneToOne: true
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organizations_hq_location_fk"
+            columns: ["hq_location_id"]
+            isOneToOne: true
+            referencedRelation: "v_campaign_locations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organizations_hq_location_fk"
+            columns: ["hq_location_id"]
+            isOneToOne: true
+            referencedRelation: "v_location_with_path"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organizations_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "content_scopes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organizations_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_campaign"
+            referencedColumns: ["scope_id"]
+          },
+          {
+            foreignKeyName: "organizations_scope_id_fkey"
+            columns: ["scope_id"]
+            isOneToOne: false
+            referencedRelation: "v_scope_path"
+            referencedColumns: ["scope_id"]
+          },
+        ]
+      }
+      v_scope_campaign: {
+        Row: {
+          campaign_id: string | null
+          scope_id: string | null
+          scope_type: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_scopes_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_scopes_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+        ]
+      }
+      v_scope_path: {
+        Row: {
+          adventure_id: string | null
+          adventure_order_number: number | null
+          adventure_title: string | null
+          campaign_id: string | null
+          campaign_title: string | null
+          chapter_id: string | null
+          chapter_order_number: number | null
+          chapter_title: string | null
+          path_order: string | null
+          path_titles: string | null
+          scene_id: string | null
+          scene_order_number: number | null
+          scene_title: string | null
+          scope_id: string | null
+          scope_type: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_scopes_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_scopes_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "v_campaign_outline"
+            referencedColumns: ["campaign_id"]
+          },
+        ]
+      }
     }
     Functions: {
       can_access_campaign: { Args: { cid: string }; Returns: boolean }

@@ -14,7 +14,7 @@ import 'package:moonforge/data/stores/groups.dart';
 import 'package:moonforge/data/stores/items.dart';
 import 'package:moonforge/data/stores/locations.dart';
 import 'package:moonforge/data/stores/maps.dart';
-import 'package:moonforge/data/stores/organisations.dart';
+import 'package:moonforge/data/stores/organizations.dart';
 import 'package:moonforge/data/stores/playing_campaigns.dart';
 import 'package:moonforge/data/stores/scenes.dart';
 import 'package:moonforge/data/stores/session_logs.dart';
@@ -44,7 +44,7 @@ Future<Iterable<ContentScopesTableData>> _wrapSingleScopeFuture(
   return <ContentScopesTableData>[scope];
 }
 
-extension AdventuresRef on Ref {
+extension AdventuresRef on WidgetRef {
   AdventuresRepository get adventuresRepository {
     return read(adventuresRepositoryProvider);
   }
@@ -70,7 +70,7 @@ extension AdventuresRef on Ref {
   }
 }
 
-extension CampaignAccessRef on Ref {
+extension CampaignAccessRef on WidgetRef {
   CampaignAccessRepository get campaignAccessRepository {
     return read(campaignAccessRepositoryProvider);
   }
@@ -106,7 +106,7 @@ extension CampaignAccessRef on Ref {
   }
 }
 
-extension CampaignRef on Ref {
+extension CampaignRef on WidgetRef {
   CampaignRepository get campaignRepository {
     return read(campaignRepositoryProvider);
   }
@@ -136,7 +136,7 @@ extension CampaignRef on Ref {
   }
 }
 
-extension ChaptersRef on Ref {
+extension ChaptersRef on WidgetRef {
   ChaptersRepository get chaptersRepository {
     return read(chaptersRepositoryProvider);
   }
@@ -162,7 +162,7 @@ extension ChaptersRef on Ref {
   }
 }
 
-extension CharactersRef on Ref {
+extension CharactersRef on WidgetRef {
   CharactersRepository get charactersRepository {
     return read(charactersRepositoryProvider);
   }
@@ -188,7 +188,7 @@ extension CharactersRef on Ref {
   }
 }
 
-extension ContentScopesRef on Ref {
+extension ContentScopesRef on WidgetRef {
   ContentScopesRepository get contentScopesRepository {
     return read(contentScopesRepositoryProvider);
   }
@@ -373,7 +373,7 @@ extension ScopedStreamsWidgetRef on WidgetRef {
 
 }
 
-extension CreaturesRef on Ref {
+extension CreaturesRef on WidgetRef {
   CreaturesRepository get creaturesRepository {
     return read(creaturesRepositoryProvider);
   }
@@ -399,7 +399,7 @@ extension CreaturesRef on Ref {
   }
 }
 
-extension EncounterCreaturesRef on Ref {
+extension EncounterCreaturesRef on WidgetRef {
   EncounterCreaturesRepository get encounterCreaturesRepository {
     return read(encounterCreaturesRepositoryProvider);
   }
@@ -443,7 +443,7 @@ extension EncounterCreaturesRef on Ref {
   }
 }
 
-extension EncountersRef on Ref {
+extension EncountersRef on WidgetRef {
   EncountersRepository get encountersRepository {
     return read(encountersRepositoryProvider);
   }
@@ -469,7 +469,7 @@ extension EncountersRef on Ref {
   }
 }
 
-extension GroupMembersRef on Ref {
+extension GroupMembersRef on WidgetRef {
   GroupMembersRepository get groupMembersRepository {
     return read(groupMembersRepositoryProvider);
   }
@@ -505,7 +505,7 @@ extension GroupMembersRef on Ref {
   }
 }
 
-extension GroupsRef on Ref {
+extension GroupsRef on WidgetRef {
   GroupsRepository get groupsRepository {
     return read(groupsRepositoryProvider);
   }
@@ -531,7 +531,7 @@ extension GroupsRef on Ref {
   }
 }
 
-extension ItemsRef on Ref {
+extension ItemsRef on WidgetRef {
   ItemsRepository get itemsRepository {
     return read(itemsRepositoryProvider);
   }
@@ -557,7 +557,7 @@ extension ItemsRef on Ref {
   }
 }
 
-extension LocationsRef on Ref {
+extension LocationsRef on WidgetRef {
   LocationsRepository get locationsRepository {
     return read(locationsRepositoryProvider);
   }
@@ -583,7 +583,7 @@ extension LocationsRef on Ref {
   }
 }
 
-extension MapsRef on Ref {
+extension MapsRef on WidgetRef {
   MapsRepository get mapsRepository {
     return read(mapsRepositoryProvider);
   }
@@ -609,43 +609,43 @@ extension MapsRef on Ref {
   }
 }
 
-extension OrganisationsRef on Ref {
-  OrganisationsRepository get organisationsRepository {
-    return read(organisationsRepositoryProvider);
+extension OrganizationsRef on WidgetRef {
+  OrganizationsRepository get organizationsRepository {
+    return read(organizationsRepositoryProvider);
   }
 
-  Future<void> addOrganisation(OrganisationsTableData organisation) {
+  Future<void> addOrganization(OrganizationsTableData organization) {
     return read(
-      organisationsCommandsProvider.notifier,
-    ).addOrganisation(organisation);
+      organizationsCommandsProvider.notifier,
+    ).addOrganization(organization);
   }
 
-  Future<void> updateOrganisation(OrganisationsTableData organisation) {
+  Future<void> updateOrganization(OrganizationsTableData organization) {
     return read(
-      organisationsCommandsProvider.notifier,
-    ).updateOrganisation(organisation);
+      organizationsCommandsProvider.notifier,
+    ).updateOrganization(organization);
   }
 
-  Future<void> upsertOrganisation(OrganisationsTableData organisation) {
+  Future<void> upsertOrganization(OrganizationsTableData organization) {
     return read(
-      organisationsCommandsProvider.notifier,
-    ).upsertOrganisation(organisation);
+      organizationsCommandsProvider.notifier,
+    ).upsertOrganization(organization);
   }
 
-  Future<void> deleteOrganisation(OrganisationsTableData organisation) {
+  Future<void> deleteOrganization(OrganizationsTableData organization) {
     return read(
-      organisationsCommandsProvider.notifier,
-    ).deleteOrganisation(organisation);
+      organizationsCommandsProvider.notifier,
+    ).deleteOrganization(organization);
   }
 
-  Future<void> deleteOrganisationById(String id) {
+  Future<void> deleteOrganizationById(String id) {
     return read(
-      organisationsCommandsProvider.notifier,
-    ).deleteOrganisationById(id);
+      organizationsCommandsProvider.notifier,
+    ).deleteOrganizationById(id);
   }
 }
 
-extension PlayingCampaignsRef on Ref {
+extension PlayingCampaignsRef on WidgetRef {
   PlayingCampaignsRepository get playingCampaignsRepository {
     return read(playingCampaignsRepositoryProvider);
   }
@@ -681,7 +681,7 @@ extension PlayingCampaignsRef on Ref {
   }
 }
 
-extension ScenesRef on Ref {
+extension ScenesRef on WidgetRef {
   ScenesRepository get scenesRepository {
     return read(scenesRepositoryProvider);
   }
@@ -707,7 +707,7 @@ extension ScenesRef on Ref {
   }
 }
 
-extension SessionLogsRef on Ref {
+extension SessionLogsRef on WidgetRef {
   SessionLogsRepository get sessionLogsRepository {
     return read(sessionLogsRepositoryProvider);
   }

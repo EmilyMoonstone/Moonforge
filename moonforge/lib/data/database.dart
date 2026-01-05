@@ -13,7 +13,7 @@ part 'views.dart';
   tables: tables,
   views: [
     LocationsWithScopes,
-    OrganisationsWithScopes,
+    OrganizationsWithScopes,
     ItemsWithScopes,
     CreaturesWithScopes,
     EncountersWithScopes,

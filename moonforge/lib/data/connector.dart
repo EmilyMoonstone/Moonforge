@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:moonforge/core/constants/env.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:powersync/powersync.dart';
@@ -90,11 +92,14 @@ class SupabaseConnector extends PowerSyncBackendConnector {
 
         final table = rest.from(op.table);
         if (op.op == UpdateType.put) {
-          var data = Map<String, dynamic>.of(op.opData!);
+          var data = _normalizeJsonPayload(Map<String, dynamic>.of(op.opData!));
           data['id'] = op.id;
           await table.upsert(data);
         } else if (op.op == UpdateType.patch) {
-          await table.update(op.opData!).eq('id', op.id);
+          final data = _normalizeJsonPayload(
+            Map<String, dynamic>.of(op.opData!),
+          );
+          await table.update(data).eq('id', op.id);
         } else if (op.op == UpdateType.delete) {
           await table.delete().eq('id', op.id);
         }
@@ -122,6 +127,33 @@ class SupabaseConnector extends PowerSyncBackendConnector {
         // Throwing an error here causes this call to be retried after a delay.
         rethrow;
       }
+    }
+  }
+
+  Map<String, dynamic> _normalizeJsonPayload(Map<String, dynamic> data) {
+    if (data.containsKey('content')) {
+      final decoded = _decodeJsonValue(data['content']);
+      data['content'] = decoded is List ? {'ops': decoded} : decoded;
+    }
+    return data;
+  }
+
+  Object? _decodeJsonValue(Object? value) {
+    if (value is! String) {
+      return value;
+    }
+    final trimmed = value.trim();
+    if (trimmed.isEmpty) {
+      return value;
+    }
+    try {
+      final decoded = json.decode(value);
+      if (decoded is String) {
+        return json.decode(decoded);
+      }
+      return decoded;
+    } catch (_) {
+      return value;
     }
   }
 }

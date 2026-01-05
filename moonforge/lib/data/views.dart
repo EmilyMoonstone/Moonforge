@@ -24,30 +24,30 @@ abstract class LocationsWithScopes extends View {
   ]);
 }
 
-abstract class OrganisationsWithScopes extends View {
-  OrganisationsTable get organisations;
+abstract class OrganizationsWithScopes extends View {
+  OrganizationsTable get organizations;
   ContentScopesTable get contentScopes;
 
   @override
   Query as() => select([
-    organisations.campaignId,
-    organisations.content,
-    organisations.createdAt,
-    organisations.description,
-    organisations.hqLocationId,
-    organisations.id,
-    organisations.name,
-    organisations.scopeId,
-    organisations.type,
-    organisations.updatedAt,
+    organizations.campaignId,
+    organizations.content,
+    organizations.createdAt,
+    organizations.description,
+    organizations.hqLocationId,
+    organizations.id,
+    organizations.name,
+    organizations.scopeId,
+    organizations.type,
+    organizations.updatedAt,
     contentScopes.scopeType,
     contentScopes.chapterId,
     contentScopes.adventureId,
     contentScopes.sceneId,
-  ]).from(organisations).join([
+  ]).from(organizations).join([
     innerJoin(
       contentScopes,
-      contentScopes.id.equalsExp(organisations.scopeId),
+      contentScopes.id.equalsExp(organizations.scopeId),
     ),
   ]);
 }
@@ -106,7 +106,7 @@ abstract class CreaturesWithScopes extends View {
     creatures.languages,
     creatures.legendaryActions,
     creatures.name,
-    creatures.organisationId,
+    creatures.organizationId,
     creatures.raw,
     creatures.reactions,
     creatures.savingThrows,

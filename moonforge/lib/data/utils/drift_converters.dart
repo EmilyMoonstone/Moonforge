@@ -64,7 +64,17 @@ class JsonConverter extends TypeConverter<Map<String, dynamic>, String> {
 
   @override
   Map<String, dynamic> fromSql(String fromDb) {
-    return json.decode(fromDb) as Map<String, dynamic>;
+    final decoded = json.decode(fromDb);
+    if (decoded is Map<String, dynamic>) {
+      return decoded;
+    }
+    if (decoded is String) {
+      final nested = json.decode(decoded);
+      if (nested is Map<String, dynamic>) {
+        return nested;
+      }
+    }
+    return <String, dynamic>{};
   }
 
   @override
