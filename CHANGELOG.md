@@ -5,10 +5,19 @@ All notable changes to this project will be documented in this file. See [conven
 ---
 ## [unreleased]
 
+### Bug Fixes
+
+- Standardize terminology from 'organisations' to 'organizations' across SQL files for consistency - ([5fa5346](https://github.com/EmilyMoonstone/Moonforge/commit/5fa53461e63e657cc0a1b73a03805f7b016aa6cc) Emily Pauli)
+
 ### Features
 
 - Enhance commit and pull request guidelines with conventional commits structure - ([ead000c](https://github.com/EmilyMoonstone/Moonforge/commit/ead000c2e6418198108f1ed57cb9bc06865e8189) Emily Pauli)
 - Update changelog and configuration for improved commit message formatting - ([eda52b8](https://github.com/EmilyMoonstone/Moonforge/commit/eda52b8c8405b793eb9e72b209e8f99faee98bd4) Emily Pauli)
+- Update changelog to include recent changes for improved clarity - ([74dfc2c](https://github.com/EmilyMoonstone/Moonforge/commit/74dfc2c81efa14055e1a5e7ebf507b3b008d13d6) Emily Pauli)
+- Implement organizations repository and related providers for data management - ([97f6d2c](https://github.com/EmilyMoonstone/Moonforge/commit/97f6d2c6c8f8420824a08347321e03cb1805aa42) Emily Pauli)
+- Add localization support for save, cancel, close, and home messages in English and German - ([f5bdf56](https://github.com/EmilyMoonstone/Moonforge/commit/f5bdf56126c741179885447942f3eeb1fa198a56) Emily Pauli)
+- Enhance Quill editor with story link support and update autocomplete functionality - ([b27f618](https://github.com/EmilyMoonstone/Moonforge/commit/b27f618759e1f6a84753ea14486b74c005643188) Emily Pauli)
+- Enhance data fetching documentation and implement save functionality in content view - ([f8b7504](https://github.com/EmilyMoonstone/Moonforge/commit/f8b7504d9d787385c19aefa8e7b323ff11bfab40) Emily Pauli)
 
 ---
 ## [0.1.0] - 2026-01-05
