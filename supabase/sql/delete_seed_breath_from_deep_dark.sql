@@ -43,8 +43,8 @@ delete_items as (
   where campaign_id in (select id from campaigns_to_delete)
   returning id
 ),
-delete_organisations as (
-  delete from public.organisations
+delete_organizations as (
+  delete from public.organizations
   where campaign_id in (select id from campaigns_to_delete)
   returning id
 ),
@@ -122,7 +122,7 @@ select
   (select count(*) from delete_maps) as maps_deleted,
   (select count(*) from delete_content_scopes) as content_scopes_deleted,
   (select count(*) from delete_locations) as locations_deleted,
-  (select count(*) from delete_organisations) as organisations_deleted,
+  (select count(*) from delete_organizations) as organizations_deleted,
   (select count(*) from delete_items) as items_deleted,
   (select count(*) from delete_creatures) as creatures_deleted,
   (select count(*) from delete_encounters) as encounters_deleted,

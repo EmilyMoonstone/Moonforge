@@ -22,7 +22,7 @@ campaigns as (
 ),
 chapters as (
   insert into public.chapters (id, campaign_id, title, description, content, order_number)
-  select gen_random_uuid(), c.id, v.title, v.description, v.content, v.order_number
+  select gen_random_uuid(), c.id, v.title, v.description, v.content, v.order_number::int
   from campaigns c
   join (values
     ('Echoes of the Astral Sea', '1', 'Stormwake Port', 'Smugglers and starlanes.', '{}'::jsonb),
@@ -37,7 +37,7 @@ chapters as (
 ),
 adventures as (
   insert into public.adventures (id, chapter_id, campaign_id, title, description, content, order_number)
-  select gen_random_uuid(), ch.id, ch.campaign_id, v.title, v.description, v.content, v.order_number
+  select gen_random_uuid(), ch.id, ch.campaign_id, v.title, v.description, v.content, v.order_number::int
   from chapters ch
   join campaigns c on c.id = ch.campaign_id
   join (values
@@ -53,7 +53,7 @@ adventures as (
 ),
 scenes as (
   insert into public.scenes (id, adventure_id, campaign_id, title, description, content, order_number)
-  select gen_random_uuid(), adv.id, adv.campaign_id, v.title, v.description, v.content, v.order_number
+  select gen_random_uuid(), adv.id, adv.campaign_id, v.title, v.description, v.content, v.order_number::int
   from adventures adv
   join campaigns c on c.id = adv.campaign_id
   join (values
@@ -239,8 +239,8 @@ location_map as (
   select l.id as location_id, l.campaign_id, lower(trim(l.name)) as location_key
   from locations l
 ),
-organisations as (
-  insert into public.organisations (id, scope_id, campaign_id, name, type, description, content, hq_location_id)
+organizations as (
+  insert into public.organizations (id, scope_id, campaign_id, name, type, description, content, hq_location_id)
   select gen_random_uuid(), cs.scope_id, cs.campaign_id, v.name, v.type, v.description, v.content, lm.location_id
   from (values
     ('Echoes of the Astral Sea', 'The Silver Compass', 'guild', 'Navigators who map the void.', '{}'::jsonb, 'Stormwake Market'),
@@ -316,9 +316,9 @@ organisations as (
     and lm.location_key = lower(trim(v.hq_location_name))
   returning id, campaign_id, name
 ),
-organisation_map as (
-  select o.id as organisation_id, o.campaign_id, lower(trim(o.name)) as organisation_key
-  from organisations o
+organization_map as (
+  select o.id as organization_id, o.campaign_id, lower(trim(o.name)) as organization_key
+  from organizations o
 ),
 items as (
   insert into public.items (id, scope_id, campaign_id, name, type, rarity, attunement, description, content, data)
@@ -387,7 +387,7 @@ items as (
 ),
 creatures as (
   insert into public.creatures (
-    id, scope_id, campaign_id, organisation_id, name, kind, source, size, creature_type, subtype, alignment,
+    id, scope_id, campaign_id, organization_id, name, kind, source, size, creature_type, subtype, alignment,
     challenge_rating, experience_points, armor_class, hit_points, hit_dice,
     speed, ability_scores, saving_throws, skills, senses, languages,
     damage_resistances, damage_immunities, condition_immunities,
@@ -398,7 +398,7 @@ creatures as (
     gen_random_uuid(),
     cs.scope_id,
     cs.campaign_id,
-    om.organisation_id,
+    om.organization_id,
     v.name,
     v.kind,
     v.source,
@@ -484,7 +484,7 @@ creatures as (
      '[]'::jsonb, '[]'::jsonb, '{}'::jsonb,
      'A hulking beast that hunts beneath the lake.', '{}'::jsonb, '{}'::jsonb)
   ) v(
-    campaign_title, scene_title, organisation_name, name, kind, source, size, creature_type, subtype, alignment,
+    campaign_title, scene_title, organization_name, name, kind, source, size, creature_type, subtype, alignment,
     cr_decimal, cr_text, xp, ac, hp, hit_dice,
     speed, ability_scores, saving_throws, skills, senses, languages,
     damage_resistances, damage_immunities, condition_immunities,
@@ -498,15 +498,15 @@ creatures as (
     and sm.scene_key = lower(trim(v.scene_title))
   join scene_scopes cs
     on cs.scene_id = sm.scene_id
-  left join organisation_map om
+  left join organization_map om
     on om.campaign_id = cm.campaign_id
-    and om.organisation_key = lower(trim(v.organisation_name))
+    and om.organization_key = lower(trim(v.organization_name))
   union all
   select
     gen_random_uuid(),
     cs.scope_id,
     cs.campaign_id,
-    om.organisation_id,
+    om.organization_id,
     v.name,
     v.kind,
     v.source,
@@ -592,7 +592,7 @@ creatures as (
      '[]'::jsonb, '[]'::jsonb, '{}'::jsonb,
      'A devoted singer of the frozen choir.', '{}'::jsonb, '{}'::jsonb)
   ) v(
-    campaign_title, adventure_title, organisation_name, name, kind, source, size, creature_type, subtype, alignment,
+    campaign_title, adventure_title, organization_name, name, kind, source, size, creature_type, subtype, alignment,
     cr_decimal, cr_text, xp, ac, hp, hit_dice,
     speed, ability_scores, saving_throws, skills, senses, languages,
     damage_resistances, damage_immunities, condition_immunities,
@@ -606,15 +606,15 @@ creatures as (
     and am.adventure_key = lower(trim(v.adventure_title))
   join adventure_scopes cs
     on cs.adventure_id = am.adventure_id
-  left join organisation_map om
+  left join organization_map om
     on om.campaign_id = cm.campaign_id
-    and om.organisation_key = lower(trim(v.organisation_name))
+    and om.organization_key = lower(trim(v.organization_name))
   union all
   select
     gen_random_uuid(),
     cs.scope_id,
     cs.campaign_id,
-    om.organisation_id,
+    om.organization_id,
     v.name,
     v.kind,
     v.source,
@@ -700,7 +700,7 @@ creatures as (
      '[]'::jsonb, '[]'::jsonb, '{}'::jsonb,
      'A drake that hunts along the drowned shore.', '{}'::jsonb, '{}'::jsonb)
   ) v(
-    campaign_title, chapter_title, organisation_name, name, kind, source, size, creature_type, subtype, alignment,
+    campaign_title, chapter_title, organization_name, name, kind, source, size, creature_type, subtype, alignment,
     cr_decimal, cr_text, xp, ac, hp, hit_dice,
     speed, ability_scores, saving_throws, skills, senses, languages,
     damage_resistances, damage_immunities, condition_immunities,
@@ -714,9 +714,9 @@ creatures as (
     and chm.chapter_key = lower(trim(v.chapter_title))
   join chapter_scopes cs
     on cs.chapter_id = chm.chapter_id
-  left join organisation_map om
+  left join organization_map om
     on om.campaign_id = cm.campaign_id
-    and om.organisation_key = lower(trim(v.organisation_name))
+    and om.organization_key = lower(trim(v.organization_name))
   returning id, campaign_id, name
 ),
 creature_map as (
@@ -895,7 +895,7 @@ select
   (select count(*) from ensure_adventure_scopes) as adventure_scopes_created,
   (select count(*) from ensure_scene_scopes) as scene_scopes_created,
   (select count(*) from locations) as locations_created,
-  (select count(*) from organisations) as organisations_created,
+  (select count(*) from organizations) as organizations_created,
   (select count(*) from items) as items_created,
   (select count(*) from creatures) as creatures_created,
   (select count(*) from encounters) as encounters_created,
@@ -910,7 +910,7 @@ declare
   seed_user uuid := 'be4b8621-b222-4a9c-8a4b-d8eac240bd4f'::uuid;
   campaign_ids uuid[];
   actual_locations int;
-  actual_organisations int;
+  actual_organizations int;
   actual_items int;
   actual_creatures int;
   actual_encounters int;
@@ -936,11 +936,11 @@ begin
     raise exception 'Seed abort: locations expected %, got %', 21, actual_locations;
   end if;
 
-  select count(*) into actual_organisations
-  from public.organisations
+  select count(*) into actual_organizations
+  from public.organizations
   where campaign_id = any(campaign_ids);
-  if actual_organisations <> 21 then
-    raise exception 'Seed abort: organisations expected %, got %', 21, actual_organisations;
+  if actual_organizations <> 21 then
+    raise exception 'Seed abort: organizations expected %, got %', 21, actual_organizations;
   end if;
 
   select count(*) into actual_items

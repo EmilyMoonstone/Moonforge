@@ -82,8 +82,8 @@ select i.* from public.items i;
 create or replace view public.v_campaign_locations as
 select l.* from public.locations l;
 
-create or replace view public.v_campaign_organisations as
-select o.* from public.organisations o;
+create or replace view public.v_campaign_organizations as
+select o.* from public.organizations o;
 
 create or replace view public.v_campaign_encounters as
 select e.* from public.encounters e;
@@ -122,7 +122,7 @@ select
 from public.locations l
 join public.v_scope_path sp on sp.scope_id = l.scope_id;
 
-create or replace view public.v_organisation_with_path as
+create or replace view public.v_organization_with_path as
 select
   o.*,
   sp.campaign_title,
@@ -130,7 +130,7 @@ select
   sp.adventure_id, sp.adventure_order_number, sp.adventure_title,
   sp.scene_id, sp.scene_order_number, sp.scene_title,
   sp.path_order, sp.path_titles
-from public.organisations o
+from public.organizations o
 join public.v_scope_path sp on sp.scope_id = o.scope_id;
 
 create or replace view public.v_encounter_with_path as

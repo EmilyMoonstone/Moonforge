@@ -13,13 +13,55 @@ campaigns as (
   select gen_random_uuid(), seed_user.user_id, v.title, v.description, v.content
   from seed_user
   cross join (values
-    ('Breath from the Deep Dark', 'A coastal frontier heaves under a slow, unnatural tide as something old draws breath.', '{"ops": [{"insert": "Breath from the Deep Dark begins on a coast that has never been quiet, but now the tide speaks in a slow, deliberate inhale.\n\nThe sea withdraws farther each night, revealing streets of slick stone and barnacle glyphs that should have remained buried.\n\nFisher folk whisper of an old covenant with something that lives beyond light, a pact signed with lanterns and blood.\n\nThree powers vie to control the coming change: the Tidebound Council, the Lantern Guild, and the Brine Covenant that worships the deep.\n\nAcross five chapters the party must follow drowned roads, appease forgotten shrines, and chart a path through the Deep Dark Trench.\n\nThe Breath is not a storm or a beast. It is a memory that wants a body, and it will bargain with any who listen.\n\nEvery rescue, betrayal, and bargain leaves a stain of salt on the soul, and the sea counts each debt aloud.\n\nThe surface world is a thin skin over a patient abyss, and the abyss has learned the names of the heroes.\n\nBy the final chapter, the coast itself will kneel, and only a true sacrifice can silence the breathing deep.\n\nIf the party fails, the coast will learn to breathe underwater, and the world will forget the sound of air.\n"}]}'::jsonb)
+    ('Breath from the Deep Dark', 'A coastal frontier heaves under a slow, unnatural tide as something old draws breath.', '{
+  "ops": [
+    {
+      "insert": "Breath from the Deep Dark begins on a coast that has never been quiet—but now the tide speaks in a slow, deliberate inhale.\r\n\r\nEach night the sea withdraws farther than it should, as if pulled back by unseen hands. In the new distance it leaves behind streets of slick stone, old seawalls, and barnacle glyphs that glimmer when moonlight strikes them—marks that feel less like writing and more like a warning that remembers being obeyed. Things that were meant to stay drowned start to surface: doorframes with no buildings attached, anchor-rings bolted into bedrock, and narrow alleys that lead into the seabed like the city once had somewhere else to go.\r\n\r\nFisher folk whisper of an old covenant with something that lives beyond light, a pact signed with lanterns and blood. They say it wasn’t a deal made out of greed, but out of fear—and fear has interest. The elders argue about what was promised and what was taken, but everyone agrees on one detail: when the sea “breathes,” it is not weather. It is attention.\n\nThe three powers\r"
+    },
+    {
+      "insert": "\n",
+      "attributes": {
+        "header": 2
+      }
+    },
+    {
+      "insert": "🌊 Tidebound Council\r"
+    },
+    {
+      "insert": "\n",
+      "attributes": {
+        "header": 3
+      }
+    },
+    {
+      "insert": "\r\nA coalition of coastal leaders, magistrates, and hard-eyed wardens who believe order is the only raft in a rising world. They want to control the retreating sea, regulate access to the exposed ruins, and keep the population calm—by decree if necessary.\r\n\r\nGoal: Stabilize the coast and monopolize what the sea reveals.\r\n\r\nMethod: Quarantine zones, conscription, rationed lantern oil, “for public safety.”\r\n\r\nSecret: They suspect the coastline itself is becoming something else—and they’re willing to sacrifice outsiders to delay the truth.\r\n\r\n🕯️ Lantern Guild\r"
+    },
+    {
+      "insert": "\n",
+      "attributes": {
+        "header": 3
+      }
+    },
+    {
+      "insert": "\r\nKeepers of light, craft, and ritual illumination—lamplighters, glassblowers, signal-masters, and those who know which flames do and do not flicker the wrong way. They claim the covenant can be renegotiated through proper rites and that light is the only language the deep still respects.\r\n\r\nGoal: Interpret the glyphs and rebuild the boundary between shore and trench.\r\n\r\nMethod: Ritual lanternwork, coded beacons, controlled expeditions.\r\n\r\nSecret: Their oldest designs were made from blood-lit glass, and the recipe is not fully forgotten.\r\n\r\n🧂 Brine Covenant\r"
+    },
+    {
+      "insert": "\n",
+      "attributes": {
+        "header": 3
+      }
+    },
+    {
+      "insert": "\r\nA devotional cult—or a religion, depending on who you ask—who worship the deep as a holy truth that the surface has insulted for too long. They call the retreating water a revelation and the coming change a return.\r\n\r\nGoal: Open the way to the Deep Dark Trench and “give the Breath its body.”\r\n\r\nMethod: Salt-oaths, drowning hymns, stolen relics, converts pulled from grief.\r\n\r\nSecret: Some of their prophets don’t speak to the deep—they speak for it.\n"
+    }
+  ]
+}'::jsonb)
   ) v(title, description, content)
   returning id, title
 ),
 chapters as (
   insert into public.chapters (id, campaign_id, title, description, content, order_number)
-  select gen_random_uuid(), c.id, v.title, v.description, v.content, v.order_number
+  select gen_random_uuid(), c.id, v.title, v.description, v.content, v.order_number::int
   from campaigns c
   join (values
     ('Breath from the Deep Dark', '0', 'The Breath Beneath', 'Events in Prolog: The Breath Beneath pull the party deeper into the tide''s bargains.', '{"ops": [{"insert": "Prolog: The Breath Beneath opens with the coast shifting and the factions tightening their grip.\n\nEach scene tests the party''s resolve and reveals another layer of the Breath.\n\nThe chapter ends with a choice that changes the shape of the tide.\n"}]}'::jsonb),
@@ -33,7 +75,7 @@ chapters as (
 ),
 adventures as (
   insert into public.adventures (id, chapter_id, campaign_id, title, description, content, order_number)
-  select gen_random_uuid(), ch.id, ch.campaign_id, v.title, v.description, v.content, v.order_number
+  select gen_random_uuid(), ch.id, ch.campaign_id, v.title, v.description, v.content, v.order_number::int
   from chapters ch
   join campaigns c on c.id = ch.campaign_id
   join (values
@@ -63,7 +105,7 @@ adventures as (
 ),
 scenes as (
   insert into public.scenes (id, adventure_id, campaign_id, title, description, content, order_number)
-  select gen_random_uuid(), adv.id, adv.campaign_id, v.title, v.description, v.content, v.order_number
+  select gen_random_uuid(), adv.id, adv.campaign_id, v.title, v.description, v.content, v.order_number::int
   from adventures adv
   join campaigns c on c.id = adv.campaign_id
   join (values
@@ -264,8 +306,8 @@ location_map as (
   select l.id as location_id, l.campaign_id, lower(trim(l.name)) as location_key
   from locations l
 ),
-organisations as (
-  insert into public.organisations (id, scope_id, campaign_id, name, type, description, content, hq_location_id)
+organizations as (
+  insert into public.organizations (id, scope_id, campaign_id, name, type, description, content, hq_location_id)
   select gen_random_uuid(), cs.scope_id, cs.campaign_id, v.name, v.type, v.description, v.content, lm.location_id
   from (values
     ('Breath from the Deep Dark', 'Tidebound Council', 'council', 'Keeps the old covenants and watches the tide.', '{}'::jsonb, 'Tidegate Harbor'),
@@ -303,9 +345,9 @@ organisations as (
   left join location_map lm on lm.campaign_id = cm.campaign_id and lm.location_key = lower(trim(v.hq_location_name))
   returning id, campaign_id, name
 ),
-organisation_map as (
-  select o.id as organisation_id, o.campaign_id, lower(trim(o.name)) as organisation_key
-  from organisations o
+organization_map as (
+  select o.id as organization_id, o.campaign_id, lower(trim(o.name)) as organization_key
+  from organizations o
 ),
 items as (
   insert into public.items (id, scope_id, campaign_id, name, type, rarity, attunement, description, content, data)
@@ -323,14 +365,14 @@ items as (
 ),
 creatures as (
   insert into public.creatures (
-    id, scope_id, campaign_id, organisation_id, name, kind, source, size, creature_type, subtype, alignment,
+    id, scope_id, campaign_id, organization_id, name, kind, source, size, creature_type, subtype, alignment,
     challenge_rating, experience_points, armor_class, hit_points, hit_dice,
     speed, ability_scores, saving_throws, skills, senses, languages,
     damage_resistances, damage_immunities, condition_immunities,
     traits, actions, reactions, legendary_actions, spellcasting,
     description, content, raw
   )
-  select gen_random_uuid(), cs.scope_id, cs.campaign_id, om.organisation_id,
+  select gen_random_uuid(), cs.scope_id, cs.campaign_id, om.organization_id,
     v.name, v.kind, v.source, v.size, v.creature_type, v.subtype, v.alignment,
     v.cr_decimal, v.xp, v.ac, v.hp, v.hit_dice,
     v.speed, v.ability_scores, v.saving_throws, v.skills, v.senses, v.languages,
@@ -344,15 +386,15 @@ creatures as (
         ('Breath from the Deep Dark', 'Tidebound Council', 'Tidebound Enforcer', 'npc', 'homebrew', 'medium', 'humanoid', 'human', 'neutral', 1.000, '1', 200, 12, 18, '4d8', jsonb_build_object('walk','30 ft','swim','20 ft'), jsonb_build_object('str',10,'dex',12,'con',11,'int',11,'wis',12,'cha',12), '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, 'An enforcer who collects Council debts.', '{}'::jsonb, '{}'::jsonb),
         ('Breath from the Deep Dark', 'Lantern Guild', 'Lantern Warden', 'npc', 'homebrew', 'medium', 'humanoid', 'human', 'neutral', 1.000, '1', 200, 12, 18, '4d8', jsonb_build_object('walk','30 ft','swim','20 ft'), jsonb_build_object('str',10,'dex',12,'con',11,'int',11,'wis',12,'cha',12), '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, 'A warden who patrols the lighthouse line.', '{}'::jsonb, '{}'::jsonb),
         ('Breath from the Deep Dark', 'Brine Covenant', 'Brine Acolyte', 'npc', 'homebrew', 'medium', 'humanoid', 'human', 'neutral', 1.000, '1', 200, 12, 18, '4d8', jsonb_build_object('walk','30 ft','swim','20 ft'), jsonb_build_object('str',10,'dex',12,'con',11,'int',11,'wis',12,'cha',12), '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, 'An acolyte who hears the deep breathing.', '{}'::jsonb, '{}'::jsonb)
-  ) v(campaign_title, organisation_name, name, kind, source, size, creature_type, subtype, alignment,
+  ) v(campaign_title, organization_name, name, kind, source, size, creature_type, subtype, alignment,
     cr_decimal, cr_text, xp, ac, hp, hit_dice, speed, ability_scores, saving_throws, skills, senses, languages,
     damage_resistances, damage_immunities, condition_immunities, traits, actions, reactions, legendary_actions, spellcasting,
     description, content, raw)
   join campaign_map cm on cm.campaign_key = lower(trim(v.campaign_title))
   join campaign_scopes cs on cs.campaign_id = cm.campaign_id
-  left join organisation_map om on om.campaign_id = cm.campaign_id and om.organisation_key = lower(trim(v.organisation_name))
+  left join organization_map om on om.campaign_id = cm.campaign_id and om.organization_key = lower(trim(v.organization_name))
   union all
-  select gen_random_uuid(), cs.scope_id, cs.campaign_id, om.organisation_id,
+  select gen_random_uuid(), cs.scope_id, cs.campaign_id, om.organization_id,
     v.name, v.kind, v.source, v.size, v.creature_type, v.subtype, v.alignment,
     v.cr_decimal, v.xp, v.ac, v.hp, v.hit_dice,
     v.speed, v.ability_scores, v.saving_throws, v.skills, v.senses, v.languages,
@@ -365,15 +407,15 @@ creatures as (
         ('Breath from the Deep Dark', null, 'Tide Wraith', 'creature', 'homebrew', 'medium', 'monster', null, 'neutral', 2.000, '2', 450, 13, 24, '5d8', jsonb_build_object('walk','20 ft','swim','40 ft'), jsonb_build_object('str',14,'dex',12,'con',14,'int',6,'wis',10,'cha',8), '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, 'A threat that haunts the tide in Breath from the Deep Dark.', '{}'::jsonb, '{}'::jsonb),
         ('Breath from the Deep Dark', null, 'Reef Maw', 'creature', 'homebrew', 'medium', 'monster', null, 'neutral', 2.000, '2', 450, 13, 24, '5d8', jsonb_build_object('walk','20 ft','swim','40 ft'), jsonb_build_object('str',14,'dex',12,'con',14,'int',6,'wis',10,'cha',8), '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, 'A threat that haunts the tide in Breath from the Deep Dark.', '{}'::jsonb, '{}'::jsonb),
         ('Breath from the Deep Dark', null, 'Echo Wisp', 'creature', 'homebrew', 'medium', 'monster', null, 'neutral', 2.000, '2', 450, 13, 24, '5d8', jsonb_build_object('walk','20 ft','swim','40 ft'), jsonb_build_object('str',14,'dex',12,'con',14,'int',6,'wis',10,'cha',8), '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, 'A threat that haunts the tide in Breath from the Deep Dark.', '{}'::jsonb, '{}'::jsonb)
-  ) v(campaign_title, organisation_name, name, kind, source, size, creature_type, subtype, alignment,
+  ) v(campaign_title, organization_name, name, kind, source, size, creature_type, subtype, alignment,
     cr_decimal, cr_text, xp, ac, hp, hit_dice, speed, ability_scores, saving_throws, skills, senses, languages,
     damage_resistances, damage_immunities, condition_immunities, traits, actions, reactions, legendary_actions, spellcasting,
     description, content, raw)
   join campaign_map cm on cm.campaign_key = lower(trim(v.campaign_title))
   join campaign_scopes cs on cs.campaign_id = cm.campaign_id
-  left join organisation_map om on om.campaign_id = cm.campaign_id and om.organisation_key = lower(trim(v.organisation_name))
+  left join organization_map om on om.campaign_id = cm.campaign_id and om.organization_key = lower(trim(v.organization_name))
   union all
-  select gen_random_uuid(), cs.scope_id, cs.campaign_id, om.organisation_id,
+  select gen_random_uuid(), cs.scope_id, cs.campaign_id, om.organization_id,
     v.name, v.kind, v.source, v.size, v.creature_type, v.subtype, v.alignment,
     v.cr_decimal, v.xp, v.ac, v.hp, v.hit_dice,
     v.speed, v.ability_scores, v.saving_throws, v.skills, v.senses, v.languages,
@@ -401,16 +443,16 @@ creatures as (
         ('Breath from the Deep Dark', 'The Silent Anchor', null, 'Guide 4.2', 'npc', 'homebrew', 'medium', 'humanoid', 'human', 'neutral', 1.000, '1', 200, 12, 18, '4d8', jsonb_build_object('walk','30 ft','swim','20 ft'), jsonb_build_object('str',10,'dex',12,'con',11,'int',11,'wis',12,'cha',12), '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, 'A local guide tied to the silent anchor.', '{}'::jsonb, '{}'::jsonb),
         ('Breath from the Deep Dark', 'Abyssal Coronation', 'Abyssal Heralds', 'Guide 4.3', 'npc', 'homebrew', 'medium', 'humanoid', 'human', 'neutral', 1.000, '1', 200, 12, 18, '4d8', jsonb_build_object('walk','30 ft','swim','20 ft'), jsonb_build_object('str',10,'dex',12,'con',11,'int',11,'wis',12,'cha',12), '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, 'A local guide tied to abyssal coronation.', '{}'::jsonb, '{}'::jsonb),
         ('Breath from the Deep Dark', 'Breath of the Deep Dark', null, 'Guide 4.4', 'npc', 'homebrew', 'medium', 'humanoid', 'human', 'neutral', 1.000, '1', 200, 12, 18, '4d8', jsonb_build_object('walk','30 ft','swim','20 ft'), jsonb_build_object('str',10,'dex',12,'con',11,'int',11,'wis',12,'cha',12), '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, 'A local guide tied to breath of the deep dark.', '{}'::jsonb, '{}'::jsonb)
-  ) v(campaign_title, adventure_title, organisation_name, name, kind, source, size, creature_type, subtype, alignment,
+  ) v(campaign_title, adventure_title, organization_name, name, kind, source, size, creature_type, subtype, alignment,
     cr_decimal, cr_text, xp, ac, hp, hit_dice, speed, ability_scores, saving_throws, skills, senses, languages,
     damage_resistances, damage_immunities, condition_immunities, traits, actions, reactions, legendary_actions, spellcasting,
     description, content, raw)
   join campaign_map cm on cm.campaign_key = lower(trim(v.campaign_title))
   join adventure_map am on am.campaign_id = cm.campaign_id and am.adventure_key = lower(trim(v.adventure_title))
   join adventure_scopes cs on cs.adventure_id = am.adventure_id
-  left join organisation_map om on om.campaign_id = cm.campaign_id and om.organisation_key = lower(trim(v.organisation_name))
+  left join organization_map om on om.campaign_id = cm.campaign_id and om.organization_key = lower(trim(v.organization_name))
   union all
-  select gen_random_uuid(), cs.scope_id, cs.campaign_id, om.organisation_id,
+  select gen_random_uuid(), cs.scope_id, cs.campaign_id, om.organization_id,
     v.name, v.kind, v.source, v.size, v.creature_type, v.subtype, v.alignment,
     v.cr_decimal, v.xp, v.ac, v.hp, v.hit_dice,
     v.speed, v.ability_scores, v.saving_throws, v.skills, v.senses, v.languages,
@@ -423,14 +465,14 @@ creatures as (
         ('Breath from the Deep Dark', 'The Drowned March', 'March Wardens', 'Warden Hollis', 'npc', 'homebrew', 'medium', 'humanoid', 'human', 'neutral', 1.000, '1', 200, 12, 18, '4d8', jsonb_build_object('walk','30 ft','swim','20 ft'), jsonb_build_object('str',10,'dex',12,'con',11,'int',11,'wis',12,'cha',12), '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, 'A chapter contact in Chapter II: The Drowned March.', '{}'::jsonb, '{}'::jsonb),
         ('Breath from the Deep Dark', 'Teeth of the Reef', 'Reefcutters', 'Reefcutter Sarn', 'npc', 'homebrew', 'medium', 'humanoid', 'human', 'neutral', 1.000, '1', 200, 12, 18, '4d8', jsonb_build_object('walk','30 ft','swim','20 ft'), jsonb_build_object('str',10,'dex',12,'con',11,'int',11,'wis',12,'cha',12), '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, 'A chapter contact in Chapter III: Teeth of the Reef.', '{}'::jsonb, '{}'::jsonb),
         ('Breath from the Deep Dark', 'The Sunken Choir', 'Choir Custodians', 'Custodian Elda', 'npc', 'homebrew', 'medium', 'humanoid', 'human', 'neutral', 1.000, '1', 200, 12, 18, '4d8', jsonb_build_object('walk','30 ft','swim','20 ft'), jsonb_build_object('str',10,'dex',12,'con',11,'int',11,'wis',12,'cha',12), '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, '{}'::jsonb, 'A chapter contact in Chapter IV: The Sunken Choir.', '{}'::jsonb, '{}'::jsonb)
-  ) v(campaign_title, chapter_title, organisation_name, name, kind, source, size, creature_type, subtype, alignment,
+  ) v(campaign_title, chapter_title, organization_name, name, kind, source, size, creature_type, subtype, alignment,
     cr_decimal, cr_text, xp, ac, hp, hit_dice, speed, ability_scores, saving_throws, skills, senses, languages,
     damage_resistances, damage_immunities, condition_immunities, traits, actions, reactions, legendary_actions, spellcasting,
     description, content, raw)
   join campaign_map cm on cm.campaign_key = lower(trim(v.campaign_title))
   join chapter_map chm on chm.campaign_id = cm.campaign_id and chm.chapter_key = lower(trim(v.chapter_title))
   join chapter_scopes cs on cs.chapter_id = chm.chapter_id
-  left join organisation_map om on om.campaign_id = cm.campaign_id and om.organisation_key = lower(trim(v.organisation_name))
+  left join organization_map om on om.campaign_id = cm.campaign_id and om.organization_key = lower(trim(v.organization_name))
   returning id, campaign_id, name
 ),
 creature_map as (
@@ -648,7 +690,7 @@ select
   (select count(*) from scenes) as scenes_created,
   (select count(*) from maps) as maps_created,
   (select count(*) from locations) as locations_created,
-  (select count(*) from organisations) as organisations_created,
+  (select count(*) from organizations) as organizations_created,
   (select count(*) from items) as items_created,
   (select count(*) from creatures) as creatures_created,
   (select count(*) from encounters) as encounters_created,
@@ -659,7 +701,7 @@ declare
   seed_user uuid := 'be4b8621-b222-4a9c-8a4b-d8eac240bd4f'::uuid;
   campaign_ids uuid[];
   actual_locations int;
-  actual_organisations int;
+  actual_organizations int;
   actual_items int;
   actual_creatures int;
   actual_encounters int;
@@ -683,11 +725,11 @@ begin
     raise exception 'Seed abort: locations expected %, got %', 28, actual_locations;
   end if;
 
-  select count(*) into actual_organisations
-  from public.organisations
+  select count(*) into actual_organizations
+  from public.organizations
   where campaign_id = any(campaign_ids);
-  if actual_organisations <> 13 then
-    raise exception 'Seed abort: organisations expected %, got %', 13, actual_organisations;
+  if actual_organizations <> 13 then
+    raise exception 'Seed abort: organizations expected %, got %', 13, actual_organizations;
   end if;
 
   select count(*) into actual_items

@@ -10,7 +10,7 @@ begin
   foreach t in array array[
     'campaigns','chapters','adventures','scenes',
     'content_scopes','maps',
-    'organisations','locations','items','creatures',
+    'organizations','locations','items','creatures',
     'encounters','encounter_creatures',
     'groups','group_members','playing_campaigns','characters','session_logs',
     'campaign_access'
@@ -446,7 +446,7 @@ with check (
 do $$
 declare tbl text;
 begin
-  foreach tbl in array array['organisations','locations','items','creatures','encounters','encounter_creatures']
+  foreach tbl in array array['organizations','locations','items','creatures','encounters','encounter_creatures']
   loop
     execute format('drop policy if exists "%1$s_select" on public.%1$I;', tbl);
     execute format($pol$
@@ -492,12 +492,12 @@ begin
     'v_campaign_creatures',
     'v_campaign_items',
     'v_campaign_locations',
-    'v_campaign_organisations',
+    'v_campaign_organizations',
     'v_campaign_encounters',
     'v_creature_with_path',
     'v_item_with_path',
     'v_location_with_path',
-    'v_organisation_with_path',
+    'v_organization_with_path',
     'v_encounter_with_path',
     'v_encounter_expanded_with_path',
     'v_group_dashboard',

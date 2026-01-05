@@ -212,10 +212,10 @@ before update on public.maps
 for each row execute function public.set_updated_at();
 
 -- ============================================================
--- Organisations, locations, items, creatures, encounters
+-- organizations, locations, items, creatures, encounters
 -- Each belongs to a scope (scope_id) and has denormalized campaign_id
 -- ============================================================
-create table if not exists public.organisations (
+create table if not exists public.organizations (
   id uuid primary key default gen_random_uuid(),
   scope_id uuid not null references public.content_scopes(id) on delete cascade,
   campaign_id uuid not null references public.campaigns(id) on delete cascade,
@@ -225,19 +225,19 @@ create table if not exists public.organisations (
   description text,
   content jsonb not null default '{}'::jsonb,
 
-  -- organisation 1-1 location (HQ)
+  -- organization 1-1 location (HQ)
   hq_location_id uuid unique,
 
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
 
-create index if not exists organisations_scope_id_idx on public.organisations(scope_id);
-create index if not exists organisations_campaign_id_idx on public.organisations(campaign_id);
+create index if not exists organizations_scope_id_idx on public.organizations(scope_id);
+create index if not exists organizations_campaign_id_idx on public.organizations(campaign_id);
 
-drop trigger if exists set_organisations_updated_at on public.organisations;
-create trigger set_organisations_updated_at
-before update on public.organisations
+drop trigger if exists set_organizations_updated_at on public.organizations;
+create trigger set_organizations_updated_at
+before update on public.organizations
 for each row execute function public.set_updated_at();
 
 
@@ -272,10 +272,10 @@ begin
   if not exists (
     select 1
     from pg_constraint
-    where conname = 'organisations_hq_location_fk'
+    where conname = 'organizations_hq_location_fk'
   ) then
-    alter table public.organisations
-      add constraint organisations_hq_location_fk
+    alter table public.organizations
+      add constraint organizations_hq_location_fk
       foreign key (hq_location_id) references public.locations(id) on delete set null;
   end if;
 end $$;
@@ -315,8 +315,8 @@ create table if not exists public.creatures (
   scope_id uuid not null references public.content_scopes(id) on delete cascade,
   campaign_id uuid not null references public.campaigns(id) on delete cascade,
 
-  -- organisation 1-n creature
-  organisation_id uuid references public.organisations(id) on delete set null,
+  -- organization 1-n creature
+  organization_id uuid references public.organizations(id) on delete set null,
 
   name text not null,
 
@@ -365,7 +365,7 @@ create table if not exists public.creatures (
 
 create index if not exists creatures_scope_id_idx on public.creatures(scope_id);
 create index if not exists creatures_campaign_id_idx on public.creatures(campaign_id);
-create index if not exists creatures_organisation_id_idx on public.creatures(organisation_id);
+create index if not exists creatures_organization_id_idx on public.creatures(organization_id);
 
 drop trigger if exists set_creatures_updated_at on public.creatures;
 create trigger set_creatures_updated_at
@@ -378,12 +378,12 @@ drop view if exists public.v_encounter_with_path;
 drop view if exists public.v_creature_with_path;
 drop view if exists public.v_item_with_path;
 drop view if exists public.v_location_with_path;
-drop view if exists public.v_organisation_with_path;
+drop view if exists public.v_organization_with_path;
 drop view if exists public.v_campaign_encounters;
 drop view if exists public.v_campaign_creatures;
 drop view if exists public.v_campaign_items;
 drop view if exists public.v_campaign_locations;
-drop view if exists public.v_campaign_organisations;
+drop view if exists public.v_campaign_organizations;
 drop view if exists public.v_campaign_outline;
 drop view if exists public.v_scope_campaign;
 drop view if exists public.v_scope_path;
@@ -783,10 +783,10 @@ begin
   return new;
 end $$;
 
-drop trigger if exists set_organisations_campaign_id on public.organisations;
-create trigger set_organisations_campaign_id
+drop trigger if exists set_organizations_campaign_id on public.organizations;
+create trigger set_organizations_campaign_id
 before insert or update of scope_id
-on public.organisations
+on public.organizations
 for each row execute function public.trg_set_scoped_entity_campaign_id();
 
 drop trigger if exists set_locations_campaign_id on public.locations;
