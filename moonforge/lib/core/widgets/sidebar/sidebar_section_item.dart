@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' show InkWell;
+import 'package:moonforge/core/widgets/card.dart';
 import 'package:moonforge/layout/app_spacing.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
@@ -7,6 +7,7 @@ class SidebarSectionItem extends StatelessWidget {
     super.key,
     required this.title,
     this.subtitle,
+    this.tags,
     this.description,
     this.maxLinesDescription = 2,
     this.onTap,
@@ -15,6 +16,7 @@ class SidebarSectionItem extends StatelessWidget {
 
   final String title;
   final String? subtitle;
+  final List<String>? tags;
   final String? description;
   final int? maxLinesDescription;
   final VoidCallback? onTap;
@@ -22,23 +24,34 @@ class SidebarSectionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return InkWell(
-      borderRadius: theme.borderRadiusLg,
+    return CardCustom(
       onTap: onTap,
+      padding: EdgeInsets.all(AppSpacing.sm),
       child: Row(
         children: [
           if (avatarImage != null)
-            Avatar(
-              initials: Avatar.getInitials(title),
-              provider: avatarImage,
-            ),
-          if (avatarImage != null) Gap(AppSpacing.md),
+            Avatar(initials: Avatar.getInitials(title), provider: avatarImage),
+          if (avatarImage != null) Gap(AppSpacing.md) else Gap(AppSpacing.xs),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title).medium(),
+                Row(
+                  children: [
+                    Text(title).medium(),
+                    if (tags != null) ...[
+                      Gap(AppSpacing.xs),
+                      ...tags!.map(
+                        (tag) => Padding(
+                          padding: EdgeInsets.only(right: AppSpacing.xs),
+                          child: SecondaryBadge(
+                            child: Text(tag),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
                 if (subtitle?.isNotEmpty ?? false)
                   Padding(
                     padding: EdgeInsets.only(top: 0),
