@@ -41,12 +41,12 @@ adventures as (
   from chapters ch
   join campaigns c on c.id = ch.campaign_id
   join (values
-    ('Echoes of the Astral Sea', 'Stormwake Port', '1.1', 'The Siren Ledger', 'A cargo log hides a route.', '{}'::jsonb),
-    ('Echoes of the Astral Sea', 'The Shattered Ring', '2.1', 'Gravemarsh Ambush', 'Raiders among the rocks.', '{}'::jsonb),
-    ('Ember Crown Rebellion', 'Ashmarket', '1.1', 'Spark in the Mill', 'A strike turns violent.', '{}'::jsonb),
-    ('Ember Crown Rebellion', 'The Red Citadel', '2.1', 'Masks at Court', 'A gala of knives.', '{}'::jsonb),
-    ('Winter of the Hollow Sun', 'Frostmarch', '1.1', 'The Lost Patrol', 'A vanished scout team.', '{}'::jsonb),
-    ('Winter of the Hollow Sun', 'The Drowned Vale', '2.1', 'Icebound Choir', 'Voices under the ice.', '{}'::jsonb)
+    ('Echoes of the Astral Sea', 'Stormwake Port', '1', 'The Siren Ledger', 'A cargo log hides a route.', '{}'::jsonb),
+    ('Echoes of the Astral Sea', 'The Shattered Ring', '1', 'Gravemarsh Ambush', 'Raiders among the rocks.', '{}'::jsonb),
+    ('Ember Crown Rebellion', 'Ashmarket', '1', 'Spark in the Mill', 'A strike turns violent.', '{}'::jsonb),
+    ('Ember Crown Rebellion', 'The Red Citadel', '1', 'Masks at Court', 'A gala of knives.', '{}'::jsonb),
+    ('Winter of the Hollow Sun', 'Frostmarch', '1', 'The Lost Patrol', 'A vanished scout team.', '{}'::jsonb),
+    ('Winter of the Hollow Sun', 'The Drowned Vale', '1', 'Icebound Choir', 'Voices under the ice.', '{}'::jsonb)
   ) v(campaign_title, chapter_title, order_number, title, description, content)
   on v.campaign_title = c.title and v.chapter_title = ch.title
   returning id, campaign_id, chapter_id, title, order_number
@@ -57,12 +57,12 @@ scenes as (
   from adventures adv
   join campaigns c on c.id = adv.campaign_id
   join (values
-    ('Echoes of the Astral Sea', 'The Siren Ledger', '1.1.1', 'Dockside Interrogation', 'A tense chat at the piers.', '{}'::jsonb),
-    ('Echoes of the Astral Sea', 'Gravemarsh Ambush', '2.1.1', 'Rockfall Run', 'A chase through drifting boulders.', '{}'::jsonb),
-    ('Ember Crown Rebellion', 'Spark in the Mill', '1.1.1', 'Boiler Room', 'Steam and sabotage.', '{}'::jsonb),
-    ('Ember Crown Rebellion', 'Masks at Court', '2.1.1', 'Moonlit Balcony', 'A whispered bargain.', '{}'::jsonb),
-    ('Winter of the Hollow Sun', 'The Lost Patrol', '1.1.1', 'Frostline Trail', 'Tracks vanish in a blizzard.', '{}'::jsonb),
-    ('Winter of the Hollow Sun', 'Icebound Choir', '2.1.1', 'Under the Ice', 'Echoes beneath the lake.', '{}'::jsonb)
+    ('Echoes of the Astral Sea', 'The Siren Ledger', '1', 'Dockside Interrogation', 'A tense chat at the piers.', '{}'::jsonb),
+    ('Echoes of the Astral Sea', 'Gravemarsh Ambush', '1', 'Rockfall Run', 'A chase through drifting boulders.', '{}'::jsonb),
+    ('Ember Crown Rebellion', 'Spark in the Mill', '1', 'Boiler Room', 'Steam and sabotage.', '{}'::jsonb),
+    ('Ember Crown Rebellion', 'Masks at Court', '1', 'Moonlit Balcony', 'A whispered bargain.', '{}'::jsonb),
+    ('Winter of the Hollow Sun', 'The Lost Patrol', '1', 'Frostline Trail', 'Tracks vanish in a blizzard.', '{}'::jsonb),
+    ('Winter of the Hollow Sun', 'Icebound Choir', '1', 'Under the Ice', 'Echoes beneath the lake.', '{}'::jsonb)
   ) v(campaign_title, adventure_title, order_number, title, description, content)
   on v.campaign_title = c.title and v.adventure_title = adv.title
   returning id, campaign_id, adventure_id, title, order_number
@@ -388,7 +388,7 @@ items as (
 creatures as (
   insert into public.creatures (
     id, scope_id, campaign_id, organisation_id, name, kind, source, size, creature_type, subtype, alignment,
-    challenge_rating_decimal, challenge_rating_text, experience_points, armor_class, hit_points, hit_dice,
+    challenge_rating, experience_points, armor_class, hit_points, hit_dice,
     speed, ability_scores, saving_throws, skills, senses, languages,
     damage_resistances, damage_immunities, condition_immunities,
     traits, actions, reactions, legendary_actions, spellcasting,
@@ -407,7 +407,6 @@ creatures as (
     v.subtype,
     v.alignment,
     v.cr_decimal,
-    v.cr_text,
     v.xp,
     v.ac,
     v.hp,
@@ -516,7 +515,6 @@ creatures as (
     v.subtype,
     v.alignment,
     v.cr_decimal,
-    v.cr_text,
     v.xp,
     v.ac,
     v.hp,
@@ -625,7 +623,6 @@ creatures as (
     v.subtype,
     v.alignment,
     v.cr_decimal,
-    v.cr_text,
     v.xp,
     v.ac,
     v.hp,

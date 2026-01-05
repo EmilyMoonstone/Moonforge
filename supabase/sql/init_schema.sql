@@ -66,7 +66,7 @@ create table if not exists public.chapters (
   content jsonb not null default '{}'::jsonb,
 
   -- e.g. "1"
-  order_number text not null,
+  order_number int not null,
 
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -92,7 +92,7 @@ create table if not exists public.adventures (
   content jsonb not null default '{}'::jsonb,
 
   -- e.g. "1.1"
-  order_number text not null,
+  order_number int not null,
 
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -119,7 +119,7 @@ create table if not exists public.scenes (
   content jsonb not null default '{}'::jsonb,
 
   -- e.g. "1.1.1"
-  order_number text not null,
+  order_number int not null,
 
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -330,8 +330,7 @@ create table if not exists public.creatures (
   subtype text,
   alignment text,
 
-  challenge_rating_decimal numeric(6,3),
-  challenge_rating_text text,
+  challenge_rating int,
   experience_points int,
 
   armor_class int,
@@ -372,6 +371,112 @@ drop trigger if exists set_creatures_updated_at on public.creatures;
 create trigger set_creatures_updated_at
 before update on public.creatures
 for each row execute function public.set_updated_at();
+
+-- drop dependent views before altering columns (recreate via init_views.sql)
+drop view if exists public.v_encounter_expanded_with_path;
+drop view if exists public.v_encounter_with_path;
+drop view if exists public.v_creature_with_path;
+drop view if exists public.v_item_with_path;
+drop view if exists public.v_location_with_path;
+drop view if exists public.v_organisation_with_path;
+drop view if exists public.v_campaign_encounters;
+drop view if exists public.v_campaign_creatures;
+drop view if exists public.v_campaign_items;
+drop view if exists public.v_campaign_locations;
+drop view if exists public.v_campaign_organisations;
+drop view if exists public.v_campaign_outline;
+drop view if exists public.v_scope_campaign;
+drop view if exists public.v_scope_path;
+drop view if exists public.v_group_dashboard;
+drop view if exists public.v_character_quick;
+
+-- migrate order_number columns if tables already exist
+do $$
+begin
+  if exists (
+    select 1
+    from information_schema.columns
+    where table_schema = 'public'
+      and table_name = 'chapters'
+      and column_name = 'order_number'
+      and data_type <> 'integer'
+  ) then
+    alter table public.chapters
+      alter column order_number type int
+      using nullif(regexp_replace(order_number, '^.*\\.', ''), '')::int;
+  end if;
+
+  if exists (
+    select 1
+    from information_schema.columns
+    where table_schema = 'public'
+      and table_name = 'adventures'
+      and column_name = 'order_number'
+      and data_type <> 'integer'
+  ) then
+    alter table public.adventures
+      alter column order_number type int
+      using nullif(regexp_replace(order_number, '^.*\\.', ''), '')::int;
+  end if;
+
+  if exists (
+    select 1
+    from information_schema.columns
+    where table_schema = 'public'
+      and table_name = 'scenes'
+      and column_name = 'order_number'
+      and data_type <> 'integer'
+  ) then
+    alter table public.scenes
+      alter column order_number type int
+      using nullif(regexp_replace(order_number, '^.*\\.', ''), '')::int;
+  end if;
+end $$;
+
+-- migrate challenge_rating columns if creatures already exists
+do $$
+begin
+  if exists (
+    select 1
+    from information_schema.columns
+    where table_schema = 'public'
+      and table_name = 'creatures'
+      and column_name = 'challenge_rating_decimal'
+  ) and not exists (
+    select 1
+    from information_schema.columns
+    where table_schema = 'public'
+      and table_name = 'creatures'
+      and column_name = 'challenge_rating'
+  ) then
+    alter table public.creatures
+      rename column challenge_rating_decimal to challenge_rating;
+  end if;
+
+  if exists (
+    select 1
+    from information_schema.columns
+    where table_schema = 'public'
+      and table_name = 'creatures'
+      and column_name = 'challenge_rating_text'
+  ) then
+    alter table public.creatures
+      drop column challenge_rating_text;
+  end if;
+
+  if exists (
+    select 1
+    from information_schema.columns
+    where table_schema = 'public'
+      and table_name = 'creatures'
+      and column_name = 'challenge_rating'
+      and data_type <> 'integer'
+  ) then
+    alter table public.creatures
+      alter column challenge_rating type int
+      using round(challenge_rating);
+  end if;
+end $$;
 
 
 create table if not exists public.encounters (

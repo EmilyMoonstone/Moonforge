@@ -170,7 +170,7 @@ select
 
   cr.name as creature_name,
   cr.kind as creature_kind,
-  cr.challenge_rating_decimal as creature_cr,
+  cr.challenge_rating as creature_cr,
   cr.armor_class as creature_ac,
   cr.hit_points as creature_hp
 from public.v_encounter_with_path ewp
