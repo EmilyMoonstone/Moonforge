@@ -5,10 +5,10 @@ class ScrollViewDefault extends StatelessWidget {
   const ScrollViewDefault({
     super.key,
     required this.child,
-    this.paddingLeft = true,
-    this.paddingRight = true,
-    this.paddingTop = true,
-    this.paddingBottom = true,
+    this.paddingLeft = false,
+    this.paddingRight = false,
+    this.paddingTop = false,
+    this.paddingBottom = false,
   });
 
   final Widget child;
@@ -19,14 +19,17 @@ class ScrollViewDefault extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.only(
-        left: paddingLeft ? AppSpacing.xl : 0,
-        right: paddingRight ? AppSpacing.xl : 0,
-        top: paddingTop ? AppSpacing.xl : 0,
-        bottom: paddingBottom ? AppSpacing.xl : 0,
+    return Expanded(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.only(
+          left: paddingLeft ? AppSpacing.xl : 0,
+          right: paddingRight ? AppSpacing.xl : 0,
+          top: paddingTop ? AppSpacing.xl : 0,
+          bottom: paddingBottom ? AppSpacing.xl : 0,
+        ),
+        //clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: child,
       ),
-      child: child,
     );
   }
 }

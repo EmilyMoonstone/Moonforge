@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:moonforge/layout/app_spacing.dart';
+import 'package:moonforge/layout/widgets/body.dart';
 import 'package:moonforge/layout/widgets/scroll_view_default.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:moonforge/layout/widgets/app_top_bar.dart';
@@ -64,9 +65,9 @@ class _AppLayoutState extends State<AppLayout> {
             Expanded(
               child: Align(
                 alignment: Alignment.topLeft,
-                child: widget.withScrollView
-                    ? ScrollViewDefault(child: widget.child)
-                    : widget.child,
+                child: Body(
+                  child: widget.child,
+                )
               ),
             ),
           ],
