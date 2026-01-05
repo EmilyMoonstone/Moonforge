@@ -1,11 +1,12 @@
 # Quill Mention Feature
 
-This module provides mention and hashtag support for the Quill editor in Moonforge.
+This module provides mention, hashtag, and story link support for the Quill editor in Moonforge.
 
 ## Features
 
 - **@ Mentions**: Autocomplete for creatures and organisations
-- **# Hashtags**: Autocomplete for locations, items, and campaign content
+- **# Hashtags**: Autocomplete for locations, items, and encounters
+- **$ Story Links**: Autocomplete for chapters, adventures, and scenes
 - **Clickable Links**: View entity details by clicking on mentions in the viewer
 - **RTL Support**: Automatic detection and support for right-to-left text
 
@@ -58,28 +59,30 @@ CustomQuillViewer(
 
 ### @ Mentions
 
-- **npc**: Non-player characters
-- **creature**: Creatures (non-NPC)
+- **creature**: Creatures (including NPCs)
 - **organisation**: Organisations and factions
 
 ### # Hashtags
 
 - **location**: Locations and places
 - **item**: Items and equipment
-- **map**: Maps
+- **encounter**: Encounters
+
+### $ Story Links
+
 - **chapter**: Chapters
 - **adventure**: Adventures
 - **scene**: Scenes
-- **encounter**: Encounters
 
 ## Implementation Details
 
 ### Data Format
 
-Mentions and hashtags are stored as Quill links with special prefixes:
+Mentions, hashtags, and story links are stored as Quill links with special prefixes:
 
 - Mentions: `-moonforge-mention-entity-{entityId}`
 - Hashtags: `-moonforge-hashtag-entity-{entityId}`
+- Story: `-moonforge-story-entity-{entityId}`
 
 ### Keyboard Shortcuts
 
@@ -93,8 +96,9 @@ To test the mention feature:
 
 1. Create some entities in your campaign (NPCs, locations, items, etc.)
 2. Open a screen with the CustomQuillEditor
-3. Type '@' to see NPC/creature/organisation suggestions
-4. Type '#' to see location/item/map/chapter suggestions
-5. Select an entity from the list or press Enter
-6. The entity name will be inserted as a clickable link
-7. In the viewer, click the link to navigate to the entity details
+3. Type '@' to see creature/organisation suggestions
+4. Type '#' to see location/item/encounter suggestions
+5. Type '$' to see chapter/adventure/scene suggestions
+6. Select an entity from the list or press Enter
+7. The entity name will be inserted as a clickable link
+8. In the viewer, click the link to navigate to the entity details

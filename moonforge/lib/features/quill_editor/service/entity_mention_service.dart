@@ -2,9 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/database.dart';
 
-
 const _creatureKinds = {'npc', 'monster', 'creature'};
-const _organisationKinds = {'organisation', 'organization', 'group'};
+const _organizationKinds = {'organization', 'organisation', 'group'};
 const _locationKinds = {'location', 'place'};
 const _itemKinds = {'item'};
 const _mapKinds = {'map'};
@@ -41,7 +40,7 @@ class EntityMentionService {
   /// Search entities by kind and query string.
   ///
   /// [campaignId] - The campaign ID to search entities in
-  /// [kinds] - Comma-separated list of entity kinds (e.g., "npc,organisation")
+  /// [kinds] - Comma-separated list of entity kinds (e.g., "creature,organisation")
   /// [query] - Search query to filter by entity name
   /// [limit] - Maximum number of results to return (default: 10)
   Future<List<MentionEntity>> searchEntities({
@@ -57,6 +56,8 @@ class EntityMentionService {
 
       final normalizedKinds = _normalizeKinds(kinds);
       final includeAll = normalizedKinds.isEmpty;
+      final includeAllCreatureKinds =
+          includeAll || normalizedKinds.contains('creature');
       final normalizedQuery = query.trim().toLowerCase();
       final results = <MentionEntity>[];
 
@@ -71,26 +72,26 @@ class EntityMentionService {
             continue;
           }
 
-          final creatureKind = creature.kind.toLowerCase();
-          final isNpc = creatureKind == 'npc';
-          if (!includeAll) {
-            if (isNpc && !normalizedKinds.contains('npc')) {
+          final creatureKind = _normalizeCreatureKind(creature.kind);
+          if (!includeAllCreatureKinds) {
+            if (creatureKind == 'npc' && !normalizedKinds.contains('npc')) {
               continue;
             }
-            if (!isNpc &&
-                !normalizedKinds.contains('monster') &&
+            if (creatureKind == 'monster' &&
+                !normalizedKinds.contains('monster')) {
+              continue;
+            }
+            if (creatureKind == 'creature' &&
                 !normalizedKinds.contains('creature')) {
               continue;
             }
           }
 
-          final kind =
-              isNpc ? 'npc' : _pickCreatureKind(normalizedKinds, includeAll);
           results.add(
             MentionEntity(
               id: creature.id,
               name: creature.name,
-              kind: kind,
+              kind: creatureKind,
               summary: _firstNonEmpty(
                 creature.description,
                 creature.creatureType,
@@ -101,25 +102,25 @@ class EntityMentionService {
         }
       }
 
-      final includeOrganisations =
-          includeAll || normalizedKinds.any(_organisationKinds.contains);
-      if (includeOrganisations) {
-        final organisations = await (_db.select(_db.organisationsTable)
+      final includeOrganizations =
+          includeAll || normalizedKinds.any(_organizationKinds.contains);
+      if (includeOrganizations) {
+        final organizations = await (_db.select(_db.organizationsTable)
               ..where((tbl) => tbl.campaignId.equals(campaignId)))
             .get();
-        for (final organisation in organisations) {
-          if (!_matchesQuery(organisation.name, normalizedQuery)) {
+        for (final organization in organizations) {
+          if (!_matchesQuery(organization.name, normalizedQuery)) {
             continue;
           }
 
           results.add(
             MentionEntity(
-              id: organisation.id,
-              name: organisation.name,
-              kind: 'organisation',
+              id: organization.id,
+              name: organization.name,
+              kind: 'organization',
               summary: _firstNonEmpty(
-                organisation.description,
-                organisation.type,
+                organization.description,
+                organization.type,
               ),
             ),
           );
@@ -312,11 +313,11 @@ class EntityMentionService {
             ..where((tbl) => tbl.id.equals(entityId)))
           .getSingleOrNull();
       if (creature != null) {
-        final creatureKind = creature.kind.toLowerCase();
+        final creatureKind = _normalizeCreatureKind(creature.kind);
         return MentionEntity(
           id: creature.id,
           name: creature.name,
-          kind: creatureKind == 'npc' ? 'npc' : 'creature',
+          kind: creatureKind,
           summary: _firstNonEmpty(
             creature.description,
             creature.creatureType,
@@ -325,18 +326,18 @@ class EntityMentionService {
         );
       }
 
-      final organisation = await (_db.select(_db.organisationsTable)
+      final organization = await (_db.select(_db.organizationsTable)
             ..where((tbl) => tbl.campaignId.equals(campaignId))
             ..where((tbl) => tbl.id.equals(entityId)))
           .getSingleOrNull();
-      if (organisation != null) {
+      if (organization != null) {
         return MentionEntity(
-          id: organisation.id,
-          name: organisation.name,
-          kind: 'organisation',
+          id: organization.id,
+          name: organization.name,
+          kind: 'organization',
           summary: _firstNonEmpty(
-            organisation.description,
-            organisation.type,
+            organization.description,
+            organization.type,
           ),
         );
       }
@@ -458,11 +459,12 @@ bool _matchesQuery(String text, String query) {
   return text.toLowerCase().contains(query);
 }
 
-String _pickCreatureKind(Set<String> kinds, bool includeAll) {
-  if (includeAll) {
-    return 'creature';
+String _normalizeCreatureKind(String kind) {
+  final normalized = kind.trim().toLowerCase();
+  if (normalized == 'npc') {
+    return 'npc';
   }
-  if (kinds.contains('monster')) {
+  if (normalized == 'monster') {
     return 'monster';
   }
   return 'creature';

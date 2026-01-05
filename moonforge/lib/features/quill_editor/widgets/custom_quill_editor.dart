@@ -10,7 +10,8 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 ///
 /// Supports:
 /// - '@' for creatures and organisations
-/// - '#' for locations, items, and campaign content
+/// - '#' for locations, items, and encounters
+/// - '$' for chapters, adventures, and scenes
 class CustomQuillEditor extends StatefulWidget {
   final GlobalKey? keyForPosition;
   final QuillController controller;
@@ -39,6 +40,18 @@ class CustomQuillEditor extends StatefulWidget {
 }
 
 class _CustomQuillEditorState extends State<CustomQuillEditor> {
+  static const Map<String, String> _tagKindMap = {
+    '@': 'creature,organisation',
+    '#': 'item,location,encounter',
+    r'$': 'chapter,adventure,scene',
+  };
+
+  static const Map<String, String> _tagPrefixMap = {
+    '@': prefixMention,
+    '#': prefixHashtag,
+    r'$': prefixStory,
+  };
+
   late final QuillController _controller;
   late final FocusNode _focusNode;
 
@@ -130,19 +143,9 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
         _isEditorLTR = true;
       }
 
-      // Detect '#' for hashtag entities
-      if (newString == '#') {
-        _currentTaggingCharacter = '#';
-        if (_suggestionOverlayEntry == null &&
-            !(_suggestionOverlayEntry?.mounted ?? false)) {
-          _lastTagIndex = _controller.selection.baseOffset;
-          _showSuggestionOverlay();
-        }
-      }
-
-      // Detect '@' for mention entities
-      if (newString == '@') {
-        _currentTaggingCharacter = '@';
+      // Detect tagging characters for entity suggestions
+      if (_tagKindMap.containsKey(newString)) {
+        _currentTaggingCharacter = newString;
         if (_suggestionOverlayEntry == null &&
             !(_suggestionOverlayEntry?.mounted ?? false)) {
           _lastTagIndex = _controller.selection.baseOffset;
@@ -201,10 +204,11 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
     }
 
     try {
-      // Determine entity kinds based on tagging character
-      final kind = _currentTaggingCharacter == '@'
-          ? 'npc,creature,organisation'
-          : 'location,item,map,chapter,adventure,scene,encounter';
+      final kind = _tagKindMap[_currentTaggingCharacter];
+      if (kind == null) {
+        _entitySuggestions.value = [];
+        return;
+      }
 
       final entities = await widget.onSearchEntities!(kind, query);
       _entitySuggestions.value = entities;
@@ -267,7 +271,9 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
   }
 
   void _onTapOverlaySuggestionItem(MentionEntity entity) {
-    if (_lastTagIndex == null) return;
+    if (_lastTagIndex == null || _currentTaggingCharacter == null) {
+      return;
+    }
 
     final startIndex = _lastTagIndex!;
     final endIndex = _controller.selection.extentOffset;
@@ -284,9 +290,7 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
     );
 
     // Format as link with entity ID
-    final prefix = _currentTaggingCharacter == '#'
-        ? prefixHashtag
-        : prefixMention;
+    final prefix = _tagPrefixMap[_currentTaggingCharacter] ?? prefixMention;
     _controller.formatSelection(LinkAttribute("$prefix${entity.id}"));
 
     // Move cursor to end and add space

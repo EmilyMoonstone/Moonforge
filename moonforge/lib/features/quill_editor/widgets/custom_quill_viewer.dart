@@ -6,8 +6,9 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 /// Custom Quill viewer with mention click handling.
 ///
 /// Handles clicks on:
-/// - '@' mentions (creature, group)
-/// - '#' hashtags (location, item, other)
+/// - '@' mentions (creature, organisation)
+/// - '#' hashtags (location, item, encounter)
+/// - '$' story links (chapter, adventure, scene)
 class CustomQuillViewer extends StatelessWidget {
   final QuillController controller;
   final Future<void> Function(String entityId, String mentionType)?
@@ -40,23 +41,16 @@ class CustomQuillViewer extends StatelessWidget {
         onLaunchUrl: (string) async {
           await _handleLinkTap(context, string);
         },
-        customStyleBuilder: (attribute) {
-          if (attribute.key == 'mention') {
-            return theme.typography.base.copyWith(
-              color: theme.colorScheme.primary,
-              fontWeight: FontWeight.w500,
-            );
-          }
-          return theme.typography.base;
-        },
       ),
     );
   }
 
   Future<void> _handleLinkTap(BuildContext context, String url) async {
     try {
-      // Check if it's a mention or hashtag
-      if (url.contains(prefixMention) || url.contains(prefixHashtag)) {
+      // Check if it's a mention, hashtag, or story link
+      if (url.contains(prefixMention) ||
+          url.contains(prefixHashtag) ||
+          url.contains(prefixStory)) {
         String entityId = url
             .replaceAll("https://", "")
             .replaceAll("http://", "");
@@ -77,6 +71,16 @@ class CustomQuillViewer extends StatelessWidget {
             await onMentionTap!(entityId, 'hashtag');
           } else {
             _showDefaultDialog(context, 'Hashtag Clicked', entityId);
+          }
+          return;
+        }
+
+        if (entityId.startsWith(prefixStory)) {
+          entityId = entityId.replaceAll(prefixStory, "");
+          if (onMentionTap != null) {
+            await onMentionTap!(entityId, 'story');
+          } else {
+            _showDefaultDialog(context, 'Story Link Clicked', entityId);
           }
           return;
         }
