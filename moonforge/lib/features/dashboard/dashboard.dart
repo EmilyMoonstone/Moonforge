@@ -2,12 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart' show InkWell;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moonforge/core/providers/campaign.dart';
+import 'package:moonforge/core/widgets/spark_with_ai_button.dart';
 import 'package:moonforge/data/database.dart';
 import 'package:moonforge/data/enums.dart';
 import 'package:moonforge/data/stores/campaign.dart';
 import 'package:moonforge/gen/assets.gen.dart';
 import 'package:moonforge/gen/l10n.dart';
 import 'package:moonforge/layout/app_spacing.dart';
+import 'package:moonforge/layout/design_constants.dart';
+import 'package:moonforge/layout/widgets/scroll_view_default.dart';
 import 'package:moonforge/routes/app_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:moonforge/layout/app_layout.dart';
@@ -35,18 +38,18 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
         borderRadius: theme.borderRadiusMd,
         onTap: () {
           ref.read(currentCampaignIdProvider.notifier).set(campaign.id);
-          AutoRouter.of(context).push(
-            CampaignRoute(),
-          );
+          AutoRouter.of(context).push(CampaignRoute());
         },
         child: ConstrainedBox(
-          constraints: BoxConstraints(minWidth: 200, maxWidth: 300),
+          constraints: BoxConstraints(minWidth: 200, maxWidth: kCardWidthMax),
           child: Card(
             padding: EdgeInsets.zero,
             child: Column(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.vertical(top: theme.radiusMdRadius),
+                  borderRadius: BorderRadius.vertical(
+                    top: theme.radiusMdRadius,
+                  ),
                   child: Assets.images.placeholders.campaign.image(
                     width: double.infinity,
                     height: 120,
@@ -61,9 +64,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            OverflowMarquee(
-                              child: Text(campaign.title).h4,
-                            ),
+                            OverflowMarquee(child: Text(campaign.title).h4),
                             Row(
                               children: [
                                 Icon(
@@ -101,18 +102,9 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
             children: <Widget>[
               Text('${l10n.your} ${l10n.spCampaigns('plural')}').h1,
               Spacer(),
-              Button(
-                style: ButtonStyle.outline(),
-                leading: Icon(
-                  Icons.auto_awesome,
-                  color: theme.colorScheme.primary,
-                ),
-                child: Text(l10n.sparkWithAI),
-                onPressed: () {},
-              ),
+              SparkWithAiButton(onPressed: () {}, showLabel: true),
               Gap(AppSpacing.lg),
-              Button(
-                style: ButtonStyle.primary(),
+              PrimaryButton(
                 leading: Icon(Icons.add),
                 child: Text(
                   '${l10n.newString} ${l10n.spCampaigns('singular')}',
@@ -124,14 +116,18 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
           Gap(AppSpacing.xl),
           Row(
             children: [
-              TextField(
-                placeholder: Text(
-                  '${l10n.search} ${l10n.spCampaigns('plural')}...',
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: kSearchWidth),
+                child: TextField(
+                  placeholder: Text(
+                    '${l10n.search} ${l10n.spCampaigns('plural')}...',
+                  ),
+                  features: [InputFeature.leading(Icon(Icons.search))],
                 ),
-                features: [InputFeature.leading(Icon(Icons.search))],
-              ).expanded(),
-              Gap(AppSpacing.lg),
+              ),
+              Spacer(),
               Select<SortTypeDataset>(
+                constraints: BoxConstraints(minWidth: kCardWidthMax),
                 itemBuilder: (context, value) => Text(l10n.sortBy(value.name)),
                 value: selectedSortType,
                 onChanged: (newValue) {
@@ -165,11 +161,13 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                 );
               }
 
-              return Wrap(
-                spacing: AppSpacing.lg,
-                children: campaigns.value!
-                    .map((campaign) => campaignCard(campaign))
-                    .toList(),
+              return ScrollViewDefault(
+                child: Wrap(
+                  spacing: kCardSpacing,
+                  children: campaigns.value!
+                      .map((campaign) => campaignCard(campaign))
+                      .toList(),
+                ),
               );
             },
           ),

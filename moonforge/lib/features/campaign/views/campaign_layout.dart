@@ -62,7 +62,7 @@ CampaignsTableData? _findCampaign(
 
 CampaignNavItem _resolveActiveItem(StackRouter router) {
   return switch (router.current.name) {
-    CampaignChapterRoute.name => CampaignNavItem.chapters,
+    ChapterRoute.name => CampaignNavItem.chapters,
     CampaignMapsRoute.name => CampaignNavItem.maps,
     CampaignEntitiesRoute.name => CampaignNavItem.entities,
     CampaignEncountersRoute.name => CampaignNavItem.encounters,
@@ -75,7 +75,7 @@ void _handleNavigate(StackRouter router, CampaignNavItem item) {
     case CampaignNavItem.overview:
       router.push(const CampaignOverviewRoute());
     case CampaignNavItem.chapters:
-      router.push(CampaignChapterRoute(chapterId: ''));
+      router.push(ChapterRoute(chapterId: ''));
     case CampaignNavItem.maps:
       router.push(const CampaignMapsRoute());
     case CampaignNavItem.locations:

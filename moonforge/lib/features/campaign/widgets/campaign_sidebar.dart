@@ -61,20 +61,16 @@ class _CampaignSidebarState extends ConsumerState<CampaignSidebar> {
     _campaignIdSubscription?.close();
     super.dispose();
   }
-
-  int _compareOrder(String left, String right) {
-    final leftNumber = int.tryParse(left);
-    final rightNumber = int.tryParse(right);
-    if (leftNumber != null && rightNumber != null) {
-      return leftNumber.compareTo(rightNumber);
-    }
-    if (leftNumber != null) {
-      return -1;
-    }
-    if (rightNumber != null) {
+  int _compareOrder(int? left, int? right) {
+    if (left == null && right == null) {
+      return 0;
+    } else if (left == null) {
       return 1;
+    } else if (right == null) {
+      return -1;
+    } else {
+      return left.compareTo(right);
     }
-    return left.compareTo(right);
   }
 
   List<SidebarTreeNodeData> _buildTreeNodesData({

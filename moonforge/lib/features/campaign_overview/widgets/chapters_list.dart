@@ -1,11 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart' show InkWell;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moonforge/core/widgets/card.dart';
+import 'package:moonforge/core/widgets/hover_editable.dart';
+import 'package:moonforge/core/widgets/icon_button.dart';
+import 'package:moonforge/core/widgets/spark_with_ai_button.dart';
 import 'package:moonforge/data/database.dart';
 import 'package:moonforge/data/stores/chapters.dart';
 import 'package:moonforge/gen/assets.gen.dart';
 import 'package:moonforge/gen/l10n.dart';
 import 'package:moonforge/layout/app_spacing.dart';
+import 'package:moonforge/layout/widgets/scroll_view_default.dart';
 import 'package:moonforge/routes/app_router.gr.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -34,7 +39,8 @@ class _ChaptersListState extends ConsumerState<ChaptersList> {
               .watchByCampaignId(widget.campaignId!);
 
     Widget chapterCard({
-      required String orderNumber,
+      Key? key,
+      required int? orderNumber,
       required String chapterId,
       required String title,
       required String description,
@@ -42,106 +48,95 @@ class _ChaptersListState extends ConsumerState<ChaptersList> {
       bool isPlaceholder = false,
     }) {
       return SizedBox(
-        height: 160,
-        child: InkWell(
-          borderRadius: theme.borderRadiusMd,
+        key: key,
+        height: 168,
+        child: CardCustom(
+          padding: AppSpacing.paddingMd,
           onTap: () {
-            AutoRouter.of(
-              context,
-            ).push(CampaignChapterRoute(chapterId: chapterId));
-          },
-          child: Card(
-            padding: EdgeInsets.zero,
-            child: Padding(
-              padding: AppSpacing.paddingLg,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(theme.radiusMd),
-                    child: Assets.images.placeholders.campaign.image(
-                      width: 140,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Gap(AppSpacing.lg),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'CHAPTER $orderNumber',
-                                        style: theme.typography.small,
-                                      ).muted(),
-                                      Gap(AppSpacing.lg),
-                                      Icon(
-                                        Icons.watch_later,
-                                        size: 16,
-                                        color:
-                                            theme.colorScheme.mutedForeground,
-                                      ),
-                                      Gap(AppSpacing.xs),
-                                      Text(
-                                        'Last updated ${timeago.format(updatedAt)}',
-                                      ).muted(),
-                                    ],
-                                  ),
-
-                                  Gap(AppSpacing.xs),
-                                  Text(title).h4,
-                                ],
+          AutoRouter.of(
+            context,
+          ).push(ChapterRoute(chapterId: chapterId));
+        },
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(theme.radiusMd),
+                child: Assets.images.placeholders.campaign.image(
+                  width: 140,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Gap(AppSpacing.lg),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    HoverEditableRow(
+                      onEdit: () {},
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'CHAPTER $orderNumber',
+                                style: theme.typography.small,
+                              ).muted(),
+                              Gap(AppSpacing.lg),
+                              Icon(
+                                Icons.watch_later,
+                                size: 16,
+                                color:
+                                    theme.colorScheme.mutedForeground,
                               ),
-                            ),
-                            IconButton(
-                              variance: ButtonVariance.ghost,
-                              icon: const Icon(Icons.edit),
-                              onPressed: () {},
-                            ),
-                          ],
+                              Gap(AppSpacing.xs),
+                              Flexible(
+                                child: Text(
+                                  'Last updated ${timeago.format(updatedAt)}',
+                                  overflow: TextOverflow.ellipsis,
+                                ).muted(),
+                              ),
+                            ],
+                          ),
+                    
+                          Gap(AppSpacing.xs),
+                          Text(title).h4,
+                        ],
+                      ),
+                    ),
+                    Gap(AppSpacing.sm),
+                    Text(
+                      description,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ).muted(),
+                    Gap(AppSpacing.sm),
+                    Divider(),
+                    Gap(AppSpacing.sm),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.explore,
+                          size: 16,
+                          color: theme.colorScheme.mutedForeground,
                         ),
-                        Gap(AppSpacing.sm),
-                        Text(
-                          description,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ).muted(),
-                        Gap(AppSpacing.sm),
-                        Divider(),
-                        Gap(AppSpacing.sm),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.explore,
-                              size: 16,
-                              color: theme.colorScheme.mutedForeground,
-                            ),
-                            Gap(AppSpacing.xs),
-                            Text('0 adventures').muted(),
-                            Gap(AppSpacing.lg),
-                            Icon(
-                              Icons.groups,
-                              size: 16,
-                              color: theme.colorScheme.mutedForeground,
-                            ),
-                            Gap(AppSpacing.xs),
-                            Text('0 entities').muted(),
-                          ],
+                        Gap(AppSpacing.xs),
+                        Text('0 adventures').muted(),
+                        Gap(AppSpacing.lg),
+                        Icon(
+                          Icons.groups,
+                          size: 16,
+                          color: theme.colorScheme.mutedForeground,
                         ),
+                        Gap(AppSpacing.xs),
+                        Text('0 entities').muted(),
                       ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
         ).asSkeleton(enabled: isPlaceholder),
       );
@@ -152,7 +147,8 @@ class _ChaptersListState extends ConsumerState<ChaptersList> {
         children: [
           for (var i = 0; i < 3; i++) ...[
             chapterCard(
-              orderNumber: '${i + 1}',
+              key: ValueKey('chapter-placeholder-$i'),
+              orderNumber: i + 1,
               chapterId: 'placeholder-$i',
               title: 'Chapter Title',
               description: 'Chapter description placeholder text.',
@@ -168,10 +164,8 @@ class _ChaptersListState extends ConsumerState<ChaptersList> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Wrap(
+        Row(
           spacing: AppSpacing.lg,
-          runSpacing: AppSpacing.md,
-          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 320),
@@ -187,78 +181,80 @@ class _ChaptersListState extends ConsumerState<ChaptersList> {
                 features: [InputFeature.leading(Icon(Icons.search))],
               ),
             ),
-            Button(
-              style: ButtonStyle.outline(),
-              leading: Icon(
-                Icons.auto_awesome,
-                color: theme.colorScheme.primary,
-              ),
-              child: Text(l10n.sparkWithAI),
-              onPressed: () {},
-            ),
-            Button(
-              style: ButtonStyle.primary(),
-              leading: const Icon(Icons.add),
-              child: Text('${l10n.newString} ${l10n.spChapters('singular')}'),
-              onPressed: () {},
+            Spacer(),
+            ButtonGroup(
+              children: [
+                SparkWithAiButton(onPressed: () {}, showLabel: false),
+                IconButtonCustom(
+                  icon: const Icon(Icons.add),
+                  label: '${l10n.newString} ${l10n.spChapters('singular')}',
+                  variance: ButtonVariance.secondary,
+                  onPressed: () {},
+                ),
+              ],
             ),
           ],
         ),
-        Gap(AppSpacing.xl),
-        if (chapters == null)
-          placeholderList()
-        else
-          StreamBuilder<List<ChaptersTableData>>(
-            stream: chapters,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return placeholderList();
-              }
-
-              if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              }
-
-              final chapterItems =
-                  (snapshot.data ?? [])
-                      .where(
-                        (chapter) =>
-                            chapter.title.toLowerCase().contains(
-                              _searchQuery,
-                            ) ||
-                            (chapter.description ?? '').toLowerCase().contains(
-                              _searchQuery,
-                            ),
-                      )
-                      .toList()
-                    ..sort((a, b) {
-                      final aOrder = int.tryParse(a.orderNumber) ?? 0;
-                      final bOrder = int.tryParse(b.orderNumber) ?? 0;
-                      return aOrder.compareTo(bOrder);
-                    });
-
-              if (chapterItems.isEmpty) {
-                return Center(
-                  child: Text(l10n.noXFound(l10n.spChapters('plural'))).muted(),
-                );
-              }
-
-              return Column(
-                children: [
-                  for (final chapter in chapterItems) ...[
-                    chapterCard(
-                      orderNumber: chapter.orderNumber,
-                      chapterId: chapter.id,
-                      title: chapter.title,
-                      description: chapter.description ?? 'No description yet.',
-                      updatedAt: DateTime.parse(chapter.updatedAt),
-                    ),
-                    Gap(AppSpacing.lg),
-                  ],
-                ],
-              );
-            },
-          ),
+        Gap(AppSpacing.lg),
+        ScrollViewDefault(
+          child: chapters == null
+              ? placeholderList()
+              : StreamBuilder<List<ChaptersTableData>>(
+                  stream: chapters,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return placeholderList();
+                    }
+        
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    }
+        
+                    final chapterItems =
+                        (snapshot.data ?? [])
+                            .where(
+                              (chapter) =>
+                                  chapter.title.toLowerCase().contains(
+                                    _searchQuery,
+                                  ) ||
+                                  (chapter.description ?? '')
+                                      .toLowerCase()
+                                      .contains(_searchQuery),
+                            )
+                            .toList()
+                          ..sort((a, b) {
+                            final aOrder = a.orderNumber;
+                            final bOrder = b.orderNumber;
+                            return aOrder.compareTo(bOrder);
+                          });
+        
+                    if (chapterItems.isEmpty) {
+                      return Center(
+                        child: Text(
+                          l10n.noXFound(l10n.spChapters('plural')),
+                        ).muted(),
+                      );
+                    }
+        
+                    return Column(
+                      children: [
+                        for (final chapter in chapterItems) ...[
+                          chapterCard(
+                            key: ValueKey('chapter-${chapter.id}'),
+                            orderNumber: chapter.orderNumber,
+                            chapterId: chapter.id,
+                            title: chapter.title,
+                            description:
+                                chapter.description ?? 'No description yet.',
+                            updatedAt: DateTime.parse(chapter.updatedAt),
+                          ),
+                          Gap(AppSpacing.lg),
+                        ],
+                      ],
+                    );
+                  },
+                ),
+        ),
       ],
     );
   }

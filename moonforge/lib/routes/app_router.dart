@@ -32,7 +32,7 @@ final class AppRouter extends RootStackRouter {
             page: CampaignRoute.page,
             children: [
               AutoRoute(initial: true, page: CampaignOverviewRoute.page),
-              AutoRoute(page: CampaignChapterRoute.page),
+              AutoRoute(page: ChapterRoute.page),
               AutoRoute(page: CampaignMapsRoute.page),
               AutoRoute(page: CampaignEntitiesRoute.page),
               AutoRoute(page: CampaignEncountersRoute.page),

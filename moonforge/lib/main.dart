@@ -32,6 +32,7 @@ void main() async {
         windowButtonVisibility: false,
       );
       await windowManager.setMinimumSize(const Size(500, 600));
+      await windowManager.setSize(const Size(1400, 1080));
       await windowManager.show();
       await windowManager.setPreventClose(true);
       await windowManager.setSkipTaskbar(false);
