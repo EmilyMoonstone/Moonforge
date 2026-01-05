@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file. See [conven
 ### Features
 
 - Enhance commit and pull request guidelines with conventional commits structure - ([ead000c](https://github.com/EmilyMoonstone/Moonforge/commit/ead000c2e6418198108f1ed57cb9bc06865e8189) Emily Pauli)
+- Update changelog and configuration for improved commit message formatting - ([eda52b8](https://github.com/EmilyMoonstone/Moonforge/commit/eda52b8c8405b793eb9e72b209e8f99faee98bd4) Emily Pauli)
 
 ---
 ## [0.1.0] - 2026-01-05
