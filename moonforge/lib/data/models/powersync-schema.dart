@@ -1,4 +1,5 @@
 import 'package:powersync/powersync.dart';
+import 'package:powersync_core/attachments/attachments.dart';
 
 Schema schema = Schema([
   Table('groups', [
@@ -6,27 +7,27 @@ Schema schema = Schema([
     Column.text('description'),
     Column.text('dungeon_master_user_id'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
   Table('group_members', [
     Column.text('group_id'),
     Column.text('user_id'),
     Column.text('role'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
   Table('playing_campaigns', [
     Column.text('group_id'),
     Column.text('campaign_id'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
   Table('characters', [
     Column.text('group_id'),
     Column.text('user_id'),
     Column.integer('dndbeyond_character_id'),
     Column.text('name'),
-    Column.text('avatar_url'),
+    Column.text('avatar'),
     Column.integer('level'),
     Column.integer('armor_class'),
     Column.integer('hit_points'),
@@ -38,7 +39,7 @@ Schema schema = Schema([
     Column.text('content'),
     Column.text('dndbeyond_raw'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
   Table('session_logs', [
     Column.text('group_id'),
@@ -47,15 +48,17 @@ Schema schema = Schema([
     Column.text('title'),
     Column.text('content'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
   Table('campaigns', [
     Column.text('created_by'),
     Column.text('title'),
     Column.text('description'),
+    Column.text('icon'),
+    Column.text('title_image'),
     Column.text('content'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
   Table('chapters', [
     Column.text('campaign_id'),
@@ -64,7 +67,7 @@ Schema schema = Schema([
     Column.text('content'),
     Column.integer('order_number'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
   Table('adventures', [
     Column.text('chapter_id'),
@@ -74,7 +77,7 @@ Schema schema = Schema([
     Column.text('content'),
     Column.integer('order_number'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
   Table('scenes', [
     Column.text('adventure_id'),
@@ -84,7 +87,7 @@ Schema schema = Schema([
     Column.text('content'),
     Column.integer('order_number'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
   Table('content_scopes', [
     Column.text('scope_type'),
@@ -93,26 +96,28 @@ Schema schema = Schema([
     Column.text('adventure_id'),
     Column.text('scene_id'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
   Table('maps', [
     Column.text('campaign_id'),
     Column.text('title'),
     Column.text('description'),
+    Column.text('image'),
     Column.text('data'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
-  Table('organisations', [
+  Table('organizations', [
     Column.text('scope_id'),
     Column.text('campaign_id'),
     Column.text('name'),
+    Column.text('avatar'),
     Column.text('type'),
     Column.text('description'),
     Column.text('content'),
     Column.text('hq_location_id'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
   Table('locations', [
     Column.text('scope_id'),
@@ -122,7 +127,7 @@ Schema schema = Schema([
     Column.text('content'),
     Column.text('data'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
   Table('items', [
     Column.text('scope_id'),
@@ -132,24 +137,25 @@ Schema schema = Schema([
     Column.text('rarity'),
     Column.integer('attunement'),
     Column.text('description'),
+    Column.text('image'),
     Column.text('content'),
     Column.text('data'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
   Table('creatures', [
     Column.text('scope_id'),
     Column.text('campaign_id'),
-    Column.text('organisation_id'),
+    Column.text('organization_id'),
     Column.text('name'),
+    Column.text('avatar'),
     Column.text('kind'),
     Column.text('source'),
     Column.text('size'),
     Column.text('creature_type'),
     Column.text('subtype'),
     Column.text('alignment'),
-    Column.text('challenge_rating_decimal'),
-    Column.text('challenge_rating_text'),
+    Column.integer('challenge_rating'),
     Column.integer('experience_points'),
     Column.integer('armor_class'),
     Column.integer('hit_points'),
@@ -172,7 +178,7 @@ Schema schema = Schema([
     Column.text('content'),
     Column.text('raw'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
   Table('encounters', [
     Column.text('scope_id'),
@@ -182,7 +188,7 @@ Schema schema = Schema([
     Column.text('content'),
     Column.text('data'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
   Table('encounter_creatures', [
     Column.text('encounter_id'),
@@ -192,7 +198,7 @@ Schema schema = Schema([
     Column.integer('initiative'),
     Column.text('notes'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
   Table('campaign_access', [
     Column.text('campaign_id'),
@@ -200,6 +206,7 @@ Schema schema = Schema([
     Column.text('role'),
     Column.text('source_group_id'),
     Column.text('created_at'),
-    Column.text('updated_at'),
+    Column.text('updated_at')
   ]),
+  AttachmentsQueueTable(),
 ]);

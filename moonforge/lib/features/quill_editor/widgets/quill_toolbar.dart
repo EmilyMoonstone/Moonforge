@@ -8,9 +8,14 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 ///
 /// See also: [Custom toolbar](https://github.com/singerdmx/flutter-quill/blob/master/doc/custom_toolbar.md).
 class QuillCustomToolbar extends StatelessWidget {
-  const QuillCustomToolbar({super.key, required this.controller});
+  const QuillCustomToolbar({
+    super.key,
+    required this.controller,
+    this.imageButtonOptions,
+  });
 
   final QuillController controller;
+  final QuillToolbarImageButtonOptions? imageButtonOptions;
 
   @override
   Widget build(BuildContext context) {
@@ -211,7 +216,8 @@ class QuillCustomToolbar extends StatelessWidget {
               onPressed: () {
                 controller.formatSelection(Attribute.rightAlignment);
               },
-            ),            IconButtonCustom(
+            ),
+            IconButtonCustom(
               variance: ButtonVariance.outline,
               icon: Icon(Icons.format_align_justify),
               label: 'Align Justify',
@@ -224,7 +230,10 @@ class QuillCustomToolbar extends StatelessWidget {
         ButtonGroup(
           children: [
             QuillToolbarLinkStyleButton(controller: controller),
-            QuillToolbarImageButton(controller: controller),
+            QuillToolbarImageButton(
+              controller: controller,
+              options: imageButtonOptions,
+            ),
           ],
         ),
       ],

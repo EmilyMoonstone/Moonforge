@@ -6,6 +6,7 @@ import 'package:moonforge/core/widgets/spark_with_ai_button.dart';
 import 'package:moonforge/data/database.dart';
 import 'package:moonforge/data/enums.dart';
 import 'package:moonforge/data/stores/campaign.dart';
+import 'package:moonforge/features/dashboard/widgets/new_campaign_dialog.dart';
 import 'package:moonforge/gen/assets.gen.dart';
 import 'package:moonforge/gen/l10n.dart';
 import 'package:moonforge/layout/app_spacing.dart';
@@ -50,6 +51,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                   borderRadius: BorderRadius.vertical(
                     top: theme.radiusMdRadius,
                   ),
+                  //TODO: implement campaign image with fallback placeholder
                   child: Assets.images.placeholders.campaign.image(
                     width: double.infinity,
                     height: 120,
@@ -109,7 +111,9 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                 child: Text(
                   '${l10n.newString} ${l10n.spCampaigns('singular')}',
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  showNewCampaignDialog(context);
+                },
               ),
             ],
           ),
@@ -118,6 +122,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
             children: [
               ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: kSearchWidth),
+                //TODO: implement search functionality
                 child: TextField(
                   placeholder: Text(
                     '${l10n.search} ${l10n.spCampaigns('plural')}...',
@@ -126,6 +131,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                 ),
               ),
               Spacer(),
+              //TODO: implement sort functionality
               Select<SortTypeDataset>(
                 constraints: BoxConstraints(minWidth: kCardWidthMax),
                 itemBuilder: (context, value) => Text(l10n.sortBy(value.name)),
@@ -164,6 +170,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
               return ScrollViewDefault(
                 child: Wrap(
                   spacing: kCardSpacing,
+                  runSpacing: kCardSpacing,
                   children: campaigns.value!
                       .map((campaign) => campaignCard(campaign))
                       .toList(),

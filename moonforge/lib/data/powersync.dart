@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moonforge/data/attachments/queue.dart';
 import 'package:moonforge/data/connector.dart';
-import 'package:moonforge/data/supabase.dart';
+import 'package:moonforge/data/supabase.dart' hide AuthState;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:powersync/powersync.dart';
@@ -21,6 +24,7 @@ Future<PowerSyncDatabase> powerSyncInstance(Ref ref) async {
     logger: attachedLogger,
   );
   await db.initialize();
+  await initializeAttachmentQueue(db);
 
   SupabaseConnector? currentConnector;
   if (ref.read(sessionProvider).value != null) {
@@ -41,8 +45,9 @@ Future<PowerSyncDatabase> powerSyncInstance(Ref ref) async {
       currentConnector?.prefetchCredentials();
     }
   });
-  ref.onDispose(sub.cancel);
-  ref.onDispose(db.close);
+  ref.onDispose(() {
+    unawaited(_disposePowerSync(db, sub));
+  });
 
   return db;
 }
@@ -76,4 +81,13 @@ Future<String> _getDatabasePath() async {
   }
   final dir = await getApplicationSupportDirectory();
   return join(dir.path, dbFilename);
+}
+
+Future<void> _disposePowerSync(
+  PowerSyncDatabase db,
+  StreamSubscription<AuthState> authSubscription,
+) async {
+  await authSubscription.cancel();
+  await disposeAttachmentQueue();
+  await db.close();
 }

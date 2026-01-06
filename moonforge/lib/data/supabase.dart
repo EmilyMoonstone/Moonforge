@@ -9,6 +9,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'supabase.g.dart';
 
+/// Initializes Supabase with the project's URL and anon key.
+///
+/// Usage:
+/// ```dart
+/// await initSupabase();
+/// ```
 Future<void> initSupabase() async {
   await Supabase.initialize(
     url: 'https://tpzfoendnhkizbmyslxo.supabase.co',
@@ -16,6 +22,12 @@ Future<void> initSupabase() async {
   );
 }
 
+/// Stream provider for the current Supabase auth session.
+///
+/// Usage:
+/// ```dart
+/// final session = ref.watch(sessionProvider);
+/// ```
 @riverpod
 Stream<Session?> session(Ref ref) {
   final instance = Supabase.instance.client.auth;
@@ -25,18 +37,49 @@ Stream<Session?> session(Ref ref) {
       .startWith(instance.currentSession);
 }
 
+/// Whether a user is currently logged in.
+///
+/// Usage:
+/// ```dart
+/// final isLoggedIn = ref.watch(isLoggedInProvider);
+/// ```
 @riverpod
 bool isLoggedIn(Ref ref) {
   return ref.watch(sessionProvider.select((session) => session.value != null));
 }
 
+/// Returns the current user's ID, or null if not logged in.
+///
+/// Usage:
+/// ```dart
+/// final userId = ref.watch(userIdProvider);
+/// ```
 @riverpod
 String? userId(Ref ref) {
   return ref.watch(sessionProvider.select((session) => session.value?.user.id));
 }
 
+/// Returns the current user's data, or null if not logged in.
+@riverpod
+User? user(Ref ref) {
+  return ref.watch(sessionProvider.select((session) => session.value?.user));
+}
+
+/// Lightweight auth UI state used by [AuthNotifier].
+///
+/// Usage:
+/// ```dart
+/// final authState = ref.watch(authNotifierProvider);
+/// ```
 typedef AuthState = ({String? error, bool isBusy});
 
+/// Handles Supabase authentication with loading/error state.
+///
+/// Usage:
+/// ```dart
+/// final auth = ref.read(authNotifierProvider.notifier);
+/// await auth.login(email, password);
+/// ```
 @riverpod
 final class AuthNotifier extends _$AuthNotifier {
   @override
@@ -106,5 +149,57 @@ final class AuthNotifier extends _$AuthNotifier {
     await (await ref.read(
       powerSyncInstanceProvider.future,
     )).disconnectAndClear();
+  }
+
+  Future<void> updateUser(UserAttributes attributes) async {
+    return _doWork(() async {
+      await Supabase.instance.client.auth.updateUser(attributes);
+    });
+  }
+
+  Future<void> updateUserMetadata(Map<String, dynamic> data) async {
+    return _doWork(() async {
+      Map<String, dynamic>? currentData =
+          Supabase.instance.client.auth.currentUser?.userMetadata ?? {};
+      currentData.addAll(data);
+      await Supabase.instance.client.auth.updateUser(
+        UserAttributes(data: currentData),
+      );
+    });
+  }
+
+  Future<void> deleteUserMetadata(List<String> keys) async {
+    return _doWork(() async {
+      Map<String, dynamic>? currentData =
+          Supabase.instance.client.auth.currentUser?.userMetadata ?? {};
+      for (final key in keys) {
+        currentData.remove(key);
+      }
+      await Supabase.instance.client.auth.updateUser(
+        UserAttributes(data: currentData),
+      );
+    });
+  }
+
+  Future<void> sendPasswordResetEmail(String email) {
+    return _doWork(() async {
+      String redirectUri;
+      if(kIsWeb) {
+        redirectUri = 'https://moonforge.app/auth/callback';
+      } else {
+        redirectUri = 'moonforge://auth/callback';
+      }
+
+      await Supabase.instance.client.auth.resetPasswordForEmail(
+        email,
+        redirectTo: redirectUri,
+      );
+      showNotificationFromRef(
+        ref,
+        NotificationType.success,
+        'Password Reset Email Sent',
+        'Please check your email for instructions to reset your password.',
+      );
+    });
   }
 }

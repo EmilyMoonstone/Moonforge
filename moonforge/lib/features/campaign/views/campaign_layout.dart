@@ -36,7 +36,6 @@ class _CampaignLayoutState extends ConsumerState<CampaignLayout> {
         isCampaignLoading: campaigns.isLoading,
         onNavigate: (item) => _handleNavigate(router, item),
       ),
-      bodyPadding: const EdgeInsets.all(16),
       withScrollView: false,
       child: widget.child,
     );

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart' show Material, InkWell, ListTile;
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:intl/intl.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/features/quill_editor/quill_mention_constants.dart';
 import 'package:moonforge/features/quill_editor/service/entity_mention_service.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+
 /// Custom Quill editor with mention support for entities.
 ///
 /// Supports:
@@ -16,12 +18,13 @@ class CustomQuillEditor extends StatefulWidget {
   final GlobalKey? keyForPosition;
   final QuillController controller;
   final Future<List<MentionEntity>> Function(String kind, String query)?
-      onSearchEntities;
+  onSearchEntities;
   final FocusNode? focusNode;
   final EdgeInsets padding;
   final double? maxHeight;
   final double? minHeight;
   final bool readOnly;
+  final List<EmbedBuilder>? embedBuilders;
 
   const CustomQuillEditor({
     super.key,
@@ -33,6 +36,7 @@ class CustomQuillEditor extends StatefulWidget {
     this.maxHeight,
     this.minHeight,
     this.readOnly = false,
+    this.embedBuilders,
   });
 
   @override
@@ -59,8 +63,9 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
   OverlayEntry? _suggestionOverlayEntry;
   bool _isEditorLTR = true;
   int? _lastTagIndex = -1;
-  final ValueNotifier<List<MentionEntity>> _entitySuggestions =
-      ValueNotifier([]);
+  final ValueNotifier<List<MentionEntity>> _entitySuggestions = ValueNotifier(
+    [],
+  );
 
   @override
   void initState() {
@@ -116,6 +121,9 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
             ),
           },
           customStyles: defaultMentionStyles,
+          embedBuilders:
+              widget.embedBuilders ??
+              FlutterQuillEmbeds.defaultEditorBuilders(),
         ),
       ),
     );

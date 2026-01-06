@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart' as material;
+import 'package:flutter/widgets.dart' show NetworkImage;
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mime/mime.dart';
+import 'package:moonforge/core/providers/campaign.dart';
+import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/core/utils/notification.dart';
 import 'package:moonforge/core/widgets/icon_button.dart';
+import 'package:moonforge/data/enums.dart';
+import 'package:moonforge/data/powersync.dart';
+import 'package:moonforge/data/utils/image_helpers.dart';
 import 'package:moonforge/data/utils/to_delta_json.dart';
 import 'package:moonforge/features/quill_editor/widgets/custom_quill_editor.dart';
 import 'package:moonforge/features/quill_editor/widgets/custom_quill_viewer.dart';
@@ -9,7 +19,10 @@ import 'package:moonforge/features/quill_editor/widgets/quill_toolbar.dart';
 import 'package:moonforge/gen/l10n.dart';
 import 'package:moonforge/layout/app_spacing.dart';
 import 'package:moonforge/layout/icons.dart';
+import 'package:path/path.dart' as p;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 class ContentView extends ConsumerStatefulWidget {
   const ContentView({super.key, required this.document, this.onSave});
@@ -43,8 +56,32 @@ class _ContentViewState extends ConsumerState<ContentView> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final dbFuture = ref.read(powerSyncInstanceProvider.future);
+    final imageButtonOptions = QuillToolbarImageButtonOptions(
+      imageButtonConfig: QuillToolbarImageConfig(
+        onRequestPickImage: (ctx) => _pickAndUploadImage(ctx),
+      ),
+    );
+    final imageEmbedBuilders = FlutterQuillEmbeds.editorBuilders(
+      imageEmbedConfig: QuillEditorImageEmbedConfig(
+        imageProviderBuilder: (context, imageUrl) {
+          if (imageUrl.startsWith('http')) {
+            return NetworkImage(imageUrl);
+          }
+          return AttachmentImageProvider(
+            dbFuture: dbFuture,
+            bucket: StorageBuckets.images,
+            path: imageUrl,
+          );
+        },
+        onImageRemovedCallback: (imageUrl) {
+          _handleImageRemoved(context, imageUrl);
+        },
+      ),
+    );
     Widget contentView = CustomQuillViewer(
       controller: _controller,
+      embedBuilders: imageEmbedBuilders,
       onMentionTap: (entityId, mentionType) async {
         debugPrint('Tapped on mention: $entityId of type $mentionType');
       },
@@ -54,9 +91,15 @@ class _ContentViewState extends ConsumerState<ContentView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: AppSpacing.sm,
       children: [
-        QuillCustomToolbar(controller: _controller),
+        QuillCustomToolbar(
+          controller: _controller,
+          imageButtonOptions: imageButtonOptions,
+        ),
         Expanded(
-          child: CustomQuillEditor(controller: _controller),
+          child: CustomQuillEditor(
+            controller: _controller,
+            embedBuilders: imageEmbedBuilders,
+          ),
         ),
       ],
     );
@@ -238,5 +281,107 @@ class _ContentViewState extends ConsumerState<ContentView> {
         ],
       ),
     ).asSkeleton(enabled: widget.document == null);
+  }
+
+  Future<void> _handleImageRemoved(
+    BuildContext context,
+    String imageUrl,
+  ) async {
+    final campaignId = ref.read(currentCampaignIdProvider)?.trim();
+    if (campaignId == null || campaignId.isEmpty) {
+      return;
+    }
+
+    if (imageUrl.startsWith('http')) return;
+
+    final contentFolder = imageFolderNames[ImageFolders.content] ?? 'content';
+    if (!imageUrl.startsWith('$campaignId/$contentFolder/')) {
+      return;
+    }
+
+    final bucket = storageBucketNames[StorageBuckets.images] ?? 'images';
+
+    try {
+      await Supabase.instance.client.storage.from(bucket).remove([imageUrl]);
+    } catch (e, st) {
+      logger.e('Failed to delete content image', error: e, stackTrace: st);
+      if (context.mounted) {
+        showNotification(
+          context,
+          NotificationType.error,
+          'Delete failed',
+          'Could not remove image from storage. Please try again.',
+          null,
+        );
+      }
+    }
+  }
+
+  Future<String?> _pickAndUploadImage(BuildContext context) async {
+    try {
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user == null) {
+        if (context.mounted) {
+          showNotification(
+            context,
+            NotificationType.error,
+            'Upload blocked',
+            'Please sign in before uploading images.',
+            null,
+          );
+        }
+        return null;
+      }
+
+      final campaignId = ref.read(currentCampaignIdProvider)?.trim();
+      if (campaignId == null || campaignId.isEmpty) {
+        if (context.mounted) {
+          showNotification(
+            context,
+            NotificationType.error,
+            'Upload blocked',
+            'Select a campaign before adding images.',
+            null,
+          );
+        }
+        return null;
+      }
+
+      final picker = ImagePicker();
+      final xfile = await picker.pickImage(source: ImageSource.gallery);
+      if (xfile == null) return null;
+
+      final bytes = await xfile.readAsBytes();
+
+      final mimeType =
+          lookupMimeType(xfile.path, headerBytes: bytes) ??
+          'application/octet-stream';
+      final extension = p.extension(xfile.path).replaceFirst('.', '');
+      final folder = imageFolderNames[ImageFolders.content] ?? 'content';
+      final path = '$campaignId/$folder/${const Uuid().v4()}.$extension';
+      final bucket = storageBucketNames[StorageBuckets.images] ?? 'images';
+
+      await Supabase.instance.client.storage
+          .from(bucket)
+          .uploadBinary(
+            path,
+            bytes,
+            fileOptions: FileOptions(contentType: mimeType),
+          );
+
+      return path;
+    } catch (e, st) {
+      logger.e('Image upload failed', error: e, stackTrace: st);
+      if (context.mounted) {
+        showNotification(
+          context,
+          NotificationType.error,
+          'Upload failed',
+          'Could not upload image. Please try again.',
+          null,
+        );
+      }
+      return null;
+    }
   }
 }

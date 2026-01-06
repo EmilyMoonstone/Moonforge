@@ -1,4 +1,5 @@
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/features/quill_editor/quill_mention_constants.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
@@ -16,6 +17,7 @@ class CustomQuillViewer extends StatelessWidget {
   final EdgeInsets? padding;
   final double? maxHeight;
   final double? minHeight;
+  final List<EmbedBuilder>? embedBuilders;
 
   const CustomQuillViewer({
     super.key,
@@ -24,6 +26,7 @@ class CustomQuillViewer extends StatelessWidget {
     this.padding,
     this.maxHeight,
     this.minHeight,
+    this.embedBuilders,
   });
 
   @override
@@ -41,6 +44,8 @@ class CustomQuillViewer extends StatelessWidget {
         onLaunchUrl: (string) async {
           await _handleLinkTap(context, string);
         },
+        embedBuilders:
+            embedBuilders ?? FlutterQuillEmbeds.defaultEditorBuilders(),
       ),
     );
   }

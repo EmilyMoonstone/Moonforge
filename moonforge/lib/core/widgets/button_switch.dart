@@ -21,7 +21,7 @@ class ButtonSwitch extends ConsumerStatefulWidget {
 
   final List<ButtonSwitchAction> actions;
   final ValueChanged<int>? onChanged;
-  final int index;
+  final int? index;
   final bool onCard;
   final AbstractButtonStyle highlightStyle;
 

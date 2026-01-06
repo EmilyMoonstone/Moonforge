@@ -9,6 +9,7 @@ import 'package:moonforge/data/stores/campaign.dart';
 import 'package:moonforge/data/stores/chapters.dart';
 import 'package:moonforge/data/stores/scenes.dart';
 import 'package:moonforge/features/auth/utils/get_initials.dart';
+import 'package:moonforge/layout/design_constants.dart';
 import 'package:moonforge/layout/widgets/app_sidebar.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:moonforge/layout/app_spacing.dart';
@@ -299,7 +300,8 @@ class _CampaignSwitcher extends StatelessWidget {
               MenuButton(
                 leading: Avatar(
                   initials: getInitials(campaign.title),
-                  size: 28,
+                  size: kAvatarSizeSmall,
+                  borderRadius: kAvatarBorderRadius,
                 ),
                 onPressed: (context) {
                   closeOverlay(context);
@@ -326,16 +328,17 @@ class _CampaignSwitcher extends StatelessWidget {
           width: double.infinity,
           child: Row(
             children: [
+              //TODO: implement image icon from campaign data
               Container(
-                width: 36,
-                height: 36,
+                width: kAvatarSizeSmall,
+                height: kAvatarSizeSmall,
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: [Color(0xFF5B2CFF), Color(0xFF9D4EDD)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(6)),
+                  borderRadius: BorderRadius.all(Radius.circular(kAvatarBorderRadius)),
                 ),
                 alignment: Alignment.center,
                 child: Text(

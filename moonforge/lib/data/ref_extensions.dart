@@ -18,6 +18,8 @@ import 'package:moonforge/data/stores/organizations.dart';
 import 'package:moonforge/data/stores/playing_campaigns.dart';
 import 'package:moonforge/data/stores/scenes.dart';
 import 'package:moonforge/data/stores/session_logs.dart';
+import 'package:moonforge/data/supabase.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 Stream<List<T>> _watchByScopesInternal<T>(
   Future<Iterable<ContentScopesTableData>> scopeFuture,
@@ -736,5 +738,47 @@ extension SessionLogsRef on WidgetRef {
 
   Future<void> deleteSessionLogById(String id) {
     return read(sessionLogsCommandsProvider.notifier).deleteSessionLogById(id);
+  }
+}
+
+extension SupabaseAuthRef on WidgetRef {
+  AuthNotifier get authNotifier {
+    return read(authProvider.notifier);
+  }
+
+  Future<void> login(String email, String password) {
+    return read(authProvider.notifier).login(email, password);
+  }
+
+  Future<void> signup(String email, String password) {
+    return read(authProvider.notifier).signup(email, password);
+  }
+
+  Future<void> signOut() {
+    return read(authProvider.notifier).signOut();
+  }
+
+  String? get userId {
+    return read(userIdProvider);
+  }
+
+  bool get isLoggedIn {
+    return read(isLoggedInProvider);
+  }
+
+  User? get user {
+    return read(userProvider);
+  }
+
+  Future<void> updateUserMetadata(Map<String, dynamic> data) {
+    return read(authProvider.notifier).updateUserMetadata(data);
+  }
+
+  Future<void> deleteUserMetadata(List<String> keys) {
+    return read(authProvider.notifier).deleteUserMetadata(keys);
+  }
+
+  Future<void> updateUser(UserAttributes attributes) {
+    return read(authProvider.notifier).updateUser(attributes);
   }
 }

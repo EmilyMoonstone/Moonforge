@@ -4,6 +4,18 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 enum NotificationType { info, success, warning, error }
 
+/// Show a notification toast in the given [context].
+/// 
+/// Usage:
+/// ```dart
+/// showNotification(
+///   context,
+///   NotificationType.success,
+///   'Success',
+///   'Your operation was successful.',
+///   null,
+/// );
+/// ```
 void showNotification(
   BuildContext context,
   NotificationType type,

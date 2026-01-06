@@ -27,7 +27,7 @@ import 'package:moonforge/features/chapter/chapter_page.dart' as _i8;
 import 'package:moonforge/features/compendium_page.dart' as _i9;
 import 'package:moonforge/features/dashboard/dashboard.dart' as _i10;
 import 'package:moonforge/features/groups_page.dart' as _i11;
-import 'package:moonforge/features/settings_page.dart' as _i15;
+import 'package:moonforge/features/settings/settings_page.dart' as _i15;
 import 'package:moonforge/layout/layout.dart' as _i12;
 import 'package:moonforge/routes/app_router.dart' as _i13;
 import 'package:shadcn_flutter/shadcn_flutter.dart' as _i17;
@@ -320,16 +320,52 @@ class LoginRoute extends _i16.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i15.SettingsPage]
-class SettingsRoute extends _i16.PageRouteInfo<void> {
-  const SettingsRoute({List<_i16.PageRouteInfo>? children})
-    : super(SettingsRoute.name, initialChildren: children);
+class SettingsRoute extends _i16.PageRouteInfo<SettingsRouteArgs> {
+  SettingsRoute({
+    _i17.Key? key,
+    int selectedIndex = 0,
+    List<_i16.PageRouteInfo>? children,
+  }) : super(
+         SettingsRoute.name,
+         args: SettingsRouteArgs(key: key, selectedIndex: selectedIndex),
+         initialChildren: children,
+       );
 
   static const String name = 'SettingsRoute';
 
   static _i16.PageInfo page = _i16.PageInfo(
     name,
     builder: (data) {
-      return const _i15.SettingsPage();
+      final args = data.argsAs<SettingsRouteArgs>(
+        orElse: () => const SettingsRouteArgs(),
+      );
+      return _i15.SettingsPage(
+        key: args.key,
+        selectedIndex: args.selectedIndex,
+      );
     },
   );
+}
+
+class SettingsRouteArgs {
+  const SettingsRouteArgs({this.key, this.selectedIndex = 0});
+
+  final _i17.Key? key;
+
+  final int selectedIndex;
+
+  @override
+  String toString() {
+    return 'SettingsRouteArgs{key: $key, selectedIndex: $selectedIndex}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! SettingsRouteArgs) return false;
+    return key == other.key && selectedIndex == other.selectedIndex;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ selectedIndex.hashCode;
 }
