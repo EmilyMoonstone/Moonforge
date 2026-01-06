@@ -74,8 +74,9 @@ class _ContentViewState extends ConsumerState<ContentView> {
             path: imageUrl,
           );
         },
-        onImageRemovedCallback: (imageUrl) {
-          _handleImageRemoved(context, imageUrl);
+        onImageRemovedCallback: (imageUrl) async {
+          await _handleImageRemoved(context, imageUrl);
+          return;
         },
       ),
     );
