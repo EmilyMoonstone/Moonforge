@@ -18,6 +18,11 @@ All notable changes to this project will be documented in this file. See [conven
 - Add localization support for save, cancel, close, and home messages in English and German - ([f5bdf56](https://github.com/EmilyMoonstone/Moonforge/commit/f5bdf56126c741179885447942f3eeb1fa198a56) Emily Pauli)
 - Enhance Quill editor with story link support and update autocomplete functionality - ([b27f618](https://github.com/EmilyMoonstone/Moonforge/commit/b27f618759e1f6a84753ea14486b74c005643188) Emily Pauli)
 - Enhance data fetching documentation and implement save functionality in content view - ([f8b7504](https://github.com/EmilyMoonstone/Moonforge/commit/f8b7504d9d787385c19aefa8e7b323ff11bfab40) Emily Pauli)
+- Add image and avatar fields to various tables and update related policies - ([03252e7](https://github.com/EmilyMoonstone/Moonforge/commit/03252e7ffc71ceaf77a9fa8584658994ea63ecb9) Emily Pauli)
+- Add localization support for new messages and update existing translations in English and German - ([0c53d8e](https://github.com/EmilyMoonstone/Moonforge/commit/0c53d8ee9de927311675b4879a7917b05ac5d660) Emily Pauli)
+- Refactor AppLayout to support customizable padding options and update AppTopBar navigation items - ([f0e0704](https://github.com/EmilyMoonstone/Moonforge/commit/f0e0704797f00be743d47a83585a75a84bf4ea99) Emily Pauli)
+- Refactor campaign layout and sidebar, add new campaign dialog, and implement settings page - ([36c76c2](https://github.com/EmilyMoonstone/Moonforge/commit/36c76c24a22fb8b3687a815f6fca188436c9fbba) Emily Pauli)
+- Update onImageRemovedCallback to handle image removal asynchronously - ([d343d2d](https://github.com/EmilyMoonstone/Moonforge/commit/d343d2db2c24b9c6a78bd1627d6e0f1dbce6850b) Emily Pauli)
 
 ---
 ## [0.1.0] - 2026-01-05
