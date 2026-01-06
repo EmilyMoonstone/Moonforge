@@ -164,6 +164,42 @@ abstract class AppLocalizations {
   /// **'Home'**
   String get home;
 
+  /// No description provided for @createX.
+  ///
+  /// In en, this message translates to:
+  /// **'Create {entity}'**
+  String createX(Object entity);
+
+  /// No description provided for @create.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
+  /// No description provided for @createdX.
+  ///
+  /// In en, this message translates to:
+  /// **'{entity} created'**
+  String createdX(Object entity);
+
+  /// No description provided for @created.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get created;
+
+  /// No description provided for @otherX.
+  ///
+  /// In en, this message translates to:
+  /// **'Other {entity}'**
+  String otherX(Object entity);
+
+  /// No description provided for @enter.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter'**
+  String get enter;
+
   /// No description provided for @notifications.
   ///
   /// In en, this message translates to:
@@ -182,11 +218,47 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get profile;
 
+  /// No description provided for @general.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get general;
+
+  /// No description provided for @account.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get account;
+
+  /// No description provided for @dashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard'**
+  String get dashboard;
+
+  /// No description provided for @compendium.
+  ///
+  /// In en, this message translates to:
+  /// **'Compendium'**
+  String get compendium;
+
+  /// No description provided for @appNavItem.
+  ///
+  /// In en, this message translates to:
+  /// **'{item, select, dashboard{Dashboard} campaign{Campaign} compendium{Compendium} groups{Groups} other{Unknown}}'**
+  String appNavItem(String item);
+
   /// No description provided for @nGroups.
   ///
   /// In en, this message translates to:
   /// **'{count, plural, =0 {No Groups} =1 {1 group} other {{count} Groups}}'**
   String nGroups(num count);
+
+  /// No description provided for @spGroups.
+  ///
+  /// In en, this message translates to:
+  /// **'{number, select, singular{Group} other{Groups}}'**
+  String spGroups(String number);
 
   /// No description provided for @nCampaigns.
   ///
@@ -320,24 +392,6 @@ abstract class AppLocalizations {
   /// **'{number, select, singular{Creature} other{Creatures}}'**
   String spCreatures(String number);
 
-  /// No description provided for @otherX.
-  ///
-  /// In en, this message translates to:
-  /// **'Other {entity}'**
-  String otherX(Object entity);
-
-  /// No description provided for @content.
-  ///
-  /// In en, this message translates to:
-  /// **'Content'**
-  String get content;
-
-  /// No description provided for @createX.
-  ///
-  /// In en, this message translates to:
-  /// **'Create {entity}'**
-  String createX(Object entity);
-
   /// No description provided for @sortBy.
   ///
   /// In en, this message translates to:
@@ -355,6 +409,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loading {entity}...'**
   String loadingX(Object entity);
+
+  /// No description provided for @success.
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get success;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// No description provided for @title.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get title;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @content.
+  ///
+  /// In en, this message translates to:
+  /// **'Content'**
+  String get content;
+
+  /// No description provided for @username.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get username;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @profilePicture.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Picture'**
+  String get profilePicture;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// No description provided for @fileSizeExceeds.
+  ///
+  /// In en, this message translates to:
+  /// **'File size exceeds'**
+  String get fileSizeExceeds;
+
+  /// No description provided for @fileSizeExceedsLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'File size exceeds the limit of {size}'**
+  String fileSizeExceedsLimit(Object size);
 }
 
 class _AppLocalizationsDelegate

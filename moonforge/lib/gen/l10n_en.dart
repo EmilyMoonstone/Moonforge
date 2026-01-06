@@ -42,6 +42,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home => 'Home';
 
   @override
+  String createX(Object entity) {
+    return 'Create $entity';
+  }
+
+  @override
+  String get create => 'Create';
+
+  @override
+  String createdX(Object entity) {
+    return '$entity created';
+  }
+
+  @override
+  String get created => 'Created';
+
+  @override
+  String otherX(Object entity) {
+    return 'Other $entity';
+  }
+
+  @override
+  String get enter => 'Enter';
+
+  @override
   String get notifications => 'Notifications';
 
   @override
@@ -49,6 +73,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profile => 'Profile';
+
+  @override
+  String get general => 'General';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get dashboard => 'Dashboard';
+
+  @override
+  String get compendium => 'Compendium';
+
+  @override
+  String appNavItem(String item) {
+    String _temp0 = intl.Intl.selectLogic(item, {
+      'dashboard': 'Dashboard',
+      'campaign': 'Campaign',
+      'compendium': 'Compendium',
+      'groups': 'Groups',
+      'other': 'Unknown',
+    });
+    return '$_temp0';
+  }
 
   @override
   String nGroups(num count) {
@@ -59,6 +107,15 @@ class AppLocalizationsEn extends AppLocalizations {
       one: '1 group',
       zero: 'No Groups',
     );
+    return '$_temp0';
+  }
+
+  @override
+  String spGroups(String number) {
+    String _temp0 = intl.Intl.selectLogic(number, {
+      'singular': 'Group',
+      'other': 'Groups',
+    });
     return '$_temp0';
   }
 
@@ -294,19 +351,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String otherX(Object entity) {
-    return 'Other $entity';
-  }
-
-  @override
-  String get content => 'Content';
-
-  @override
-  String createX(Object entity) {
-    return 'Create $entity';
-  }
-
-  @override
   String sortBy(String sortType) {
     String _temp0 = intl.Intl.selectLogic(sortType, {
       'nameAsc': 'Name (A-Z)',
@@ -328,5 +372,46 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String loadingX(Object entity) {
     return 'Loading $entity...';
+  }
+
+  @override
+  String get success => 'Success';
+
+  @override
+  String get error => 'Error';
+
+  @override
+  String get title => 'Title';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get content => 'Content';
+
+  @override
+  String get username => 'Username';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get profilePicture => 'Profile Picture';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get fileSizeExceeds => 'File size exceeds';
+
+  @override
+  String fileSizeExceedsLimit(Object size) {
+    return 'File size exceeds the limit of $size';
   }
 }

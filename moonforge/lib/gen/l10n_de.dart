@@ -12,53 +12,110 @@ class AppLocalizationsDe extends AppLocalizations {
   String get appTitle => 'Moonforge';
 
   @override
-  String get your => 'Your';
+  String get your => 'Deine';
 
   @override
-  String get newString => 'New';
+  String get newString => 'Neu';
 
   @override
-  String get edit => 'Edit';
+  String get edit => 'Bearbeiten';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Löschen';
 
   @override
   String get sparkWithAI => 'Spark with AI';
 
   @override
-  String get search => 'Search';
+  String get search => 'Suchen';
 
   @override
-  String get save => 'Save';
+  String get save => 'Speichern';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'Abbrechen';
 
   @override
-  String get close => 'Close';
+  String get close => 'Schließen';
 
   @override
-  String get home => 'Home';
+  String get home => 'Start';
 
   @override
-  String get notifications => 'Notifications';
+  String createX(Object entity) {
+    return '$entity erstellen';
+  }
 
   @override
-  String get settings => 'Settings';
+  String get create => 'Erstellen';
 
   @override
-  String get profile => 'Profile';
+  String createdX(Object entity) {
+    return '$entity erstellt';
+  }
+
+  @override
+  String get created => 'Erstellt';
+
+  @override
+  String otherX(Object entity) {
+    return 'Andere $entity';
+  }
+
+  @override
+  String get enter => 'Eingeben';
+
+  @override
+  String get notifications => 'Benachrichtigungen';
+
+  @override
+  String get settings => 'Einstellungen';
+
+  @override
+  String get profile => 'Profil';
+
+  @override
+  String get general => 'Allgemein';
+
+  @override
+  String get account => 'Konto';
+
+  @override
+  String get dashboard => 'Dashboard';
+
+  @override
+  String get compendium => 'Kompendium';
+
+  @override
+  String appNavItem(String item) {
+    String _temp0 = intl.Intl.selectLogic(item, {
+      'dashboard': 'Dashboard',
+      'campaign': 'Kampagne',
+      'compendium': 'Kompendium',
+      'groups': 'Gruppen',
+      'other': 'Unbekannt',
+    });
+    return '$_temp0';
+  }
 
   @override
   String nGroups(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count Groups',
-      one: '1 group',
-      zero: 'No Groups',
+      other: '$count Gruppen',
+      one: '1 Gruppe',
+      zero: 'Keine Gruppen',
     );
+    return '$_temp0';
+  }
+
+  @override
+  String spGroups(String number) {
+    String _temp0 = intl.Intl.selectLogic(number, {
+      'singular': 'Gruppe',
+      'other': 'Gruppen',
+    });
     return '$_temp0';
   }
 
@@ -67,9 +124,9 @@ class AppLocalizationsDe extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count Campaigns',
-      one: '1 Campaign',
-      zero: 'No Campaigns',
+      other: '$count Kampagnen',
+      one: '1 Kampagne',
+      zero: 'Keine Kampagnen',
     );
     return '$_temp0';
   }
@@ -77,8 +134,8 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String spCampaigns(String number) {
     String _temp0 = intl.Intl.selectLogic(number, {
-      'singular': 'Campaign',
-      'other': 'Campaigns',
+      'singular': 'Kampagne',
+      'other': 'Kampagnen',
     });
     return '$_temp0';
   }
@@ -88,9 +145,9 @@ class AppLocalizationsDe extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count Adventures',
-      one: '1 Adventure',
-      zero: 'No Adventures',
+      other: '$count Abenteuer',
+      one: '1 Abenteuer',
+      zero: 'Keine Abenteuer',
     );
     return '$_temp0';
   }
@@ -98,8 +155,8 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String spAdventures(String number) {
     String _temp0 = intl.Intl.selectLogic(number, {
-      'singular': 'Adventure',
-      'other': 'Adventures',
+      'singular': 'Abenteuer',
+      'other': 'Abenteuer',
     });
     return '$_temp0';
   }
@@ -109,9 +166,9 @@ class AppLocalizationsDe extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count Chapters',
-      one: '1 Chapter',
-      zero: 'No Chapters',
+      other: '$count Kapitel',
+      one: '1 Kapitel',
+      zero: 'Keine Kapitel',
     );
     return '$_temp0';
   }
@@ -119,8 +176,8 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String spChapters(String number) {
     String _temp0 = intl.Intl.selectLogic(number, {
-      'singular': 'Chapter',
-      'other': 'Chapters',
+      'singular': 'Kapitel',
+      'other': 'Kapitel',
     });
     return '$_temp0';
   }
@@ -130,9 +187,9 @@ class AppLocalizationsDe extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count Scenes',
-      one: '1 Scene',
-      zero: 'No Scenes',
+      other: '$count Szenen',
+      one: '1 Szene',
+      zero: 'Keine Szenen',
     );
     return '$_temp0';
   }
@@ -140,8 +197,8 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String spScenes(String number) {
     String _temp0 = intl.Intl.selectLogic(number, {
-      'singular': 'Scene',
-      'other': 'Scenes',
+      'singular': 'Szene',
+      'other': 'Szenen',
     });
     return '$_temp0';
   }
@@ -151,9 +208,9 @@ class AppLocalizationsDe extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count Players',
-      one: '1 Player',
-      zero: 'No Players',
+      other: '$count Spieler:innen',
+      one: '1 Spieler:in',
+      zero: 'Keine Spieler:innen',
     );
     return '$_temp0';
   }
@@ -161,8 +218,8 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String spPlayers(String number) {
     String _temp0 = intl.Intl.selectLogic(number, {
-      'singular': 'Player',
-      'other': 'Players',
+      'singular': 'Spieler:in',
+      'other': 'Spieler:innen',
     });
     return '$_temp0';
   }
@@ -172,9 +229,9 @@ class AppLocalizationsDe extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count Entities',
-      one: '1 Entity',
-      zero: 'No Entities',
+      other: '$count Entitäten',
+      one: '1 Entität',
+      zero: 'Keine Entitäten',
     );
     return '$_temp0';
   }
@@ -182,8 +239,8 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String spEntities(String number) {
     String _temp0 = intl.Intl.selectLogic(number, {
-      'singular': 'Entity',
-      'other': 'Entities',
+      'singular': 'Entität',
+      'other': 'Entitäten',
     });
     return '$_temp0';
   }
@@ -193,9 +250,9 @@ class AppLocalizationsDe extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count Items',
-      one: '1 Item',
-      zero: 'No Items',
+      other: '$count Gegenstände',
+      one: '1 Gegenstand',
+      zero: 'Keine Gegenstände',
     );
     return '$_temp0';
   }
@@ -203,8 +260,8 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String spItems(String number) {
     String _temp0 = intl.Intl.selectLogic(number, {
-      'singular': 'Item',
-      'other': 'Items',
+      'singular': 'Gegenstand',
+      'other': 'Gegenstände',
     });
     return '$_temp0';
   }
@@ -214,9 +271,9 @@ class AppLocalizationsDe extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count Locations',
-      one: '1 Location',
-      zero: 'No Locations',
+      other: '$count Orte',
+      one: '1 Ort',
+      zero: 'Keine Orte',
     );
     return '$_temp0';
   }
@@ -224,8 +281,8 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String spLocations(String number) {
     String _temp0 = intl.Intl.selectLogic(number, {
-      'singular': 'Location',
-      'other': 'Locations',
+      'singular': 'Ort',
+      'other': 'Orte',
     });
     return '$_temp0';
   }
@@ -235,9 +292,9 @@ class AppLocalizationsDe extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count Organizations',
-      one: '1 Organization',
-      zero: 'No Organizations',
+      other: '$count Organisationen',
+      one: '1 Organisation',
+      zero: 'Keine Organisationen',
     );
     return '$_temp0';
   }
@@ -245,8 +302,8 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String spOrganizations(String number) {
     String _temp0 = intl.Intl.selectLogic(number, {
-      'singular': 'Organization',
-      'other': 'Organizations',
+      'singular': 'Organisation',
+      'other': 'Organisationen',
     });
     return '$_temp0';
   }
@@ -256,9 +313,9 @@ class AppLocalizationsDe extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count NPCs',
-      one: '1 NPC',
-      zero: 'No NPCs',
+      other: '$count NSCs',
+      one: '1 NSC',
+      zero: 'Keine NSCs',
     );
     return '$_temp0';
   }
@@ -266,8 +323,8 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String spNPCs(String number) {
     String _temp0 = intl.Intl.selectLogic(number, {
-      'singular': 'NPC',
-      'other': 'NPCs',
+      'singular': 'NSC',
+      'other': 'NSCs',
     });
     return '$_temp0';
   }
@@ -277,9 +334,9 @@ class AppLocalizationsDe extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count Creatures',
-      one: '1 Creature',
-      zero: 'No Creatures',
+      other: '$count Kreaturen',
+      one: '1 Kreatur',
+      zero: 'Keine Kreaturen',
     );
     return '$_temp0';
   }
@@ -287,23 +344,10 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String spCreatures(String number) {
     String _temp0 = intl.Intl.selectLogic(number, {
-      'singular': 'Creature',
-      'other': 'Creatures',
+      'singular': 'Kreatur',
+      'other': 'Kreaturen',
     });
     return '$_temp0';
-  }
-
-  @override
-  String otherX(Object entity) {
-    return 'Other $entity';
-  }
-
-  @override
-  String get content => 'Content';
-
-  @override
-  String createX(Object entity) {
-    return 'Create $entity';
   }
 
   @override
@@ -311,22 +355,63 @@ class AppLocalizationsDe extends AppLocalizations {
     String _temp0 = intl.Intl.selectLogic(sortType, {
       'nameAsc': 'Name (A-Z)',
       'nameDesc': 'Name (Z-A)',
-      'dateCreatedAsc': 'Date Created (Oldest First)',
-      'dateCreatedDesc': 'Date Created (Newest First)',
-      'lastModifiedAsc': 'Last Modified (Oldest First)',
-      'lastModifiedDesc': 'Last Modified (Newest First)',
-      'other': 'Unknown Sort',
+      'createdAsc': 'Erstellt (Älteste zuerst)',
+      'createdDesc': 'Erstellt (Neueste zuerst)',
+      'lastModifiedAsc': 'Zuletzt geändert (Älteste zuerst)',
+      'lastModifiedDesc': 'Zuletzt geändert (Neueste zuerst)',
+      'other': 'Unbekannte Sortierung',
     });
     return '$_temp0';
   }
 
   @override
   String noXFound(Object entity) {
-    return 'No $entity Found';
+    return 'Keine $entity gefunden';
   }
 
   @override
   String loadingX(Object entity) {
-    return 'Loading $entity...';
+    return 'Lade $entity...';
+  }
+
+  @override
+  String get success => 'Erfolg';
+
+  @override
+  String get error => 'Fehler';
+
+  @override
+  String get title => 'Titel';
+
+  @override
+  String get description => 'Beschreibung';
+
+  @override
+  String get content => 'Inhalt';
+
+  @override
+  String get username => 'Benutzername';
+
+  @override
+  String get password => 'Passwort';
+
+  @override
+  String get email => 'E-Mail';
+
+  @override
+  String get language => 'Sprache';
+
+  @override
+  String get profilePicture => 'Profilbild';
+
+  @override
+  String get logout => 'Abmelden';
+
+  @override
+  String get fileSizeExceeds => 'Dateigröße überschritten';
+
+  @override
+  String fileSizeExceedsLimit(Object size) {
+    return 'Dateigröße überschreitet das Limit von $size';
   }
 }
