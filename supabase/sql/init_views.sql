@@ -194,7 +194,7 @@ select
   c.group_id,
   c.user_id,
   c.name,
-  c.avatar_url,
+  c.avatar,
   c.level,
   c.armor_class,
   c.hit_points,

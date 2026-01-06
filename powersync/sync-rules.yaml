@@ -64,7 +64,7 @@ bucket_definitions:
           user_id::text AS user_id,
           dndbeyond_character_id,
           name,
-          avatar_url,
+          avatar,
           level,
           armor_class,
           hit_points,
@@ -116,6 +116,8 @@ bucket_definitions:
           created_by::text AS created_by,
           title,
           description,
+          icon,
+          title_image,
           content,
           created_at,
           updated_at
@@ -185,26 +187,28 @@ bucket_definitions:
           campaign_id::text AS campaign_id,
           title,
           description,
+          image,
           data,
           created_at,
           updated_at
         FROM maps
         WHERE campaign_id::text = bucket.campaign_id
 
-      # Organisations
+      # Organizations
       - |
         SELECT
           id::text AS id,
           scope_id::text AS scope_id,
           campaign_id::text AS campaign_id,
           name,
+          avatar,
           type,
           description,
           content,
           hq_location_id::text AS hq_location_id,
           created_at,
           updated_at
-        FROM organisations
+        FROM organizations
         WHERE campaign_id::text = bucket.campaign_id
 
       # Locations
@@ -233,6 +237,7 @@ bucket_definitions:
           rarity,
           attunement,
           description,
+          image,
           content,
           data,
           created_at,
@@ -246,16 +251,16 @@ bucket_definitions:
           id::text AS id,
           scope_id::text AS scope_id,
           campaign_id::text AS campaign_id,
-          organisation_id::text AS organisation_id,
+          organization_id::text AS organization_id,
           name,
+          avatar,
           kind,
           source,
           size,
           creature_type,
           subtype,
           alignment,
-          challenge_rating_decimal,
-          challenge_rating_text,
+          challenge_rating,
           experience_points,
           armor_class,
           hit_points,

@@ -28,6 +28,154 @@ begin
 end $$;
 
 -- ============================================================
+-- Storage buckets (profile_pictures, images)
+-- ============================================================
+
+-- profile_pictures: public read, authenticated create, owner edit
+drop policy if exists "profile_pictures_select_public" on storage.objects;
+create policy "profile_pictures_select_public"
+on storage.objects
+for select
+to public
+using (bucket_id = 'profile_pictures');
+
+drop policy if exists "profile_pictures_insert_authenticated" on storage.objects;
+create policy "profile_pictures_insert_authenticated"
+on storage.objects
+for insert
+to authenticated
+with check (bucket_id = 'profile_pictures');
+
+drop policy if exists "profile_pictures_update_owner" on storage.objects;
+create policy "profile_pictures_update_owner"
+on storage.objects
+for update
+to authenticated
+using (bucket_id = 'profile_pictures' and owner_id = auth.uid()::text)
+with check (bucket_id = 'profile_pictures' and owner_id = auth.uid()::text);
+
+drop policy if exists "profile_pictures_delete_owner" on storage.objects;
+create policy "profile_pictures_delete_owner"
+on storage.objects
+for delete
+to authenticated
+using (bucket_id = 'profile_pictures' and owner_id = auth.uid()::text);
+
+-- images: campaign-scoped access (campaign_id/<type>/...)
+drop policy if exists "images_select_campaign_access" on storage.objects;
+create policy "images_select_campaign_access"
+on storage.objects
+for select
+to authenticated
+using (
+  bucket_id = 'images'
+  and (storage.foldername(name))[1] is not null
+  and (storage.foldername(name))[2] in ('campaign_icons','campaign_images','campaign_maps')
+  and (
+    exists (
+      select 1 from public.campaigns c
+      where c.id::text = (storage.foldername(name))[1]
+        and c.created_by = auth.uid()
+    )
+    or exists (
+      select 1 from public.campaign_access ca
+      where ca.campaign_id::text = (storage.foldername(name))[1]
+        and ca.user_id = auth.uid()
+    )
+  )
+);
+
+drop policy if exists "images_insert_owner_or_dm" on storage.objects;
+create policy "images_insert_owner_or_dm"
+on storage.objects
+for insert
+to authenticated
+with check (
+  bucket_id = 'images'
+  and (storage.foldername(name))[1] is not null
+  and (storage.foldername(name))[2] in ('campaign_icons','campaign_images','campaign_maps')
+  and (
+    exists (
+      select 1 from public.campaigns c
+      where c.id::text = (storage.foldername(name))[1]
+        and c.created_by = auth.uid()
+    )
+    or exists (
+      select 1 from public.campaign_access ca
+      where ca.campaign_id::text = (storage.foldername(name))[1]
+        and ca.user_id = auth.uid()
+        and ca.role in ('owner','dm')
+    )
+  )
+);
+
+drop policy if exists "images_update_owner_or_dm" on storage.objects;
+create policy "images_update_owner_or_dm"
+on storage.objects
+for update
+to authenticated
+using (
+  bucket_id = 'images'
+  and (storage.foldername(name))[1] is not null
+  and (storage.foldername(name))[2] in ('campaign_icons','campaign_images','campaign_maps')
+  and (
+    exists (
+      select 1 from public.campaigns c
+      where c.id::text = (storage.foldername(name))[1]
+        and c.created_by = auth.uid()
+    )
+    or exists (
+      select 1 from public.campaign_access ca
+      where ca.campaign_id::text = (storage.foldername(name))[1]
+        and ca.user_id = auth.uid()
+        and ca.role in ('owner','dm')
+    )
+  )
+)
+with check (
+  bucket_id = 'images'
+  and (storage.foldername(name))[1] is not null
+  and (storage.foldername(name))[2] in ('campaign_icons','campaign_images','campaign_maps')
+  and (
+    exists (
+      select 1 from public.campaigns c
+      where c.id::text = (storage.foldername(name))[1]
+        and c.created_by = auth.uid()
+    )
+    or exists (
+      select 1 from public.campaign_access ca
+      where ca.campaign_id::text = (storage.foldername(name))[1]
+        and ca.user_id = auth.uid()
+        and ca.role in ('owner','dm')
+    )
+  )
+);
+
+drop policy if exists "images_delete_owner_or_dm" on storage.objects;
+create policy "images_delete_owner_or_dm"
+on storage.objects
+for delete
+to authenticated
+using (
+  bucket_id = 'images'
+  and (storage.foldername(name))[1] is not null
+  and (storage.foldername(name))[2] in ('campaign_icons','campaign_images','campaign_maps')
+  and (
+    exists (
+      select 1 from public.campaigns c
+      where c.id::text = (storage.foldername(name))[1]
+        and c.created_by = auth.uid()
+    )
+    or exists (
+      select 1 from public.campaign_access ca
+      where ca.campaign_id::text = (storage.foldername(name))[1]
+        and ca.user_id = auth.uid()
+        and ca.role in ('owner','dm')
+    )
+  )
+);
+
+-- ============================================================
 -- Helper: campaign access predicates (INLINE-SAFE, no recursion)
 -- ============================================================
 

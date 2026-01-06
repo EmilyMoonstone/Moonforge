@@ -40,6 +40,8 @@ create table if not exists public.campaigns (
 
   title text not null,
   description text,
+  icon text,
+  title_image text,
   content jsonb not null default '{}'::jsonb,
 
   created_at timestamptz not null default now(),
@@ -196,6 +198,7 @@ create table if not exists public.maps (
 
   title text not null,
   description text,
+  image text,
 
   -- store anything: url, storage path, pins, layer config, etc.
   data jsonb not null default '{}'::jsonb,
@@ -221,6 +224,7 @@ create table if not exists public.organizations (
   campaign_id uuid not null references public.campaigns(id) on delete cascade,
 
   name text not null,
+  avatar text,
   type text not null, -- e.g. faction/family/guild/cult/...
   description text,
   content jsonb not null default '{}'::jsonb,
@@ -292,6 +296,7 @@ create table if not exists public.items (
   attunement boolean not null default false,
 
   description text,
+  image text,
   content jsonb not null default '{}'::jsonb,
 
   -- store DDB / homebrew item structure here
@@ -389,6 +394,29 @@ drop view if exists public.v_scope_campaign;
 drop view if exists public.v_scope_path;
 drop view if exists public.v_group_dashboard;
 drop view if exists public.v_character_quick;
+
+-- add image path columns if missing
+alter table public.campaigns
+  add column if not exists icon text,
+  add column if not exists title_image text;
+
+alter table public.maps
+  add column if not exists image text;
+
+alter table public.organizations
+  add column if not exists avatar text;
+
+alter table public.items
+  add column if not exists image text;
+
+alter table public.creatures
+  add column if not exists avatar text;
+
+alter table public.characters
+  add column if not exists avatar text;
+
+alter table public.characters
+  drop column if exists avatar_url;
 
 -- migrate order_number columns if tables already exist
 do $$
@@ -606,7 +634,7 @@ create table if not exists public.characters (
   dndbeyond_character_id bigint,
 
   name text not null,
-  avatar_url text,
+  avatar text,
 
   level int,
   armor_class int,

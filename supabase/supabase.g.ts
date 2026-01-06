@@ -144,8 +144,10 @@ export type Database = {
           created_at: string
           created_by: string
           description: string | null
+          icon: string | null
           id: string
           title: string
+          title_image: string | null
           updated_at: string
         }
         Insert: {
@@ -153,8 +155,10 @@ export type Database = {
           created_at?: string
           created_by: string
           description?: string | null
+          icon?: string | null
           id?: string
           title: string
+          title_image?: string | null
           updated_at?: string
         }
         Update: {
@@ -162,8 +166,10 @@ export type Database = {
           created_at?: string
           created_by?: string
           description?: string | null
+          icon?: string | null
           id?: string
           title?: string
+          title_image?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -220,7 +226,7 @@ export type Database = {
         Row: {
           abilities: Json
           armor_class: number | null
-          avatar_url: string | null
+          avatar: string | null
           background: string | null
           classes: Json
           content: Json
@@ -240,7 +246,7 @@ export type Database = {
         Insert: {
           abilities?: Json
           armor_class?: number | null
-          avatar_url?: string | null
+          avatar?: string | null
           background?: string | null
           classes?: Json
           content?: Json
@@ -260,7 +266,7 @@ export type Database = {
         Update: {
           abilities?: Json
           armor_class?: number | null
-          avatar_url?: string | null
+          avatar?: string | null
           background?: string | null
           classes?: Json
           content?: Json
@@ -439,6 +445,7 @@ export type Database = {
           actions: Json
           alignment: string | null
           armor_class: number | null
+          avatar: string | null
           campaign_id: string
           challenge_rating: number | null
           condition_immunities: Json
@@ -476,6 +483,7 @@ export type Database = {
           actions?: Json
           alignment?: string | null
           armor_class?: number | null
+          avatar?: string | null
           campaign_id: string
           challenge_rating?: number | null
           condition_immunities?: Json
@@ -513,6 +521,7 @@ export type Database = {
           actions?: Json
           alignment?: string | null
           armor_class?: number | null
+          avatar?: string | null
           campaign_id?: string
           challenge_rating?: number | null
           condition_immunities?: Json
@@ -833,6 +842,7 @@ export type Database = {
           data: Json
           description: string | null
           id: string
+          image: string | null
           name: string
           rarity: string | null
           scope_id: string
@@ -847,6 +857,7 @@ export type Database = {
           data?: Json
           description?: string | null
           id?: string
+          image?: string | null
           name: string
           rarity?: string | null
           scope_id: string
@@ -861,6 +872,7 @@ export type Database = {
           data?: Json
           description?: string | null
           id?: string
+          image?: string | null
           name?: string
           rarity?: string | null
           scope_id?: string
@@ -984,6 +996,7 @@ export type Database = {
           data: Json
           description: string | null
           id: string
+          image: string | null
           title: string
           updated_at: string
         }
@@ -993,6 +1006,7 @@ export type Database = {
           data?: Json
           description?: string | null
           id?: string
+          image?: string | null
           title: string
           updated_at?: string
         }
@@ -1002,6 +1016,7 @@ export type Database = {
           data?: Json
           description?: string | null
           id?: string
+          image?: string | null
           title?: string
           updated_at?: string
         }
@@ -1024,6 +1039,7 @@ export type Database = {
       }
       organizations: {
         Row: {
+          avatar: string | null
           campaign_id: string
           content: Json
           created_at: string
@@ -1036,6 +1052,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          avatar?: string | null
           campaign_id: string
           content?: Json
           created_at?: string
@@ -1048,6 +1065,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          avatar?: string | null
           campaign_id?: string
           content?: Json
           created_at?: string
@@ -1289,6 +1307,7 @@ export type Database = {
           actions: Json | null
           alignment: string | null
           armor_class: number | null
+          avatar: string | null
           campaign_id: string | null
           challenge_rating: number | null
           condition_immunities: Json | null
@@ -1326,6 +1345,7 @@ export type Database = {
           actions?: Json | null
           alignment?: string | null
           armor_class?: number | null
+          avatar?: string | null
           campaign_id?: string | null
           challenge_rating?: number | null
           condition_immunities?: Json | null
@@ -1363,6 +1383,7 @@ export type Database = {
           actions?: Json | null
           alignment?: string | null
           armor_class?: number | null
+          avatar?: string | null
           campaign_id?: string | null
           challenge_rating?: number | null
           condition_immunities?: Json | null
@@ -1514,6 +1535,7 @@ export type Database = {
           data: Json | null
           description: string | null
           id: string | null
+          image: string | null
           name: string | null
           rarity: string | null
           scope_id: string | null
@@ -1528,6 +1550,7 @@ export type Database = {
           data?: Json | null
           description?: string | null
           id?: string | null
+          image?: string | null
           name?: string | null
           rarity?: string | null
           scope_id?: string | null
@@ -1542,6 +1565,7 @@ export type Database = {
           data?: Json | null
           description?: string | null
           id?: string | null
+          image?: string | null
           name?: string | null
           rarity?: string | null
           scope_id?: string | null
@@ -1660,6 +1684,7 @@ export type Database = {
       }
       v_campaign_organizations: {
         Row: {
+          avatar: string | null
           campaign_id: string | null
           content: Json | null
           created_at: string | null
@@ -1672,6 +1697,7 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          avatar?: string | null
           campaign_id?: string | null
           content?: Json | null
           created_at?: string | null
@@ -1684,6 +1710,7 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          avatar?: string | null
           campaign_id?: string | null
           content?: Json | null
           created_at?: string | null
@@ -1774,7 +1801,7 @@ export type Database = {
         Row: {
           abilities: Json | null
           armor_class: number | null
-          avatar_url: string | null
+          avatar: string | null
           classes: Json | null
           dndbeyond_character_id: number | null
           group_id: string | null
@@ -1789,7 +1816,7 @@ export type Database = {
         Insert: {
           abilities?: Json | null
           armor_class?: number | null
-          avatar_url?: string | null
+          avatar?: string | null
           classes?: Json | null
           dndbeyond_character_id?: number | null
           group_id?: string | null
@@ -1804,7 +1831,7 @@ export type Database = {
         Update: {
           abilities?: Json | null
           armor_class?: number | null
-          avatar_url?: string | null
+          avatar?: string | null
           classes?: Json | null
           dndbeyond_character_id?: number | null
           group_id?: string | null
@@ -1842,6 +1869,7 @@ export type Database = {
           adventure_title: string | null
           alignment: string | null
           armor_class: number | null
+          avatar: string | null
           campaign_id: string | null
           campaign_title: string | null
           challenge_rating: number | null
@@ -2118,6 +2146,7 @@ export type Database = {
           data: Json | null
           description: string | null
           id: string | null
+          image: string | null
           name: string | null
           path_order: string | null
           path_titles: string | null
@@ -2234,6 +2263,7 @@ export type Database = {
           adventure_id: string | null
           adventure_order_number: number | null
           adventure_title: string | null
+          avatar: string | null
           campaign_id: string | null
           campaign_title: string | null
           chapter_id: string | null
