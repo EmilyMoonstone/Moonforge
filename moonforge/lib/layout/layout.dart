@@ -11,7 +11,10 @@ class LayoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const AppLayout(
       activeItem: AppNavItem.dashboard,
-      bodyPadding: EdgeInsets.zero,
+      paddingTop: false,
+      paddingBottom: false,
+      paddingLeft: false,
+      paddingRight: false,
       child: AutoRouter(),
     );
   }

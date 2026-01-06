@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:moonforge/layout/app_spacing.dart';
 import 'package:moonforge/layout/widgets/body.dart';
-import 'package:moonforge/layout/widgets/scroll_view_default.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:moonforge/layout/widgets/app_top_bar.dart';
 import 'package:moonforge/routes/app_router.gr.dart';
@@ -12,14 +11,20 @@ class AppLayout extends StatefulWidget {
     required this.child,
     required this.activeItem,
     this.sidebar,
-    this.bodyPadding = const EdgeInsets.all(24),
+    this.paddingLeft = true,
+    this.paddingRight = true,
+    this.paddingTop = true,
+    this.paddingBottom = true,
     this.withScrollView = true,
   });
 
   final Widget child;
-  final AppNavItem activeItem;
+  final AppNavItem? activeItem;
   final Widget? sidebar;
-  final EdgeInsetsGeometry bodyPadding;
+  final bool paddingLeft;
+  final bool paddingRight;
+  final bool paddingTop;
+  final bool paddingBottom;
   final bool withScrollView;
 
   @override
@@ -40,7 +45,6 @@ class _AppLayoutState extends State<AppLayout> {
       ),
       AppNavItem.compendium => const CompendiumRoute(),
       AppNavItem.groups => const GroupsRoute(),
-      AppNavItem.settings => const SettingsRoute(),
     };
 
     router.push(route);
@@ -48,8 +52,6 @@ class _AppLayoutState extends State<AppLayout> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
       loadingProgressIndeterminate: false,
       headers: [
@@ -66,6 +68,10 @@ class _AppLayoutState extends State<AppLayout> {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Body(
+                  paddingLeft: widget.paddingLeft,
+                  paddingRight: widget.paddingRight,
+                  paddingTop: widget.paddingTop,
+                  paddingBottom: widget.paddingBottom,
                   child: widget.child,
                 ),
               ),

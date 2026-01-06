@@ -2,6 +2,7 @@ import 'package:moonforge/core/widgets/button_switch.dart';
 import 'package:moonforge/core/widgets/powersync_status_icon.dart';
 import 'package:moonforge/features/auth/widgets/profile.dart';
 import 'package:moonforge/features/command/widgets/search_icon.dart';
+import 'package:moonforge/gen/l10n.dart';
 import 'package:moonforge/layout/app_spacing.dart';
 import 'package:moonforge/layout/design_constants.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
@@ -9,7 +10,7 @@ import 'package:moonforge/layout/widgets/title.dart';
 import 'package:moonforge/core/utils/platform.dart';
 import 'package:window_manager/window_manager.dart';
 
-enum AppNavItem { dashboard, campaign, compendium, groups, settings }
+enum AppNavItem { dashboard, campaign, compendium, groups }
 
 class AppTopBar extends StatelessWidget {
   const AppTopBar({
@@ -18,12 +19,13 @@ class AppTopBar extends StatelessWidget {
     required this.onNavigate,
   });
 
-  final AppNavItem activeItem;
+  final AppNavItem? activeItem;
   final ValueChanged<AppNavItem> onNavigate;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return SizedBox(
       height: kAppBarHeight,
@@ -50,11 +52,10 @@ class AppTopBar extends StatelessWidget {
                       for (final item in AppNavItem.values)
                         ButtonSwitchAction(
                           label:
-                              item.name[0].toUpperCase() +
-                              item.name.substring(1),
+                              l10n.appNavItem(item.name),
                         ),
                     ],
-                    index: AppNavItem.values.indexOf(activeItem),
+                    index: activeItem != null ? AppNavItem.values.indexOf(activeItem!) : null,
                     onChanged: (index) => onNavigate(AppNavItem.values[index]),
                     onCard: false,
                   ),
